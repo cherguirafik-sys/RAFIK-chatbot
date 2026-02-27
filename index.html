@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Rafik - Agent Immobilier</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',sans-serif;background:linear-gradient(135deg,#1a1a2e,#0f3460);min-height:100vh;display:flex;align-items:center;justify-content:center}
+.box{background:#fff;border-radius:24px;padding:30px;width:92%;max-width:600px;box-shadow:0 25px 80px rgba(0,0,0,.5)}
+.header{text-align:center;margin-bottom:20px}
+.avatar{width:70px;height:70px;background:linear-gradient(135deg,#e63946,#c1121f);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:2em;margin:0 auto 10px}
+h1{color:#1a1a2e;font-size:1.4em}
+.sub{color:#e63946;font-size:.85em;font-weight:600}
+.net{color:#888;font-size:.75em;margin-top:3px}
+.chat{height:270px;overflow-y:auto;border:2px solid #f0f0f0;border-radius:16px;padding:15px;margin-bottom:15px;background:#fafafa}
+.msg{margin:8px 0;padding:10px 14px;border-radius:18px;max-width:82%;word-wrap:break-word;font-size:.9em;line-height:1.4}
+.user{background:linear-gradient(135deg,#1a1a2e,#0f3460);color:#fff;margin-left:auto;text-align:right}
+.bot{background:#f0f0f0;color:#333}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:15px}
+.tag{background:#fef0f0;color:#e63946;padding:6px 12px;border-radius:20px;font-size:.78em;border:1px solid #fdd;cursor:pointer;transition:.2s}
+.tag:hover{background:#e63946;color:#fff}
+.controls{display:flex;gap:10px;align-items:center}
+.btn{background:linear-gradient(135deg,#e63946,#c1121f);color:#fff;border:none;padding:14px 20px;border-radius:50px;cursor:pointer;font-size:.95em;font-weight:600;flex:1;transition:.2s}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(230,57,70,.5)}70%{box-shadow:0 0 0 10px rgba(230,57,70,0)}}
+.btn.rec{animation:pulse 1s infinite}
+.sel{padding:11px 10px;border:2px solid #e0e0e0;border-radius:12px;font-size:.85em;background:#fff}
+.status{text-align:center;color:#999;font-size:.82em;margin-top:12px;min-height:18px}
+audio{width:100%;margin-top:12px;border-radius:8px;display:none}
+audio.show{display:block}
+</style>
+</head>
+<body>
+<div class="box">
+  <div class="header">
+    <div class="avatar">🏠</div>
+    <h1>Rafik - Agent Immobilier</h1>
+    <div class="sub">Loire &amp; Rhône-Alpes</div>
+    <div class="net">Les Porteclés · Saint-Étienne · Lyon · Villefranche · Cruas</div>
+  </div>
+  <div class="tags">
+    <span class="tag" data-q="Estimer mon bien">📊 Estimation</span>
+    <span class="tag" data-q="Je cherche un appartement">🔍 Trouver un bien</span>
+    <span class="tag" data-q="Comment vendre ma maison ?">📋 Vendre</span>
+    <span class="tag" data-q="Prendre rendez-vous">📅 Rendez-vous</span>
+  </div>
+  <div class="chat" id="chat">
+    <div class="msg bot">Bonjour ! Parlez-moi de votre projet immobilier. 🏡 مرحبا</div>
+  </div>
+  <audio id="audio" controls></audio>
+  <div class="controls">
+    <select class="sel" id="lang">
+      <option value="auto">🌍 Auto</option>
+      <option value="fr">🇫🇷 FR</option>
+      <option value="ar">🇸🇦 AR</option>
+      <option value="en">🇬🇧 EN</option>
+    </select>
+    <button class="btn" id="btn">🎤 Parler à Rafik</button>
+  </div>
+  <div class="status" id="status">✅ Prêt à vous écouter...</div>
+</div>
+
+<script>
+// ⚠️ MODIFIER CETTE URL avec l'adresse de votre N8N
+var WEBHOOK = "https://n8n.srv1360323.hstgr.cloud/webhook/rafik-audio";
+
+var rec, chunks = [], isRec = false;
+
+document.getElementById("btn").onclick = function() {
+  if (isRec) { stopRec(); } else { startRec(); }
+};
+
+document.querySelectorAll(".tag").forEach(function(tag) {
+  tag.onclick = function() { askText(this.dataset.q); };
+});
+
+function startRec() {
+  navigator.mediaDevices.getUserMedia({ audio: true }).then(function(stream) {
+    rec = new MediaRecorder(stream, { mimeType: "audio/webm" });
+    chunks = [];
+    rec.ondataavailable = function(e) { chunks.push(e.data); };
+    rec.onstop = sendAudio;
+    rec.start();
+    isRec = true;
+    document.getElementById("btn").className = "btn rec";
+    document.getElementById("btn").textContent = "⏹️ Arrêter";
+    document.getElementById("status").textContent = "🔴 Enregistrement en cours...";
+  }).catch(function() {
+    alert("Accès au microphone refusé !");
+  });
+}
+
+function stopRec() {
+  rec.stop();
+  rec.stream.getTracks().forEach(function(t) { t.stop(); });
+  isRec = false;
+  document.getElementById("btn").className = "btn";
+  document.getElementById("btn").textContent = "🎤 Parler à Rafik";
+  document.getElementById("status").textContent = "⏳ Rafik réfléchit...";
+}
+
+function sendAudio() {
+  var blob = new Blob(chunks, { type: "audio/webm" });
+  var fd = new FormData();
+  fd.append("audio", blob, "rec.webm");
+  fd.append("lang", document.getElementById("lang").value);
+  fetch(WEBHOOK, { method: "POST", body: fd })
+    .then(function(r) { return r.json(); })
+    .then(handleResponse)
+    .catch(function() { document.getElementById("status").textContent = "❌ Erreur de connexion"; });
+}
+
+function askText(text) {
+  addMsg(text, "user");
+  document.getElementById("status").textContent = "⏳ Rafik réfléchit...";
+  var fd = new FormData();
+  fd.append("textOnly", text);
+  fd.append("lang", document.getElementById("lang").value);
+  fetch(WEBHOOK, { method: "POST", body: fd })
+    .then(function(r) { return r.json(); })
+    .then(handleResponse)
+    .catch(function() { document.getElementById("status").textContent = "❌ Erreur de connexion"; });
+}
+
+function handleResponse(d) {
+  if (d.userText) { addMsg(d.userText, "user"); }
+  if (d.botText) { addMsg(d.botText, "bot"); }
+  if (d.audioBase64) {
+    var a = document.getElementById("audio");
+    a.src = "data:audio/mpeg;base64," + d.audioBase64;
+    a.className = "show";
+    a.play();
+  }
+  document.getElementById("status").textContent = "✅ Prêt à vous écouter...";
+}
+
+function addMsg(text, type) {
+  var d = document.createElement("div");
+  d.className = "msg " + type;
+  d.textContent = text;
+  var c = document.getElementById("chat");
+  c.appendChild(d);
+  c.scrollTop = c.scrollHeight;
+}
+</script>
+</body>
+</html>
