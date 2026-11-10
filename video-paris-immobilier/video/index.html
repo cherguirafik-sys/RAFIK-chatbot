@@ -1,0 +1,453 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Paris Immobilier 2026</title>
+<style>
+@font-face{font-family:"Bric";font-weight:500;src:url("node_modules/@fontsource/bricolage-grotesque/files/bricolage-grotesque-latin-500-normal.woff2") format("woff2")}
+@font-face{font-family:"Bric";font-weight:700;src:url("node_modules/@fontsource/bricolage-grotesque/files/bricolage-grotesque-latin-700-normal.woff2") format("woff2")}
+@font-face{font-family:"Bric";font-weight:800;src:url("node_modules/@fontsource/bricolage-grotesque/files/bricolage-grotesque-latin-800-normal.woff2") format("woff2")}
+@font-face{font-family:"Serif";font-style:italic;src:url("node_modules/@fontsource/instrument-serif/files/instrument-serif-latin-400-italic.woff2") format("woff2")}
+@font-face{font-family:"Serif";font-style:normal;src:url("node_modules/@fontsource/instrument-serif/files/instrument-serif-latin-400-normal.woff2") format("woff2")}
+:root{--ink:#0A0E1B;--ink2:#141B30;--cream:#F4EDDF;--verm:#FF5B3A;--gold:#F6C453;--zinc:#8EA2B9;--mint:#7CE0B8;--acc:#FF5B3A}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:1080px;height:1920px;overflow:hidden;background:var(--ink)}
+#stage{position:relative;width:1080px;height:1920px;overflow:hidden;background:var(--ink);color:var(--cream);font-family:"Bric",sans-serif;font-weight:800}
+.abs{position:absolute}
+.serif{font-family:"Serif",serif;font-style:italic;font-weight:400;letter-spacing:-0.01em}
+/* ---------- fond ---------- */
+#glowA,#glowB{position:absolute;border-radius:50%;pointer-events:none}
+#glowA{width:1500px;height:1500px;left:-420px;top:-380px;background:radial-gradient(circle,var(--acc) 0%,transparent 62%);opacity:.30}
+#glowB{width:1300px;height:1300px;right:-520px;top:760px;background:radial-gradient(circle,#3558FF 0%,transparent 62%);opacity:.22}
+#grid{position:absolute;inset:0;background-image:linear-gradient(rgba(244,237,223,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(244,237,223,.045) 1px,transparent 1px);background-size:90px 90px}
+#vig{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 42%,transparent 45%,rgba(4,6,14,.72) 100%)}
+#sky{position:absolute;left:0;bottom:0;width:1080px;height:400px}
+#sky svg{position:absolute;left:0;bottom:0}
+#skyfade{position:absolute;left:0;bottom:0;width:100%;height:150px;background:linear-gradient(transparent,rgba(6,8,16,.9))}
+/* ---------- en-tête ---------- */
+#tag{left:64px;top:70px;font-size:27px;font-weight:700;letter-spacing:.14em;display:flex;align-items:center;gap:14px}
+#tag i{width:14px;height:14px;border-radius:50%;background:var(--acc);display:block}
+#date{right:64px;top:70px;font-size:27px;font-weight:500;letter-spacing:.14em;color:var(--zinc)}
+#prog{left:64px;top:128px;width:952px;height:7px;display:flex;gap:9px}
+#prog b{flex:1;background:rgba(244,237,223,.16);border-radius:4px;overflow:hidden;display:block}
+#prog b i{display:block;width:100%;height:100%;background:var(--cream);transform-origin:left center;transform:scaleX(0)}
+/* ---------- scènes ---------- */
+.scene{position:absolute;inset:0;visibility:hidden}
+.src{position:absolute;left:64px;right:64px;top:1322px;text-align:center;font-size:23px;font-weight:500;color:var(--zinc);letter-spacing:.03em}
+.w{display:inline-block;overflow:hidden;vertical-align:top;padding:0 .04em .12em;margin:0 -.04em -.12em}
+.w>span{display:inline-block}
+.kick{font-size:28px;font-weight:700;letter-spacing:.16em;color:var(--ink);background:var(--cream);padding:11px 22px 9px;border-radius:40px;display:inline-block}
+.big{font-size:186px;line-height:.9;letter-spacing:-.035em;text-transform:uppercase}
+.h2{font-size:104px;line-height:.98;letter-spacing:-.03em}
+.h2 .serif,.big .serif{letter-spacing:-.015em;text-transform:none}
+/* odomètre */
+.odo{display:inline-flex;align-items:flex-start;line-height:1;white-space:nowrap}
+.odo .c{display:inline-block;height:1em;overflow:hidden;line-height:1}
+.odo .c>span{display:block}
+.odo .c>span>i{display:block;height:1em;line-height:1em;font-style:normal;text-align:center}
+.odo .sp{display:inline-block;width:.2em}
+.odo .tx{display:inline-block;line-height:1em;height:1em}
+.unit{font-weight:700;color:var(--cream)}
+.chip{display:inline-flex;align-items:center;gap:12px;font-size:40px;font-weight:700;padding:14px 26px 12px;border-radius:50px;border:2.5px solid rgba(244,237,223,.3);background:rgba(10,14,27,.55);white-space:nowrap}
+.card{position:absolute;border-radius:36px;background:rgba(20,27,48,.82);border:2.5px solid rgba(244,237,223,.14);padding:34px 36px}
+.card .n{font-size:118px;line-height:1;letter-spacing:-.03em}
+.card .l{font-size:31px;font-weight:500;color:var(--zinc);margin-top:10px;line-height:1.2}
+/* sous-titres */
+#caps{position:absolute;left:40px;right:40px;top:1392px;height:170px}
+.cap{position:absolute;left:0;right:0;top:0;text-align:center;font-size:62px;font-weight:800;line-height:1.08;letter-spacing:-.015em;visibility:hidden;text-shadow:0 4px 0 rgba(4,6,14,.9),0 0 34px rgba(4,6,14,.95),0 0 12px rgba(4,6,14,.9)}
+.cap em{font-style:normal;color:var(--gold)}
+/* volets de transition */
+.wipe{position:absolute;left:-10%;width:120%;height:2300px;top:0;transform:translateY(2150px) skewY(-5deg)}
+#wipe1{background:var(--acc)}#wipe2{background:var(--cream)}
+/* immeubles */
+.bld{position:absolute;bottom:640px;width:300px;transform-origin:50% 100%}
+.bld .roof{height:74px;position:relative}
+.bld .roof:before{content:"";position:absolute;inset:14px 0 0 0;background:#55667E;clip-path:polygon(7% 0,93% 0,100% 100%,0 100%)}
+.bld .roof:after{content:"";position:absolute;left:22%;top:0;width:26px;height:30px;background:#3C4960;box-shadow:140px 0 0 #3C4960}
+.bld .roof s{position:absolute;bottom:10px;width:26px;height:30px;background:var(--gold);border-radius:13px 13px 0 0;opacity:.9}
+.bld .fac{background:#E9DFCB;border-top:8px solid #C9BDA6;padding:0 22px;position:relative}
+.bld .fl{display:flex;justify-content:space-between;align-items:center;border-bottom:5px solid #CFC3AC}
+.bld .fl u{display:block;width:36px;height:58%;background:#2A3350;border-radius:5px 5px 0 0;text-decoration:none}
+.bld .fl u.on{background:var(--gold)}
+.bld .rdc{height:54px;background:#1A2138;margin:0 -22px;border-top:9px solid var(--verm)}
+.lab{position:absolute;width:420px;text-align:center}
+.lab .a{font-size:92px;line-height:1;letter-spacing:-.03em}
+.lab .a sup{font-size:.5em;vertical-align:.72em;margin-left:.03em}
+.lab .p{font-size:52px;line-height:1.05;margin-top:6px;white-space:nowrap}
+.lab .p small{font-size:28px;font-weight:500;color:var(--zinc)}
+.stamp{position:absolute;font-size:120px;line-height:1;padding:22px 38px 16px;border:9px solid var(--verm);color:var(--verm);border-radius:26px;background:rgba(10,14,27,.86);letter-spacing:-.02em;white-space:nowrap}
+.dot{position:absolute;width:38px;height:38px;border-radius:50%;background:var(--cream)}
+</style>
+</head>
+<body>
+<div id="stage">
+  <div id="glowA"></div><div id="glowB"></div><div id="grid"></div><div id="vig"></div>
+  <div id="sky"></div><div id="skyfade"></div>
+
+  <div id="tag" class="abs"><i></i><span>PARIS · IMMOBILIER</span></div>
+  <div id="date" class="abs">NOV. 2026</div>
+  <div id="prog" class="abs"></div>
+
+  <!-- 1 · ACCROCHE -->
+  <div class="scene" id="s-hook">
+    <div class="abs" id="hk-title" style="left:64px;top:300px;width:952px;transform-origin:0 0">
+      <div class="big"><span class="w"><span>Acheter</span></span></div>
+      <div class="big" style="color:var(--verm)"><span class="w"><span>à Paris</span></span></div>
+      <div class="serif" id="hk-q" style="font-size:132px;line-height:1;color:var(--gold);margin-top:14px;transform-origin:0 50%">fin 2026 ?</div>
+    </div>
+    <div class="abs" id="hk-num" style="left:0;width:1080px;top:650px;text-align:center">
+      <div class="odo" id="odo1" style="font-size:300px;letter-spacing:-.03em"></div>
+      <div id="hk-unit" style="font-size:96px;line-height:1;margin-top:6px"><span style="color:var(--verm)">€</span> le m²</div>
+      <svg id="hk-line" width="620" height="34" viewBox="0 0 620 34" style="margin-top:22px"><path d="M8 22 C 150 4, 300 32, 612 12" fill="none" stroke="#FF5B3A" stroke-width="9" stroke-linecap="round"/></svg>
+      <div id="hk-sub" style="font-size:36px;font-weight:500;color:var(--zinc);margin-top:22px;line-height:1.3">prix moyen · appartements anciens<br>juin – août 2026</div>
+    </div>
+    <div class="src">Source : Notaires du Grand Paris · publication du 29 oct. 2026</div>
+  </div>
+
+  <!-- 2 · TENDANCE -->
+  <div class="scene" id="s-trend">
+    <div class="abs h2" style="left:64px;top:230px"><span class="w"><span>Des prix</span></span> <span class="w"><span class="serif" style="color:var(--gold)">sous le record</span></span></div>
+    <svg class="abs" id="chart" style="left:40px;top:400px" width="1000" height="560" viewBox="0 0 1000 560"></svg>
+    <div class="card" id="tr-c1" style="left:64px;top:990px;width:460px;height:270px"><div class="n" style="color:var(--cream)">−0,5 %</div><div class="l">sur un an</div></div>
+    <div class="card" id="tr-c2" style="left:556px;top:990px;width:460px;height:270px;border-color:var(--verm)"><div class="n" style="color:var(--verm)">−11,7 %</div><div class="l">depuis le record<br>de nov. 2020</div></div>
+    <div class="src">Prix au m² des appartements anciens à Paris · Notaires du Grand Paris</div>
+  </div>
+
+  <!-- 3 · BUDGET -->
+  <div class="scene" id="s-budget">
+    <div class="abs h2" style="left:64px;top:230px"><span class="w"><span>Concrètement,</span></span><br><span class="w"><span class="serif" style="color:var(--gold)">un deux-pièces</span></span></div>
+    <svg class="abs" id="plan" style="left:150px;top:500px" width="780" height="470" viewBox="0 0 780 470"></svg>
+    <div class="abs" id="bd-eq" style="left:0;width:1080px;top:1000px;text-align:center;font-size:58px;font-weight:700"><span id="bd-e1">50 m²</span> <span id="bd-e2" style="color:var(--zinc)">×</span> <span id="bd-e3">9 590 €</span></div>
+    <div class="abs" id="bd-res" style="left:0;width:1080px;top:1092px;text-align:center">
+      <div style="font-size:36px;font-weight:500;color:var(--zinc);letter-spacing:.12em" id="bd-env">ENVIRON</div>
+      <div style="display:inline-flex;align-items:flex-start;color:var(--gold);font-size:176px;letter-spacing:-.03em;line-height:1"><span class="odo" id="odo3"></span><span id="bd-eur" style="margin-left:.14em;line-height:1em">€</span></div>
+    </div>
+    <div class="src">Calcul : 50 m² au prix moyen parisien · Notaires du Grand Paris</div>
+  </div>
+
+  <!-- 4 · ARRONDISSEMENTS -->
+  <div class="scene" id="s-arr">
+    <div class="abs h2" style="left:64px;top:230px"><span class="w"><span>Tout dépend</span></span><br><span class="w"><span class="serif" style="color:var(--gold)">de l'adresse.</span></span></div>
+    <div class="abs" id="ground" style="left:64px;top:1280px;width:952px;height:6px;background:var(--cream);border-radius:3px;transform-origin:0 50%"></div>
+    <div class="bld" id="b6" style="left:130px"></div>
+    <div class="bld" id="b19" style="left:650px"></div>
+    <div class="lab" id="l6" style="left:70px;top:478px"><div class="a" style="color:var(--gold)">6<sup>e</sup></div><div class="p">13 400 € <small>/m²</small></div></div>
+    <div class="lab" id="l19" style="left:590px;top:720px"><div class="a" style="color:var(--zinc)">19<sup>e</sup></div><div class="p">7 560 € <small>/m²</small></div></div>
+    <div class="stamp" id="st-x" style="left:565px;top:500px;font-size:112px">× 1,77</div>
+    <div class="src">Prix moyens par arrondissement · 4<sup>e</sup> trimestre 2025 · Notaires du Grand Paris</div>
+  </div>
+
+  <!-- 5 · CRÉDIT -->
+  <div class="scene" id="s-credit">
+    <div class="abs h2" style="left:64px;top:230px"><span class="w"><span>Les taux</span></span><br><span class="w"><span class="serif" style="color:var(--gold)">remontent</span></span></div>
+    <svg class="abs" id="cr-arrow" style="left:770px;top:250px" width="230" height="230" viewBox="0 0 230 230"><path id="cr-ap" d="M30 200 L190 40 M84 40 H190 V146" fill="none" stroke="#FF5B3A" stroke-width="30" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <div class="abs" id="cr-num" style="left:0;width:1080px;top:520px;text-align:center;color:var(--verm)">
+      <div style="display:inline-flex;align-items:flex-start;font-size:290px;letter-spacing:-.035em;line-height:1"><span class="odo" id="odo5"></span><span id="cr-pct" style="font-size:.62em;margin-left:.1em;line-height:1.5em">%</span></div>
+    </div>
+    <div class="abs" id="cr-chips" style="left:0;width:1080px;top:830px;text-align:center"><span class="chip" id="cr-ch1" style="color:var(--zinc)">sept. 3,40 %</span><span id="cr-chv" style="display:inline-block;font-size:44px;margin:0 16px;color:var(--verm);vertical-align:middle">→</span><span class="chip" id="cr-ch2" style="border-color:var(--verm)">oct. 3,49 %</span></div>
+    <div class="card" id="cr-dur" style="left:64px;top:960px;width:952px;height:320px">
+      <div style="display:flex;justify-content:space-between;align-items:flex-end">
+        <div><div class="l" style="margin:0;font-size:34px">Durée moyenne d'un prêt</div><div style="font-size:130px;line-height:1;letter-spacing:-.03em;margin-top:8px;display:flex;align-items:flex-start"><span class="odo" id="odo5b" style="color:var(--gold)"></span><span style="margin-left:.16em">ans</span></div></div>
+        <div style="font-size:30px;font-weight:500;color:var(--zinc);text-align:right;line-height:1.25;padding-bottom:16px">253 mois<br>en octobre</div>
+      </div>
+      <div id="cr-bar" style="display:flex;gap:7px;margin-top:26px;height:38px"></div>
+    </div>
+    <div class="src">Moyenne France, hors assurance · Observatoire Crédit Logement / CSA · oct. 2026</div>
+  </div>
+
+  <!-- 6 · VENTES -->
+  <div class="scene" id="s-ventes">
+    <div class="abs h2" style="left:64px;top:230px"><span class="w"><span>Les acheteurs</span></span><br><span class="w"><span class="serif" style="color:var(--gold)">temporisent.</span></span></div>
+    <div class="abs" id="dots" style="left:250px;top:505px;width:580px;height:580px"></div>
+    <div class="abs" id="vt-lab" style="left:0;width:1080px;top:1100px;text-align:center;font-size:30px;font-weight:500;color:var(--zinc)">100 ventes l'an dernier → 98 aujourd'hui</div>
+    <div class="abs" id="vt-num" style="left:0;width:1080px;top:1145px;text-align:center;font-size:170px;line-height:1;letter-spacing:-.03em;color:var(--verm)">−2 % <span style="font-size:58px;color:var(--cream);letter-spacing:0;font-weight:700">de ventes</span></div>
+    <div class="src">Logements anciens à Paris · juin–août 2026 vs 2025 · Notaires du Grand Paris</div>
+  </div>
+
+  <!-- 7 · PROJECTION -->
+  <div class="scene" id="s-proj">
+    <div class="abs" id="pj-q" style="left:0;width:1080px;top:250px;text-align:center;font-size:200px;line-height:.95;color:var(--gold);transform-origin:50% 50%"><span class="serif">Et la suite ?</span></div>
+    <div class="abs" id="pj-box" style="left:0;width:1080px;top:520px;text-align:center">
+      <span class="kick" id="pj-k">PROJECTION · NOVEMBRE 2026</span>
+      <div style="margin-top:34px"><span class="odo" id="odo7" style="font-size:290px;letter-spacing:-.03em"></span></div>
+      <div id="pj-u" style="font-size:88px;line-height:1"><span style="color:var(--verm)">€</span> le m²</div>
+      <div style="margin-top:34px"><span class="chip" id="pj-chip">−0,4 % sur un an</span></div>
+    </div>
+    <div class="stamp" id="st-s" style="left:165px;top:1112px;border-color:var(--mint);color:var(--mint);font-size:96px">PRIX STABLES</div>
+    <div class="src">Projection d'après les avant-contrats · Notaires du Grand Paris</div>
+  </div>
+
+  <!-- 8 · CONCLUSION -->
+  <div class="scene" id="s-outro">
+    <div class="abs h2" style="left:64px;top:232px;font-size:108px"><span class="w"><span>Paris reste</span></span> <span class="w"><span style="color:var(--verm)">chère,</span></span><br><span class="w"><span class="serif" style="color:var(--gold)">mais le marché</span></span><br><span class="w"><span class="serif" style="color:var(--gold)">marque une pause.</span></span></div>
+    <div class="abs" id="ot-chips" style="left:64px;top:640px;width:952px">
+      <div class="card ot" style="position:relative;display:flex;align-items:center;justify-content:space-between;padding:20px 36px;margin-bottom:18px"><span style="font-size:36px;font-weight:500;color:var(--zinc)">Prix moyen</span><span style="font-size:76px;letter-spacing:-.02em">9 590 € <small style="font-size:36px;font-weight:500;color:var(--zinc)">/m²</small></span></div>
+      <div class="card ot" style="position:relative;display:flex;align-items:center;justify-content:space-between;padding:20px 36px;margin-bottom:18px"><span style="font-size:36px;font-weight:500;color:var(--zinc)">Taux moyen</span><span style="font-size:76px;letter-spacing:-.02em;color:var(--verm)">3,49 %</span></div>
+      <div class="card ot" style="position:relative;display:flex;align-items:center;justify-content:space-between;padding:20px 36px"><span style="font-size:36px;font-weight:500;color:var(--zinc)">Ventes à Paris</span><span style="font-size:76px;letter-spacing:-.02em">−2 %</span></div>
+    </div>
+    <div class="abs serif" id="ot-suivre" style="left:0;width:1080px;top:1128px;text-align:center;font-size:124px;line-height:1;color:var(--cream)">À suivre…</div>
+    <div class="src" style="top:1318px">Sources : Notaires du Grand Paris · Observatoire Crédit Logement / CSA</div>
+  </div>
+
+  <div id="caps"></div>
+  <div class="wipe" id="wipe2"></div><div class="wipe" id="wipe1"></div>
+</div>
+
+<script src="node_modules/gsap/dist/gsap.min.js"></script>
+<script src="timeline.js"></script>
+<script>
+"use strict";
+const TL = window.TIMELINE, SC = Object.fromEntries(TL.scenes.map(s => [s.name, s]));
+const DURATION = window.__duration = 57.0;
+const SFX = window.__sfx = [];
+const sfx = (type, t, o = {}) => SFX.push(Object.assign({ type, t: +t.toFixed(3) }, o));
+const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
+const ACC = { hook: "#FF5B3A", trend: "#3F7BFF", budget: "#F6C453", arr: "#C85BFF", credit: "#FF5B3A", ventes: "#2FB7A0", proj: "#3F7BFF", outro: "#FF5B3A" };
+function rng(seed) { let a = seed >>> 0; return () => { a |= 0; a = a + 0x6D2B79F5 | 0; let t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+
+/* ---------- sous-titres : découpage de chaque phrase en morceaux ---------- */
+const CAPS = {
+  hook: [[["Acheter à Paris,", 15], ["fin <em>2026</em> ?", 24]], [["Comptez <em>9 590 €</em>", 50], ["le mètre carré.", 15]]],
+  trend: [[["C'est <em>0,5 %</em> de moins", 31], ["qu'il y a un an.", 15]], [["Et près de <em>12 %</em>", 26], ["sous le record de 2020.", 34]]],
+  budget: [[["Concrètement,", 14], ["un deux-pièces de <em>50 m²</em>,", 41], ["c'est environ <em>480 000 €</em>.", 50]]],
+  arr: [[["Mais tout dépend de l'adresse.", 30]], [["Dans le <em>6<sup>e</sup></em> arrondissement,", 30], ["plus de <em>13 000 €</em> le m².", 41]], [["Dans le <em>19<sup>e</sup></em>,", 20], ["environ <em>7 500 €</em>.", 29]], [["Presque <em>le double</em>.", 18]]],
+  credit: [[["Côté crédit,", 13], ["les taux remontent :", 19], ["<em>3,49 %</em> en moyenne", 48], ["en octobre.", 11]], [["Et on emprunte désormais", 24], ["sur <em>21 ans</em>.", 19]]],
+  ventes: [[["Résultat ?", 12], ["Les acheteurs temporisent.", 26]], [["À Paris, les ventes", 20], ["baissent de <em>2 %</em>.", 26]]],
+  proj: [[["Et la suite ?", 13]], [["Les notaires prévoient", 22], ["<em>9 580 €</em> le m².", 56]], [["Autrement dit,", 15], ["des prix <em>stables</em>.", 17]]],
+  outro: [[["Paris reste chère,", 18], ["mais le marché", 15], ["marque une pause.", 17]], [["À suivre.", 9]]],
+};
+// temps de début de chaque morceau : ct('hook',1,0) = moment où la voix dit « Comptez… »
+const CT = {};
+for (const sc of TL.scenes) CT[sc.name] = sc.cues.map((cue, i) => { const ch = CAPS[sc.name][i], tot = ch.reduce((a, c) => a + c[1], 0); let acc = 0; return ch.map(c => { const t = cue.t + cue.d * acc / tot; acc += c[1]; return t; }); });
+const ct = (s, c, k = 0) => CT[s][c][k];
+
+/* ---------- décor : toits de Paris ---------- */
+const twinkle = [];
+function buildSky() {
+  const W = 2600, H = 400, r = rng(7); let far = "", near = "", wins = "";
+  // tour Eiffel (silhouette simplifiée)
+  const ex = 800, eb = 345;
+  far += `<g transform="translate(${ex},${eb})" fill="#2B3962"><path d="M-118 0 C-66 -62 -40 -132 -29 -212 L-11 -338 L11 -338 L29 -212 C40 -132 66 -62 118 0 L74 0 C56 -38 30 -72 0 -72 C-30 -72 -56 -38 -74 0 Z"/><rect x="-60" y="-110" width="120" height="14"/><rect x="-35" y="-218" width="70" height="11"/><rect x="-14" y="-346" width="28" height="9"/><rect x="-2.5" y="-372" width="5" height="30"/><path d="M-40 -110 L-29 -212 M40 -110 L29 -212 M-52 -96 L-20 -150 M52 -96 L20 -150" stroke="#0A0E1B" stroke-width="3" fill="none" opacity=".5"/></g><circle id="beacon" cx="${ex}" cy="${eb - 374}" r="7" fill="#F6C453"/>`;
+  let x = -20;
+  while (x < W) { const w = 110 + r() * 120, h = 70 + r() * 90; if (Math.abs(x + w / 2 - ex) > 190) far += `<path fill="#1B2440" d="M${x} ${H} V${H - h + 18} L${x + 10} ${H - h} H${x + w - 10} L${x + w} ${H - h + 18} V${H} Z"/>`; x += w + 4; }
+  x = -40;
+  while (x < W) {
+    const w = 120 + r() * 130, h = 95 + r() * 85, top = H - h;
+    near += `<path fill="#0F1529" d="M${x} ${H} V${top + 24} L${x + 12} ${top} H${x + w - 12} L${x + w} ${top + 24} V${H} Z"/>`;
+    for (let c = 0, n = 1 + Math.floor(r() * 3); c < n; c++) { const cx = x + 20 + r() * (w - 50); near += `<rect fill="#0F1529" x="${cx}" y="${top - 16 - r() * 10}" width="${10 + r() * 8}" height="30"/>`; }
+    for (let wy = top + 40; wy < H - 20; wy += 34) for (let wx = x + 16; wx < x + w - 22; wx += 26) if (r() < .42) wins += `<rect class="tw" x="${wx}" y="${wy}" width="9" height="16" rx="1.5" fill="#F6C453" opacity=".8" data-p="${(r() * 6.28).toFixed(2)}" data-f="${(.6 + r() * 1.8).toFixed(2)}"/>`;
+    x += w + 3;
+  }
+  $("#sky").innerHTML = `<svg id="skyFar" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">${far}</svg><svg id="skyNear" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">${near}${wins}</svg>`;
+  $$("#sky .tw").forEach(e => twinkle.push([e, +e.dataset.p, +e.dataset.f]));
+}
+
+/* ---------- odomètre ---------- */
+function makeOdo(el, str) {
+  el.innerHTML = ""; const cols = [];
+  for (const ch of str) {
+    if (/\d/.test(ch)) { const c = document.createElement("span"); c.className = "c"; let h = ""; for (let i = 0; i < 20; i++) h += `<i>${i % 10}</i>`; c.innerHTML = `<span>${h}</span>`; el.appendChild(c); cols.push({ strip: c.firstChild, d: +ch }); }
+    else { const s = document.createElement("span"); s.className = ch === " " ? "sp" : "tx"; s.textContent = ch === " " ? "" : ch; el.appendChild(s); }
+  }
+  return cols;
+}
+const yp = d => -(10 + d) * 5; // yPercent d'une bande de 20 chiffres
+function rollOdo(tl, cols, t, dur, tag) {
+  cols.forEach((c, i) => tl.fromTo(c.strip, { yPercent: 0 }, { yPercent: yp(c.d), duration: dur * (.62 + .38 * (i + 1) / cols.length), ease: "power3.out" }, t));
+  sfx("roll", t, { dur }); sfx("ding", t + dur * .94, { v: tag === "big" ? 1 : .75 });
+}
+
+/* ---------- construction ---------- */
+function build() {
+  buildSky();
+  const tl = gsap.timeline({ paused: true, defaults: { ease: "power3.out" } });
+  // barre de progression façon « stories »
+  $("#prog").innerHTML = TL.scenes.map(() => "<b><i></i></b>").join("");
+  $$("#prog i").forEach((e, i) => { const s = TL.scenes[i], end = i === TL.scenes.length - 1 ? DURATION : s.end; tl.fromTo(e, { scaleX: 0 }, { scaleX: 1, duration: end - s.start, ease: "none" }, s.start); });
+  // dérive lente des toits
+  tl.fromTo("#skyNear", { x: 0 }, { x: -820, duration: DURATION, ease: "none" }, 0);
+  tl.fromTo("#skyFar", { x: -60 }, { x: -430, duration: DURATION, ease: "none" }, 0);
+  tl.fromTo("#glowA", { x: 0, y: 0 }, { x: 260, y: 420, duration: DURATION, ease: "sine.inOut" }, 0);
+  tl.fromTo("#glowB", { x: 0, y: 0 }, { x: -340, y: -520, duration: DURATION, ease: "sine.inOut" }, 0);
+  // en-tête
+  tl.from("#tag", { x: -60, autoAlpha: 0, duration: .5 }, .1).from("#date", { x: 60, autoAlpha: 0, duration: .5 }, .18).from("#prog", { autoAlpha: 0, duration: .4 }, .25);
+
+  // scènes + volets
+  TL.scenes.forEach((s, i) => {
+    const el = $("#s-" + s.name);
+    tl.set(el, { visibility: "visible" }, i === 0 ? 0 : s.start);
+    tl.set(document.documentElement, { "--acc": ACC[s.name] }, i === 0 ? 0 : s.start);
+    if (i < TL.scenes.length - 1) {
+      const e = s.end;
+      tl.set(el, { visibility: "hidden" }, e);
+      tl.set("#wipe1", { backgroundColor: ACC[TL.scenes[i + 1].name] }, e - .42);
+      tl.fromTo("#wipe1", { y: 2150 }, { y: -150, duration: .36, ease: "power2.in" }, e - .36).to("#wipe1", { y: -2500, duration: .42, ease: "power2.out" }, e);
+      tl.fromTo("#wipe2", { y: 2150 }, { y: -150, duration: .36, ease: "power2.in" }, e - .27).to("#wipe2", { y: -2500, duration: .42, ease: "power2.out" }, e + .07);
+      sfx("whoosh", e - .34);
+    }
+    // titres mot à mot
+    el.querySelectorAll(".h2 .w>span").forEach((w, k) => { tl.from(w, { yPercent: 115, duration: .55, ease: "power4.out" }, s.start + .18 + k * .11); sfx("pop", s.start + .2 + k * .11, { v: .35, p: k }); });
+    tl.from(el.querySelector(".src"), { autoAlpha: 0, duration: .5 }, s.start + .9);
+  });
+
+  // sous-titres
+  for (const sc of TL.scenes) sc.cues.forEach((cue, i) => CAPS[sc.name][i].forEach((c, k, arr) => {
+    const d = document.createElement("div"); d.className = "cap"; d.innerHTML = c[0]; $("#caps").appendChild(d);
+    const t0 = ct(sc.name, i, k), t1 = k < arr.length - 1 ? ct(sc.name, i, k + 1) : cue.t + cue.d + .22;
+    tl.set(d, { visibility: "visible" }, t0).fromTo(d, { y: 34, scale: .9, opacity: 0 }, { y: 0, scale: 1, opacity: 1, duration: .2, ease: "back.out(2)" }, t0).set(d, { visibility: "hidden" }, t1);
+  }));
+
+  /* 1 · ACCROCHE */ {
+    const T = SC.hook.start, cB = ct("hook", 1, 0), cols = makeOdo($("#odo1"), "9 590");
+    sfx("riser", .05, { dur: cB - .05 });
+    tl.from("#s-hook .big .w>span", { yPercent: 120, duration: .6, ease: "power4.out", stagger: .16 }, T + .3);
+    sfx("thud", T + .34, { v: .7 }); sfx("thud", T + .5, { v: .8 });
+    tl.from("#hk-q", { scale: 0, rotation: -14, autoAlpha: 0, duration: .5, ease: "back.out(2.2)" }, ct("hook", 0, 1) - .05);
+    sfx("pop", ct("hook", 0, 1) - .05, { v: .8, p: 4 });
+    tl.to("#hk-title", { scale: .43, y: -78, duration: .6, ease: "power3.inOut" }, cB - .3);
+    tl.from("#odo1", { scale: 1.5, autoAlpha: 0, duration: .45, ease: "power4.out" }, cB);
+    sfx("impact", cB);
+    rollOdo(tl, cols, cB + .05, 2.0, "big");
+    tl.from("#hk-unit", { y: 60, autoAlpha: 0, duration: .45, ease: "back.out(1.8)" }, ct("hook", 1, 1) - .15);
+    tl.fromTo("#hk-line path", { strokeDasharray: 640, strokeDashoffset: 640 }, { strokeDashoffset: 0, duration: .5, ease: "power2.out" }, ct("hook", 1, 1) + .15);
+    sfx("swish", ct("hook", 1, 1) + .15);
+    tl.from("#hk-sub", { y: 30, autoAlpha: 0, duration: .5 }, ct("hook", 1, 1) + .4);
+    tl.to("#odo1", { scale: 1.06, duration: .12, ease: "power2.out", yoyo: true, repeat: 1 }, cB + 1.95);
+  }
+
+  /* 2 · TENDANCE */ {
+    const T = SC.trend.start, a = ct("trend", 0, 0), b = ct("trend", 1, 0), svg = $("#chart");
+    const pts = [[2020.87, 10860], [2022.3, 10500], [2024.95, 9470], [2025.95, 9600], [2026.6, 9590]];
+    const X = v => 110 + (v - 2020.6) / (2026.75 - 2020.6) * 780, Y = v => 500 - (v - 9200) / (11400 - 9200) * 440;
+    let g = "";
+    for (const v of [9500, 10000, 10500, 11000]) g += `<line class="gl" x1="100" x2="930" y1="${Y(v)}" y2="${Y(v)}" stroke="rgba(244,237,223,.14)" stroke-width="2" stroke-dasharray="4 10"/><text class="gl" x="86" y="${Y(v) + 9}" text-anchor="end" font-size="25" font-weight="500" fill="#8EA2B9">${(v / 1000).toFixed(1).replace(".", ",")}k</text>`;
+    for (const yr of [2021, 2022, 2023, 2024, 2025, 2026]) g += `<text class="gl" x="${X(yr + .5)}" y="548" text-anchor="middle" font-size="25" font-weight="500" fill="#8EA2B9">${yr}</text>`;
+    const d = pts.map((p, i) => (i ? "L" : "M") + X(p[0]).toFixed(1) + " " + Y(p[1]).toFixed(1)).join(" ");
+    g += `<defs><linearGradient id="ar" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3F7BFF" stop-opacity=".45"/><stop offset="1" stop-color="#3F7BFF" stop-opacity="0"/></linearGradient><clipPath id="cl"><rect id="clr" x="100" y="0" width="0" height="560"/></clipPath></defs>`;
+    g += `<path d="${d} L${X(2026.6)} 500 L${X(2020.87)} 500 Z" fill="url(#ar)" clip-path="url(#cl)"/><path id="ln" d="${d}" fill="none" stroke="#F4EDDF" stroke-width="9" stroke-linejoin="round" stroke-linecap="round"/>`;
+    pts.forEach((p, i) => g += `<circle class="pt" cx="${X(p[0])}" cy="${Y(p[1])}" r="${i === 0 || i === 4 ? 15 : 9}" fill="${i === 0 ? "#F6C453" : i === 4 ? "#FF5B3A" : "#F4EDDF"}" stroke="#0A0E1B" stroke-width="5"/>`);
+    g += `<g id="lb0"><text x="${X(2020.87) - 10}" y="${Y(10860) - 30}" font-size="50" font-weight="800" fill="#F6C453">10 860 €</text><text x="${X(2020.87) + 222}" y="${Y(10860) - 34}" font-size="26" font-weight="500" fill="#8EA2B9">record · nov. 2020</text></g>`;
+    g += `<g id="lb1"><text x="${X(2026.6) + 8}" y="${Y(9590) - 62}" text-anchor="end" font-size="50" font-weight="800" fill="#FF5B3A">9 590 €</text><text x="${X(2026.6) + 8}" y="${Y(9590) - 28}" text-anchor="end" font-size="26" font-weight="500" fill="#8EA2B9">été 2026</text></g>`;
+    g += `<g id="brk"><line x1="${X(2026.6) + 44}" x2="${X(2026.6) + 44}" y1="${Y(10860)}" y2="${Y(9590)}" stroke="#FF5B3A" stroke-width="5"/><line x1="${X(2026.6) + 30}" x2="${X(2026.6) + 58}" y1="${Y(10860)}" y2="${Y(10860)}" stroke="#FF5B3A" stroke-width="5"/><line x1="${X(2026.6) + 30}" x2="${X(2026.6) + 58}" y1="${Y(9590)}" y2="${Y(9590)}" stroke="#FF5B3A" stroke-width="5"/><line x1="${X(2020.87)}" x2="${X(2026.6) + 44}" y1="${Y(10860)}" y2="${Y(10860)}" stroke="#F6C453" stroke-width="3" stroke-dasharray="3 9"/></g>`;
+    svg.innerHTML = g;
+    const L = $("#ln").getTotalLength(), t0 = T + .45, dd = 2.1;
+    tl.from("#chart .gl", { autoAlpha: 0, duration: .4, stagger: .03 }, T + .25);
+    const ln = $("#ln"), clr = $("#clr"), pr = { p: 0 }; ln.style.strokeDasharray = L; ln.style.strokeDashoffset = L;
+    tl.to(pr, { p: 1, duration: dd, ease: "power1.inOut", onUpdate: () => { ln.style.strokeDashoffset = L * (1 - pr.p); clr.setAttribute("width", Math.max(0, ln.getPointAtLength(L * pr.p).x - 100)); } }, t0);
+    sfx("draw", t0, { dur: dd });
+    const frac = [0, .2, .68, .87, 1];
+    $$("#chart .pt").forEach((p, i) => { const tp = t0 + dd * frac[i] * .96 + .04; tl.from(p, { scale: 0, transformOrigin: "50% 50%", duration: .32, ease: "back.out(3)" }, tp); sfx("pop", tp, { v: .6, p: i }); });
+    tl.from("#lb0", { autoAlpha: 0, x: -20, duration: .4 }, t0 + .2).from("#lb1", { autoAlpha: 0, y: 20, duration: .4 }, t0 + dd);
+    tl.from("#tr-c1", { y: 90, autoAlpha: 0, scale: .9, duration: .5, ease: "back.out(1.7)" }, a + .25); sfx("thud", a + .27, { v: .6 });
+    tl.from("#brk", { autoAlpha: 0, duration: .35 }, b + .2);
+    tl.from("#tr-c2", { y: 90, autoAlpha: 0, scale: .9, duration: .5, ease: "back.out(1.7)" }, b + .45); sfx("impact", b + .47, { v: .7 }); sfx("down", b + .2);
+    tl.to("#tr-c2", { scale: 1.05, duration: .14, yoyo: true, repeat: 1, ease: "power2.out" }, b + 1.3);
+  }
+
+  /* 3 · BUDGET */ {
+    const T = SC.budget.start, c1 = ct("budget", 0, 1), c2 = ct("budget", 0, 2), svg = $("#plan");
+    const S = 'fill="none" stroke="#F4EDDF" stroke-linecap="round" stroke-linejoin="round"';
+    svg.innerHTML = `<rect class="pl" x="10" y="10" width="760" height="450" rx="6" ${S} stroke-width="12"/>
+      <path class="pl" d="M440 10 V250" ${S} stroke-width="8"/><path class="pl" d="M440 330 V460" ${S} stroke-width="8"/><path class="pl" d="M440 250 H560 M640 250 H770" ${S} stroke-width="8"/><path class="pl" d="M610 250 V460" ${S} stroke-width="8"/>
+      <path class="pl" d="M440 250 A80 80 0 0 1 360 330" ${S} stroke-width="4" stroke-dasharray="6 9"/><path class="pl" d="M560 250 A80 80 0 0 0 640 170" ${S} stroke-width="4" stroke-dasharray="6 9"/>
+      <g class="rm"><text x="225" y="225" text-anchor="middle" font-size="44" font-weight="800" fill="#F4EDDF">Séjour</text><text x="225" y="266" text-anchor="middle" font-size="28" font-weight="500" fill="#8EA2B9">24 m²</text></g>
+      <g class="rm"><text x="605" y="130" text-anchor="middle" font-size="40" font-weight="800" fill="#F4EDDF">Chambre</text><text x="605" y="168" text-anchor="middle" font-size="28" font-weight="500" fill="#8EA2B9">13 m²</text></g>
+      <g class="rm"><text x="525" y="368" text-anchor="middle" font-size="30" font-weight="800" fill="#F4EDDF">Cuisine</text><text x="525" y="402" text-anchor="middle" font-size="26" font-weight="500" fill="#8EA2B9">7 m²</text></g>
+      <g class="rm"><text x="690" y="368" text-anchor="middle" font-size="30" font-weight="800" fill="#F4EDDF">SdB</text><text x="690" y="402" text-anchor="middle" font-size="26" font-weight="500" fill="#8EA2B9">6 m²</text></g>
+      <rect id="plfill" x="16" y="16" width="748" height="438" fill="#F6C453" opacity="0"/>`;
+    $$("#plan .pl").forEach((p, i) => { const L = p.getTotalLength(); if (i < 5) tl.fromTo(p, { strokeDasharray: L, strokeDashoffset: L }, { strokeDashoffset: 0, duration: i ? .5 : 1.0, ease: "power2.inOut" }, T + .35 + (i ? .55 + i * .12 : 0)); else tl.from(p, { autoAlpha: 0, duration: .3 }, T + 1.5); });
+    sfx("draw", T + .35, { dur: 1.3 });
+    $$("#plan .rm").forEach((r, i) => { tl.from(r, { autoAlpha: 0, y: 14, duration: .3 }, c1 - .25 + i * .13); sfx("pop", c1 - .25 + i * .13, { v: .5, p: i }); });
+    tl.to("#plfill", { opacity: .22, duration: .25, yoyo: true, repeat: 1 }, c1 + .75);
+    tl.from("#bd-e1", { scale: 0, autoAlpha: 0, duration: .4, ease: "back.out(2.4)" }, c1 + .7); sfx("pop", c1 + .7, { v: .8, p: 2 });
+    tl.from("#bd-e2", { autoAlpha: 0, rotation: 90, duration: .3 }, c2 - .35).from("#bd-e3", { scale: 0, autoAlpha: 0, duration: .4, ease: "back.out(2.4)" }, c2 - .25); sfx("pop", c2 - .25, { v: .8, p: 4 });
+    const cols = makeOdo($("#odo3"), "480 000");
+    tl.from("#bd-env", { autoAlpha: 0, duration: .3 }, c2 + .1).from("#bd-eur", { autoAlpha: 0, x: -30, duration: .4 }, c2 + .3);
+    tl.from("#odo3", { autoAlpha: 0, scale: 1.3, duration: .35 }, c2 + .1); sfx("impact", c2 + .1, { v: .8 });
+    rollOdo(tl, cols, c2 + .15, 1.7, "big");
+    tl.to("#bd-res", { scale: 1.05, duration: .13, yoyo: true, repeat: 1, ease: "power2.out", transformOrigin: "50% 60%" }, c2 + 1.75);
+  }
+
+  /* 4 · ARRONDISSEMENTS */ {
+    const T = SC.arr.start, b = ct("arr", 1, 0), b2 = ct("arr", 1, 1), c = ct("arr", 2, 0), c2 = ct("arr", 2, 1), d = ct("arr", 3, 0), r = rng(21);
+    const mk = (id, floors, fh) => { let h = '<div class="roof"><s style="left:70px"></s><s style="left:204px"></s></div><div class="fac">'; for (let f = 0; f < floors; f++) { h += `<div class="fl" style="height:${fh}px">`; for (let w = 0; w < 4; w++) h += `<u class="${r() < .45 ? "on" : ""}"></u>`; h += "</div>"; } $(id).innerHTML = h + '<div class="rdc"></div></div>'; };
+    mk("#b6", 8, 63.5); mk("#b19", 4, 54.5);   // hauteurs ∝ prix : 640 px et 361 px
+    tl.from("#ground", { scaleX: 0, duration: .6, ease: "power2.out" }, T + .5);
+    tl.from("#b6", { scaleY: 0, duration: 1.0, ease: "back.out(1.25)" }, b); sfx("rise", b, { dur: .9, hi: 1 });
+    tl.from("#l6 .a", { scale: 0, autoAlpha: 0, duration: .4, ease: "back.out(2.4)" }, b + .15); sfx("pop", b + .15, { v: .8, p: 5 });
+    tl.from("#l6 .p", { y: 30, autoAlpha: 0, duration: .4, ease: "back.out(2)" }, b2 + .1); sfx("ding", b2 + .15, { v: .8 });
+    tl.from("#b19", { scaleY: 0, duration: .9, ease: "back.out(1.25)" }, c); sfx("rise", c, { dur: .8, hi: 0 });
+    tl.from("#l19 .a", { scale: 0, autoAlpha: 0, duration: .4, ease: "back.out(2.4)" }, c + .15); sfx("pop", c + .15, { v: .8, p: 1 });
+    tl.from("#l19 .p", { y: 30, autoAlpha: 0, duration: .4, ease: "back.out(2)" }, c2 + .1); sfx("ding", c2 + .15, { v: .6, low: 1 });
+    tl.fromTo("#st-x", { scale: 3.2, rotation: -24, autoAlpha: 0 }, { scale: 1, rotation: -8, autoAlpha: 1, duration: .32, ease: "power4.in" }, d + .05); sfx("stamp", d + .36);
+    tl.fromTo("#s-arr", { x: 0 }, { x: 9, duration: .05, yoyo: true, repeat: 5, ease: "none" }, d + .37);
+  }
+
+  /* 5 · CRÉDIT */ {
+    const T = SC.credit.start, a2 = ct("credit", 0, 2), b = ct("credit", 1, 0), b1 = ct("credit", 1, 1);
+    const cols = makeOdo($("#odo5"), "3,49"), cols2 = makeOdo($("#odo5b"), "21"), LA = $("#cr-ap").getTotalLength();
+    tl.fromTo("#cr-ap", { strokeDasharray: LA, strokeDashoffset: LA }, { strokeDashoffset: 0, duration: .7, ease: "power3.out" }, ct("credit", 0, 1)); sfx("rise", ct("credit", 0, 1), { dur: .6, hi: 1 });
+    tl.to("#cr-arrow", { x: 14, y: -14, duration: .5, yoyo: true, repeat: 9, ease: "sine.inOut" }, ct("credit", 0, 1) + .7);
+    tl.from("#cr-num", { autoAlpha: 0, scale: 1.4, duration: .4 }, a2 - .05); sfx("impact", a2 - .05);
+    rollOdo(tl, cols, a2, 1.5, "big");
+    tl.from("#cr-ch1", { x: -80, autoAlpha: 0, duration: .4 }, a2 + 1.5).from("#cr-chv", { autoAlpha: 0, x: -20, duration: .25 }, a2 + 1.72).from("#cr-ch2", { x: 80, autoAlpha: 0, duration: .4, ease: "back.out(1.7)" }, a2 + 1.85);
+    sfx("pop", a2 + 1.5, { v: .6, p: 2 }); sfx("pop", a2 + 1.85, { v: .7, p: 5 });
+    let h = ""; for (let i = 0; i < 25; i++) h += `<i style="flex:1;border-radius:6px;background:rgba(244,237,223,.14);display:block;position:relative;overflow:hidden"><b style="position:absolute;inset:0;background:${i < 21 ? "#F6C453" : "transparent"};transform:scaleY(0);transform-origin:50% 100%;display:block"></b></i>`;
+    $("#cr-bar").innerHTML = h;
+    tl.from("#cr-dur", { y: 140, autoAlpha: 0, duration: .5, ease: "back.out(1.5)" }, b - .1); sfx("thud", b - .08, { v: .7 });
+    tl.to("#cr-bar b", { scaleY: 1, duration: .25, stagger: .045, ease: "back.out(2)" }, b1 - .5); sfx("ticks", b1 - .5, { n: 21, step: .045 });
+    rollOdo(tl, cols2, b1 - .45, 1.05, "small");
+  }
+
+  /* 6 · VENTES */ {
+    const T = SC.ventes.start, a1 = ct("ventes", 0, 1), b = ct("ventes", 1, 0), b1 = ct("ventes", 1, 1), box = $("#dots"), r = rng(5), gone = [37, 64];
+    for (let i = 0; i < 100; i++) { const e = document.createElement("div"); e.className = "dot"; e.style.left = (i % 10) * 60 + "px"; e.style.top = Math.floor(i / 10) * 60 + "px"; box.appendChild(e); }
+    const dots = $$("#dots .dot");
+    tl.from(dots, { scale: 0, duration: .32, ease: "back.out(2.5)", stagger: { each: .012, from: "start" } }, T + .55); sfx("ticks", T + .55, { n: 34, step: .036, soft: 1 });
+    // « temporisent » : les points respirent, comme en suspens
+    tl.to(dots, { scale: .78, duration: .5, ease: "sine.inOut", yoyo: true, repeat: 1, stagger: { each: .006, from: "center" } }, a1 + .25);
+    gone.forEach((g, k) => {
+      const t = b1 + .1 + k * .28, e = dots[g];
+      tl.to(e, { backgroundColor: "#FF5B3A", scale: 1.5, duration: .16, ease: "power2.out" }, t).to(e, { y: 620, x: k ? 90 : -70, rotation: 200, scale: .5, opacity: 0, duration: .75, ease: "power2.in" }, t + .2);
+      sfx("pop", t, { v: .9, p: 6 - k * 2 }); sfx("down", t + .2);
+    });
+    tl.from("#vt-lab", { autoAlpha: 0, y: 20, duration: .4 }, b1 + .55);
+    tl.from("#vt-num", { scale: 2.1, autoAlpha: 0, duration: .35, ease: "power4.in" }, b1 + .55); sfx("stamp", b1 + .9);
+    tl.fromTo("#s-ventes", { x: 0 }, { x: 8, duration: .05, yoyo: true, repeat: 5, ease: "none" }, b1 + .9);
+  }
+
+  /* 7 · PROJECTION */ {
+    const T = SC.proj.start, a = ct("proj", 0, 0), b = ct("proj", 1, 0), b1 = ct("proj", 1, 1), c1 = ct("proj", 2, 1);
+    const cols = makeOdo($("#odo7"), "9 590");
+    tl.from("#pj-q", { scale: .2, rotation: -12, autoAlpha: 0, duration: .55, ease: "back.out(2)" }, a - .1); sfx("pop", a - .1, { v: 1, p: 7 }); sfx("riser", a + .1, { dur: b1 - a - .1, v: .6 });
+    tl.to("#pj-q", { scale: .5, y: -40, duration: .5, ease: "power3.inOut" }, b - .25);
+    tl.from("#pj-k", { autoAlpha: 0, y: 30, duration: .4 }, b).from("#odo7", { autoAlpha: 0, y: 60, duration: .45 }, b + .15).from("#pj-u", { autoAlpha: 0, y: 40, duration: .4 }, b + .3);
+    cols.forEach(cc => tl.set(cc.strip, { yPercent: yp(cc.d) }, 0));
+    tl.to(cols[2].strip, { yPercent: yp(8), duration: .7, ease: "back.out(1.6)" }, b1 + .9); sfx("roll", b1 + .75, { dur: .45 }); sfx("ding", b1 + 1.35, { v: .9 });
+    tl.to("#odo7", { scale: 1.06, duration: .13, yoyo: true, repeat: 1, ease: "power2.out" }, b1 + 1.35);
+    tl.from("#pj-chip", { autoAlpha: 0, scale: .6, duration: .4, ease: "back.out(2)" }, b1 + 1.7); sfx("pop", b1 + 1.7, { v: .7, p: 3 });
+    tl.fromTo("#st-s", { scale: 3, rotation: 14, autoAlpha: 0 }, { scale: 1, rotation: -5, autoAlpha: 1, duration: .3, ease: "power4.in" }, c1 - .05); sfx("stamp", c1 + .24);
+    tl.fromTo("#s-proj", { x: 0 }, { x: 9, duration: .05, yoyo: true, repeat: 5, ease: "none" }, c1 + .25);
+  }
+
+  /* 8 · CONCLUSION */ {
+    const T = SC.outro.start, a1 = ct("outro", 0, 1), b = ct("outro", 1, 0);
+    $$("#s-outro .ot").forEach((c, i) => { const t = a1 + .35 + i * .3; tl.from(c, { x: i % 2 ? 160 : -160, autoAlpha: 0, duration: .5, ease: "back.out(1.4)" }, t); sfx("pop", t, { v: .8, p: i * 2 + 1 }); });
+    tl.from("#ot-suivre", { autoAlpha: 0, y: 50, scale: .8, duration: .6, ease: "back.out(1.8)" }, b - .05); sfx("ding", b, { v: 1 }); sfx("end", b + .1);
+    tl.to("#ot-suivre", { scale: 1.05, duration: 1.4, ease: "sine.inOut", yoyo: true, repeat: 1 }, b + .6);
+    tl.to("#stage", { opacity: 0, duration: .5, ease: "power2.in" }, DURATION - .5);
+  }
+  tl.to({}, { duration: .01 }, DURATION - .01);
+  return tl;
+}
+
+let master;
+window.seek = t => {
+  master.time(Math.min(t, DURATION), false);
+  for (const [e, p, f] of twinkle) e.setAttribute("opacity", (.45 + .45 * Math.sin(t * f + p)).toFixed(3));
+  const bc = document.getElementById("beacon"); if (bc) bc.setAttribute("opacity", (.4 + .6 * Math.abs(Math.sin(t * 2.2))).toFixed(3));
+};
+document.fonts.ready.then(() => { master = build(); window.seek(0); window.__ready = true; });
+</script>
+</body>
+</html>
