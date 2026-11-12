@@ -9,7 +9,17 @@ export const SousTitre: React.FC<{ texte: string }> = ({ texte }) => {
   const { fps } = useVideoConfig();
   // Petit "pop" quand le bloc apparaît
   const pop = spring({ frame, fps, config: { damping: 12, stiffness: 220 } });
-  const mots = texte.split(" ");
+  // On découpe en mots, et on retient si chaque mot est entre *étoiles*
+  // (une zone jaune peut couvrir plusieurs mots : "*NUMÉRO 1*")
+  let dansJaune = false;
+  const mots = texte.split(" ").map((brut) => {
+    const debut = brut.startsWith("*");
+    const fin = brut.endsWith("*");
+    if (debut) dansJaune = true;
+    const jaune = dansJaune;
+    if (fin) dansJaune = false;
+    return { mot: brut.replace(/\*/g, ""), jaune };
+  });
 
   return (
     <div
@@ -22,8 +32,7 @@ export const SousTitre: React.FC<{ texte: string }> = ({ texte }) => {
         opacity: pop,
       }}
     >
-      {mots.map((mot, i) => {
-        const jaune = mot.startsWith("*") && mot.endsWith("*");
+      {mots.map(({ mot, jaune }, i) => {
         return (
           <span
             key={i}
@@ -38,7 +47,7 @@ export const SousTitre: React.FC<{ texte: string }> = ({ texte }) => {
               marginRight: i < mots.length - 1 ? 22 : 0,
             }}
           >
-            {jaune ? mot.slice(1, -1) : mot}
+            {mot}
           </span>
         );
       })}

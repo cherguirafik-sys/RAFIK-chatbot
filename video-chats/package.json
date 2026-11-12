@@ -4,12 +4,17 @@
   "private": true,
   "scripts": {
     "studio": "remotion studio",
-    "render": "remotion render ChatVideo out/chat-video.mp4"
+    "render": "remotion render ChatVideo out/chat-video.mp4 --gl=angle",
+    "render:sans-gpu": "remotion render ChatVideo out/chat-video.mp4 --gl=swangle"
   },
   "dependencies": {
+    "@react-three/fiber": "^8.17.10",
     "@remotion/cli": "4.0.290",
+    "@remotion/three": "^4.0.290",
+    "@types/three": "^0.171.0",
     "react": "18.3.1",
     "react-dom": "18.3.1",
-    "remotion": "4.0.290"
+    "remotion": "4.0.290",
+    "three": "^0.171.0"
   }
 }

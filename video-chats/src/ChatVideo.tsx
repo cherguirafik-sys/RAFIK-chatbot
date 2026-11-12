@@ -4,7 +4,7 @@ import React from "react";
 import { AbsoluteFill, interpolate, Sequence, useCurrentFrame } from "remotion";
 import { Salon } from "./Salon";
 import { Chambre } from "./Chambre";
-import { Chat } from "./Chat";
+import { Chat3D } from "./Chat3D";
 import { CoeurDore } from "./CoeurDore";
 import { SousTitre } from "./SousTitre";
 
@@ -65,13 +65,11 @@ export const ChatVideo: React.FC = () => {
           <Sequence key={i} from={from} durationInFrames={duree}>
             <Fondu duree={duree}>
               {scene.decor === "salon" ? <Salon /> : <Chambre />}
-              <AbsoluteFill style={{ top: 420 }}>
-                <Chat
-                  ronronne={scene.ronronne}
-                  clignement={scene.clignement}
-                  lumiere={scene.decor === "salon" ? "#fff0d0" : "#ffc77a"}
-                />
-              </AbsoluteFill>
+              <Chat3D
+                ronronne={scene.ronronne}
+                clignement={scene.clignement}
+                lumiere={scene.decor === "salon" ? "#fff0d0" : "#ffc77a"}
+              />
               {scene.coeurs && <CoeurDore />}
             </Fondu>
             {/* Les sous-titres : un bout après l'autre */}
