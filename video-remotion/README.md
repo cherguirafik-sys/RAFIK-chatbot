@@ -40,7 +40,7 @@ Bukhârî 247 (ablutions + côté droit), 6320 (secouer le lit), 2311 (Âyat al-
 
 ## Le son
 
-- Voix off : `public/voix/vo00.mp3` … `vo10.mp3` (une par scène, voix française « Tom » générée par Piper).
+- Voix off : `public/voix/vo00.mp3` … `vo10.mp3` (une par scène, voix « Florian » générée avec ElevenLabs (modèle v4)).
 - Bruitages : `public/sfx/souffle.mp3` (transitions) et `public/sfx/pop.mp3` (cases cochées).
 - Tout est branché dans `src/Video.tsx`, avec `VOLUME_VOIX` et `VOLUME_BRUITAGES` pour régler les volumes.
 

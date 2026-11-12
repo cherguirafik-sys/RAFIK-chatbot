@@ -17,15 +17,15 @@ const VOLUME_BRUITAGES = 0.35;
 // - voix   : le fichier audio de la voix off (dans public/voix)
 // La durée de chaque scène est un peu plus longue que sa voix off.
 const SCENES: { el: React.ReactNode; frames: number; voix: string }[] = [
-  { el: <Intro />, frames: 135, voix: "vo00.mp3" },
-  { el: <Wudu />, frames: 176, voix: "vo01.mp3" },
-  { el: <DustBed />, frames: 180, voix: "vo02.mp3" },
+  { el: <Intro />, frames: 132, voix: "vo00.mp3" },
+  { el: <Wudu />, frames: 155, voix: "vo01.mp3" },
+  { el: <DustBed />, frames: 161, voix: "vo02.mp3" },
   { el: <RightSide />, frames: 150, voix: "vo03.mp3" },
-  { el: <AyatKursi />, frames: 226, voix: "vo04.mp3" },
-  { el: <Baqara />, frames: 265, voix: "vo05.mp3" },
-  { el: <ThreeQul />, frames: 260, voix: "vo06.mp3" },
-  { el: <Tasbih />, frames: 288, voix: "vo07.mp3" },
-  { el: <Dua />, frames: 228, voix: "vo08.mp3" },
+  { el: <AyatKursi />, frames: 184, voix: "vo04.mp3" },
+  { el: <Baqara />, frames: 199, voix: "vo05.mp3" },
+  { el: <ThreeQul />, frames: 213, voix: "vo06.mp3" },
+  { el: <Tasbih />, frames: 266, voix: "vo07.mp3" },
+  { el: <Dua />, frames: 239, voix: "vo08.mp3" },
   { el: <Checklist />, frames: 220, voix: "vo09.mp3" },
   { el: <Outro brand={BRAND} cta={CTA} />, frames: 90, voix: "vo10.mp3" },
 ];

@@ -390,9 +390,9 @@ export const ThreeQul: React.FC = () => {
 export const Tasbih: React.FC = () => {
   const frame = useCurrentFrame();
   const phases = [
-    { label: "SubhânAllâh", n: 33, start: 39, end: 95 },
-    { label: "Alhamdulillâh", n: 33, start: 106, end: 170 },
-    { label: "Allâhu akbar", n: 34, start: 182, end: 250 },
+    { label: "SubhânAllâh", n: 33, start: 34, end: 88 },
+    { label: "Alhamdulillâh", n: 33, start: 100, end: 153 },
+    { label: "Allâhu akbar", n: 34, start: 164, end: 238 },
   ];
   let idx = 0;
   phases.forEach((p, i) => {
