@@ -1,6 +1,8 @@
 import React from "react";
 import {
   AbsoluteFill,
+  Img,
+  staticFile,
   interpolate,
   spring,
   useCurrentFrame,
@@ -28,7 +30,15 @@ export const progress = (frame: number, start: number, end: number) =>
 
 // ---------- Fond parchemin ----------
 
+// Version rapide utilisée dans la vidéo : une simple image (public/fond.png)
 export const Parchment: React.FC = () => (
+  <AbsoluteFill>
+    <Img src={staticFile("fond.png")} style={{ width: "100%", height: "100%" }} />
+  </AbsoluteFill>
+);
+
+// Version "calculée" (lente) : sert à fabriquer fond.png une seule fois
+export const ParchmentSvg: React.FC = () => (
   <AbsoluteFill style={{ backgroundColor: COLORS.bg }}>
     <AbsoluteFill
       style={{
