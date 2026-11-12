@@ -1,7 +1,8 @@
 // La vidéo complète, construite comme le modèle "Secrets de chats" :
 // sous-titres de 2-3 mots, mot-clé en jaune, coeurs dorés, salon / chambre.
 import React from "react";
-import { AbsoluteFill, interpolate, Sequence, useCurrentFrame } from "remotion";
+import { AbsoluteFill, Audio, interpolate, Sequence, staticFile, useCurrentFrame } from "remotion";
+import DUREES_VOIX from "./durees-voix.json"; // durée de chaque voix off (secondes)
 import { Salon } from "./Salon";
 import { Chambre } from "./Chambre";
 import { Chat3D } from "./Chat3D";
@@ -42,9 +43,25 @@ const SCENES: Scene[] = [
   },
 ];
 
-const DUREE_BOUT = 24; // 24 images = 0,8 seconde par bout de phrase
-const dureeScene = (s: Scene) => s.bouts.length * DUREE_BOUT;
-export const DUREE_TOTALE = SCENES.reduce((total, s) => total + dureeScene(s), 0);
+const FPS = 30;
+const PAUSE = 12; // petite pause (0,4 s) après chaque phrase
+
+// Une scène dure le temps de sa voix off + la pause
+const dureeScene = (i: number) => Math.ceil(DUREES_VOIX[i] * FPS) + PAUSE;
+export const DUREE_TOTALE = SCENES.reduce((total, _s, i) => total + dureeScene(i), 0);
+
+// Pour caler les sous-titres sur la voix : chaque bout reste à l'écran
+// un temps proportionnel à sa longueur (un bout long se dit plus longtemps).
+const debutsDesBouts = (bouts: string[], dureeVoix: number) => {
+  const longueurs = bouts.map((b) => b.replace(/\*/g, "").length + 4);
+  const total = longueurs.reduce((a, b) => a + b, 0);
+  let t = 0;
+  return longueurs.map((l) => {
+    const debut = Math.round((t / total) * dureeVoix);
+    t += l;
+    return debut;
+  });
+};
 
 // Fondu au début et à la fin de chaque scène
 const Fondu: React.FC<{ duree: number; children: React.ReactNode }> = ({ duree, children }) => {
@@ -58,7 +75,9 @@ export const ChatVideo: React.FC = () => {
   return (
     <AbsoluteFill style={{ backgroundColor: "black" }}>
       {SCENES.map((scene, i) => {
-        const duree = dureeScene(scene);
+        const duree = dureeScene(i);
+        const dureeVoix = Math.ceil(DUREES_VOIX[i] * FPS);
+        const debuts = debutsDesBouts(scene.bouts, dureeVoix);
         const from = debut;
         debut += duree;
         return (
@@ -73,8 +92,10 @@ export const ChatVideo: React.FC = () => {
               {scene.coeurs && <CoeurDore />}
             </Fondu>
             {/* Les sous-titres : un bout après l'autre */}
+            {/* La voix off de la scène */}
+            <Audio src={staticFile(`voix/scene${i + 1}.wav`)} />
             {scene.bouts.map((bout, j) => (
-              <Sequence key={j} from={j * DUREE_BOUT} durationInFrames={DUREE_BOUT}>
+              <Sequence key={j} from={debuts[j]} durationInFrames={(debuts[j + 1] ?? duree) - debuts[j]}>
                 <SousTitre texte={bout} />
               </Sequence>
             ))}
