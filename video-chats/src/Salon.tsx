@@ -1,82 +1,38 @@
-// Le décor : un salon chaleureux un peu flou (comme dans le modèle)
+// Décor 1 : un salon clair et chaleureux (canapé crème, tableaux, plante)
 import React from "react";
 import { AbsoluteFill, interpolate, useCurrentFrame } from "remotion";
 
 export const Salon: React.FC = () => {
   const frame = useCurrentFrame();
-  // Léger zoom lent pour donner de la vie au fond
-  const zoom = interpolate(frame, [0, 900], [1, 1.08]);
+  const zoom = interpolate(frame, [0, 600], [1, 1.06]); // zoom très lent
 
   return (
     <AbsoluteFill style={{ overflow: "hidden" }}>
-      <AbsoluteFill
-        style={{
-          transform: `scale(${zoom})`,
-          filter: "blur(10px)", // effet "arrière-plan flou"
-        }}
-      >
-        {/* Mur : dégradé chaud */}
-        <AbsoluteFill
-          style={{
-            background:
-              "linear-gradient(180deg, #8a6a52 0%, #b48d6c 35%, #d9b894 60%, #c9a27c 100%)",
-          }}
-        />
-        {/* Lumière de fenêtre à droite */}
-        <div
-          style={{
-            position: "absolute",
-            right: -200,
-            top: 100,
-            width: 700,
-            height: 900,
-            borderRadius: "50%",
-            background: "radial-gradient(circle, rgba(255,236,190,0.9), rgba(255,220,160,0) 70%)",
-          }}
-        />
-        {/* Étagère à gauche */}
-        <div style={{ position: "absolute", left: 40, top: 80, width: 260, height: 600, background: "#6b4e3a", borderRadius: 12 }} />
-        {[0, 1, 2].map((i) => (
-          <div key={i} style={{ position: "absolute", left: 60, top: 140 + i * 180, width: 220, height: 120, background: "#4a3427", borderRadius: 6 }} />
+      <AbsoluteFill style={{ transform: `scale(${zoom})`, filter: "blur(9px)" }}>
+        {/* Mur crème */}
+        <AbsoluteFill style={{ background: "linear-gradient(180deg, #d8c6ae 0%, #e6d6c0 45%, #cdb79c 100%)" }} />
+        {/* Lumière de fenêtre (à droite) */}
+        <div style={{ position: "absolute", right: -250, top: 0, width: 800, height: 1300, borderRadius: "50%", background: "radial-gradient(circle, rgba(255,240,205,1), rgba(255,230,180,0) 70%)" }} />
+        {/* Tableaux au mur */}
+        <div style={{ position: "absolute", left: 30, top: 60, width: 170, height: 250, border: "12px solid #6e5644", background: "#cfc2ad" }} />
+        <div style={{ position: "absolute", left: 620, top: 80, width: 220, height: 170, border: "12px solid #6e5644", background: "#d9cdb8" }} />
+        {/* Applique murale */}
+        <div style={{ position: "absolute", left: 240, top: 120, width: 120, height: 90, borderRadius: "50% 50% 10px 10px", background: "#fff3dc", boxShadow: "0 0 120px 60px rgba(255,230,180,0.6)" }} />
+        {/* Plante sur un meuble */}
+        <div style={{ position: "absolute", left: 160, top: 380, width: 130, height: 150, background: "#bfae96", borderRadius: 20 }} />
+        {[-35, -10, 15, 40].map((a, i) => (
+          <div key={i} style={{ position: "absolute", left: 190, top: 220, width: 70, height: 180, background: "#7d9a6c", borderRadius: "50%", transformOrigin: "bottom center", transform: `rotate(${a}deg)` }} />
         ))}
-        {/* Plante verte */}
-        {[-40, -10, 20, 45].map((angle, i) => (
-          <div
-            key={i}
-            style={{
-              position: "absolute",
-              left: 120,
-              top: 560,
-              width: 90,
-              height: 300,
-              background: "#4f7a45",
-              borderRadius: "50% 50% 50% 50% / 80% 80% 20% 20%",
-              transformOrigin: "bottom center",
-              transform: `rotate(${angle}deg)`,
-            }}
-          />
-        ))}
-        {/* Canapé */}
-        <div style={{ position: "absolute", left: -80, right: -80, top: 820, height: 420, background: "#b9a48c", borderRadius: 80 }} />
-        <div style={{ position: "absolute", left: -40, right: -40, top: 980, height: 300, background: "#a8927a", borderRadius: 60 }} />
-        {/* Tapis moelleux */}
-        <div
-          style={{
-            position: "absolute",
-            left: -200,
-            right: -200,
-            top: 1200,
-            bottom: -200,
-            background: "radial-gradient(ellipse at 50% 30%, #f7eadb 0%, #e8d6c2 50%, #cdb59b 100%)",
-          }}
-        />
+        {/* Canapé crème */}
+        <div style={{ position: "absolute", left: -120, right: -120, top: 480, height: 520, background: "#e9dcc8", borderRadius: 90 }} />
+        <div style={{ position: "absolute", left: 140, top: 560, width: 260, height: 240, background: "#d6b98f", borderRadius: 50 }} />
+        <div style={{ position: "absolute", right: 60, top: 600, width: 300, height: 230, background: "#c9cdd3", borderRadius: 50 }} />
+        <div style={{ position: "absolute", left: -120, right: -120, top: 880, height: 420, background: "#ddcdb6", borderRadius: 70 }} />
+        {/* Sol + tapis */}
+        <div style={{ position: "absolute", left: -200, right: -200, top: 1300, bottom: -200, background: "linear-gradient(180deg, #b7916c 0%, #a07a58 100%)" }} />
+        <div style={{ position: "absolute", left: -100, right: -100, top: 1450, bottom: -200, borderRadius: "50% 50% 0 0", background: "radial-gradient(ellipse at 50% 20%, #f3e8da 0%, #e2d2bf 70%)" }} />
       </AbsoluteFill>
-      {/* Vignette sombre sur les bords */}
-      <AbsoluteFill
-        style={{
-          background: "radial-gradient(ellipse at center, rgba(0,0,0,0) 55%, rgba(0,0,0,0.45) 100%)",
-        }}
-      />
+      <AbsoluteFill style={{ background: "radial-gradient(ellipse at center, rgba(0,0,0,0) 60%, rgba(60,35,15,0.35) 100%)" }} />
     </AbsoluteFill>
   );
 };

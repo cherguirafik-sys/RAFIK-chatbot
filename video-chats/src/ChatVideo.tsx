@@ -1,48 +1,90 @@
-// La vidéo complète : on enchaîne les scènes avec <Sequence>
+// La vidéo complète, construite comme le modèle "Secrets de chats" :
+// sous-titres de 2-3 mots, mot-clé en jaune, coeurs dorés, salon / chambre.
 import React from "react";
-import { AbsoluteFill, Sequence } from "remotion";
+import { AbsoluteFill, interpolate, Sequence, useCurrentFrame } from "remotion";
 import { Salon } from "./Salon";
+import { Chambre } from "./Chambre";
 import { Chat } from "./Chat";
+import { CoeurDore } from "./CoeurDore";
 import { SousTitre } from "./SousTitre";
 
-// Chaque scène : son texte, ses mots jaunes, et ce que fait le chat
-const SCENES = [
-  { texte: "TON CHAT T'AIME VRAIMENT ?", jaunes: ["T'AIME"], ronronne: false, clignement: false, coeurs: false },
-  { texte: "3 SIGNES QUI NE TROMPENT PAS", jaunes: ["3", "SIGNES"], ronronne: false, clignement: false, coeurs: false },
-  { texte: "1. IL RONRONNE QUAND TU LE CARESSES", jaunes: ["RONRONNE"], ronronne: true, clignement: false, coeurs: false },
-  { texte: "2. IL CLIGNE LENTEMENT DES YEUX", jaunes: ["CLIGNE", "LENTEMENT"], ronronne: false, clignement: true, coeurs: false },
-  { texte: "3. IL TE SUIT PARTOUT", jaunes: ["SUIT", "PARTOUT"], ronronne: false, clignement: false, coeurs: true },
-  { texte: "ABONNE-TOI POUR PLUS DE SECRETS", jaunes: ["ABONNE-TOI", "SECRETS"], ronronne: true, clignement: false, coeurs: true },
+// ---------- LE SCRIPT (c'est ici que tu modifies le texte) ----------
+// Chaque "bout" = ce qui s'affiche à l'écran en même temps (2-3 mots).
+// Mets *ÉTOILES* autour du mot à afficher en jaune.
+type Scene = {
+  decor: "salon" | "chambre";
+  coeurs: boolean;
+  ronronne: boolean;
+  clignement: boolean;
+  bouts: string[];
+};
+
+const SCENES: Scene[] = [
+  {
+    decor: "salon", coeurs: true, ronronne: false, clignement: false,
+    bouts: ["TON CHAT *T'AIME*", "MAIS EST-CE QU'IL", "TE LE *MONTRE*", "*VRAIMENT* ?", "VOICI *3 SIGNES*", "QUI NE *TROMPENT* PAS"],
+  },
+  {
+    decor: "salon", coeurs: false, ronronne: true, clignement: false,
+    bouts: ["SIGNE *NUMÉRO 1*", "IL *RONRONNE*", "QUAND TU ES", "*PRÈS* DE LUI", "C'EST SA FAÇON", "DE DIRE", "JE ME SENS *BIEN*"],
+  },
+  {
+    decor: "chambre", coeurs: false, ronronne: false, clignement: true,
+    bouts: ["SIGNE *NUMÉRO 2*", "IL TE FAIT", "DES *CLIGNEMENTS*", "*LENTS*", "C'EST UN VRAI", "*BISOU* DE CHAT"],
+  },
+  {
+    decor: "chambre", coeurs: true, ronronne: false, clignement: false,
+    bouts: ["SIGNE *NUMÉRO 3*", "IL DORT", "À TES *PIEDS*", "IL TE FAIT", "*CONFIANCE*", "POUR LE *PROTÉGER*"],
+  },
+  {
+    decor: "salon", coeurs: true, ronronne: true, clignement: false,
+    bouts: ["ET TOI", "TON CHAT", "FAIT *LEQUEL* ?", "DIS-LE EN", "*COMMENTAIRE*"],
+  },
 ];
 
-const DUREE_SCENE = 90; // 90 images = 3 secondes à 30 i/s
-export const DUREE_TOTALE = SCENES.length * DUREE_SCENE;
+const DUREE_BOUT = 24; // 24 images = 0,8 seconde par bout de phrase
+const dureeScene = (s: Scene) => s.bouts.length * DUREE_BOUT;
+export const DUREE_TOTALE = SCENES.reduce((total, s) => total + dureeScene(s), 0);
+
+// Fondu au début et à la fin de chaque scène
+const Fondu: React.FC<{ duree: number; children: React.ReactNode }> = ({ duree, children }) => {
+  const frame = useCurrentFrame();
+  const opacite = interpolate(frame, [0, 8, duree - 8, duree], [0, 1, 1, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  return <AbsoluteFill style={{ opacity: opacite }}>{children}</AbsoluteFill>;
+};
 
 export const ChatVideo: React.FC = () => {
+  let debut = 0;
   return (
     <AbsoluteFill style={{ backgroundColor: "black" }}>
-      <Salon />
-      {SCENES.map((scene, i) => (
-        <Sequence key={i} from={i * DUREE_SCENE} durationInFrames={DUREE_SCENE}>
-          <AbsoluteFill style={{ top: 380 }}>
-            <Chat ronronne={scene.ronronne} clignement={scene.clignement} coeurs={scene.coeurs} />
-          </AbsoluteFill>
-          <SousTitre texte={scene.texte} motsJaunes={scene.jaunes} haut={1050} />
-        </Sequence>
-      ))}
-      {/* Petit filigrane */}
-      <div
-        style={{
-          position: "absolute",
-          bottom: 300,
-          width: "100%",
-          textAlign: "center",
-          color: "rgba(255,255,255,0.7)",
-          fontFamily: "Arial, sans-serif",
-          fontSize: 34,
-          fontWeight: 700,
-        }}
-      >
+      {SCENES.map((scene, i) => {
+        const duree = dureeScene(scene);
+        const from = debut;
+        debut += duree;
+        return (
+          <Sequence key={i} from={from} durationInFrames={duree}>
+            <Fondu duree={duree}>
+              {scene.decor === "salon" ? <Salon /> : <Chambre />}
+              <AbsoluteFill style={{ top: 420 }}>
+                <Chat
+                  ronronne={scene.ronronne}
+                  clignement={scene.clignement}
+                  lumiere={scene.decor === "salon" ? "#fff0d0" : "#ffc77a"}
+                />
+              </AbsoluteFill>
+              {scene.coeurs && <CoeurDore />}
+            </Fondu>
+            {/* Les sous-titres : un bout après l'autre */}
+            {scene.bouts.map((bout, j) => (
+              <Sequence key={j} from={j * DUREE_BOUT} durationInFrames={DUREE_BOUT}>
+                <SousTitre texte={bout} />
+              </Sequence>
+            ))}
+          </Sequence>
+        );
+      })}
+      {/* Ton pseudo en filigrane (à remplacer par le tien) */}
+      <div style={{ position: "absolute", bottom: 230, width: "100%", textAlign: "center", color: "rgba(255,255,255,0.55)", fontFamily: "Arial, sans-serif", fontSize: 30, fontWeight: 700 }}>
         @mes.chats
       </div>
     </AbsoluteFill>

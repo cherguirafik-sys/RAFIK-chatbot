@@ -1,54 +1,44 @@
-// Sous-titres style TikTok : mots en gras qui "popent" un par un,
-// avec certains mots surlignés en jaune.
+// Sous-titres style "Secrets de chats" : 2-3 mots à la fois, sur une ligne,
+// blanc avec ombre sombre, et le mot important en jaune.
+// Dans le texte, on entoure le mot jaune avec des étoiles : "IL *RONRONNE*"
 import React from "react";
 import { spring, useCurrentFrame, useVideoConfig } from "remotion";
 
-type Props = {
-  texte: string;
-  motsJaunes: string[]; // mots à afficher en jaune
-  haut?: number; // position verticale en pixels
-};
-
-export const SousTitre: React.FC<Props> = ({ texte, motsJaunes, haut = 1000 }) => {
+export const SousTitre: React.FC<{ texte: string }> = ({ texte }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
+  // Petit "pop" quand le bloc apparaît
+  const pop = spring({ frame, fps, config: { damping: 12, stiffness: 220 } });
   const mots = texte.split(" ");
 
   return (
     <div
       style={{
         position: "absolute",
-        top: haut,
-        left: 60,
-        right: 60,
-        display: "flex",
-        flexWrap: "wrap",
-        justifyContent: "center",
-        gap: "0 34px",
+        top: 1120, // un peu sous le milieu, sur le poitrail du chat
+        width: "100%",
+        textAlign: "center",
+        transform: `scale(${0.85 + pop * 0.15})`,
+        opacity: pop,
       }}
     >
       {mots.map((mot, i) => {
-        // Chaque mot apparaît 5 images après le précédent
-        const pop = spring({ frame: frame - i * 5, fps, config: { damping: 14, stiffness: 160 } });
-        const jaune = motsJaunes.includes(mot);
+        const jaune = mot.startsWith("*") && mot.endsWith("*");
         return (
           <span
             key={i}
             style={{
               fontFamily: "'Arial Black', 'Helvetica Neue', Arial, sans-serif",
               fontWeight: 900,
-              fontSize: 88,
-              lineHeight: 1.15,
-              color: jaune ? "#ffcf2e" : "white",
-              WebkitTextStroke: "4px black",
+              fontSize: 76,
+              color: jaune ? "#ffc928" : "white",
+              WebkitTextStroke: "3px #1a1a1a",
               paintOrder: "stroke fill",
-              textShadow: "0 6px 0 rgba(0,0,0,0.6)",
-              transform: `scale(${pop})`,
-              opacity: pop,
-              display: "inline-block",
+              textShadow: "0 0 18px rgba(0,0,0,0.85), 0 4px 6px rgba(0,0,0,0.7)",
+              marginRight: i < mots.length - 1 ? 22 : 0,
             }}
           >
-            {mot}
+            {jaune ? mot.slice(1, -1) : mot}
           </span>
         );
       })}
