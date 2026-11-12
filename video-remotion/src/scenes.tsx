@@ -177,7 +177,7 @@ export const RightSide: React.FC = () => {
   const zz = progress(frame, 90, 110);
   return (
     <AbsoluteFill>
-      <Title parts={[{ t: "Allonge-toi sur le " }, { t: "côté droit", hl: true }]} subtitle="la main sous la joue" />
+      <Title parts={[{ t: "Allonge-toi sur le " }, { t: "côté droit", hl: true }]} subtitle="pour t'endormir" />
       <Canvas>
         <Ground delay={4} y={1310} />
         <Bed />
@@ -390,9 +390,9 @@ export const ThreeQul: React.FC = () => {
 export const Tasbih: React.FC = () => {
   const frame = useCurrentFrame();
   const phases = [
-    { label: "SubhânAllâh", n: 33, start: 20, end: 55 },
-    { label: "Alhamdulillâh", n: 33, start: 62, end: 97 },
-    { label: "Allâhu akbar", n: 34, start: 104, end: 140 },
+    { label: "SubhânAllâh", n: 33, start: 39, end: 95 },
+    { label: "Alhamdulillâh", n: 33, start: 106, end: 170 },
+    { label: "Allâhu akbar", n: 34, start: 182, end: 250 },
   ];
   let idx = 0;
   phases.forEach((p, i) => {

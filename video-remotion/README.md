@@ -37,3 +37,20 @@ Durées : 30 images = 1 seconde.
 
 Bukhârî 247 (ablutions + côté droit), 6320 (secouer le lit), 2311 (Âyat al-Kursî),
 5009 (fin d'al-Baqara), 5017 (les 3 Qul), 3705 (tasbîh de Fâtima), 6324 (invocation).
+
+## Le son
+
+- Voix off : `public/voix/vo00.mp3` … `vo10.mp3` (une par scène, voix française « Tom » générée par Piper).
+- Bruitages : `public/sfx/souffle.mp3` (transitions) et `public/sfx/pop.mp3` (cases cochées).
+- Tout est branché dans `src/Video.tsx`, avec `VOLUME_VOIX` et `VOLUME_BRUITAGES` pour régler les volumes.
+
+Ajouter un son dans Remotion, c'est 2 lignes :
+
+```tsx
+<Sequence from={30}>                              {/* démarre à 1 seconde */}
+  <Audio src={staticFile("voix/vo01.mp3")} volume={0.8} />
+</Sequence>
+```
+
+Pour mettre **ta propre voix** : enregistre-toi (une phrase par scène), mets les fichiers
+dans `public/voix/` avec les mêmes noms, puis ajuste la durée `frames` des scènes si besoin.
