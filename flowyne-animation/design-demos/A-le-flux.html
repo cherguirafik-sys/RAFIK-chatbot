@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8">
+<title>Flowyne · A · Le flux</title>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{--t:#00D1C1;--n:#052028;--p:#0d3640;--g:#5a7a84}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:1920px;height:1080px;overflow:hidden;background:#fff;font-family:Geist,Inter,system-ui,sans-serif;color:var(--n)}
+.stage{position:relative;width:1920px;height:1080px;overflow:hidden;
+ background:radial-gradient(1200px 800px at 78% 55%,#e3fbf8 0%,#fff 62%)}
+svg.wave{position:absolute;inset:0}
+.logo{position:absolute;left:120px;top:84px;height:66px}
+.h{position:absolute;left:120px;top:250px;font-weight:800;font-size:112px;line-height:.98;letter-spacing:-.045em}
+.h .t{color:var(--t)} .h .p{color:#0b7f78}
+.sub{position:absolute;left:124px;top:700px;font-size:30px;color:var(--g);font-weight:500;width:760px;line-height:1.35}
+.sub b{color:var(--n);font-weight:700}
+/* phone */
+.phone{position:absolute;left:1240px;top:150px;width:420px;height:860px;border-radius:66px;background:#04161c;padding:14px;
+ box-shadow:0 60px 120px -30px rgba(5,32,40,.45),0 0 0 2px #0d3640 inset;transform:rotate(-4deg)}
+.scr{width:100%;height:100%;border-radius:54px;background:var(--n);overflow:hidden;position:relative;color:#fff;padding:70px 28px 0}
+.isl{position:absolute;left:50%;top:16px;width:130px;height:36px;border-radius:20px;background:#000;transform:translateX(-50%)}
+.st{position:absolute;top:20px;left:34px;font-size:17px;font-weight:600}
+.ttl{font-size:26px;font-weight:700;margin-bottom:6px}
+.day{font-size:16px;color:#8ba4ac;margin-bottom:22px}
+.days{display:flex;gap:8px;margin-bottom:24px}
+.days div{flex:1;text-align:center;padding:10px 0;border-radius:14px;font-size:15px;color:#8ba4ac;background:#08303b}
+.days div b{display:block;color:#fff;font-size:20px;margin-top:2px}
+.days .on{background:var(--t);color:var(--n)} .days .on b{color:var(--n)}
+.slot{display:flex;gap:14px;align-items:stretch;margin-bottom:12px}
+.slot .hr{width:52px;font-size:15px;color:#8ba4ac;padding-top:12px}
+.slot .ap{flex:1;border-radius:16px;padding:14px 16px;background:#0d3640;border-left:4px solid var(--t)}
+.ap b{display:block;font-size:18px} .ap span{font-size:14px;color:#8ba4ac}
+.ap.free{background:transparent;border:1.5px dashed #1a4a55;border-left:1.5px dashed #1a4a55;color:#5a7a84;font-size:15px;display:flex;align-items:center}
+/* chips */
+.chip{position:absolute;background:#fff;border-radius:22px;box-shadow:0 30px 60px -20px rgba(5,32,40,.28);padding:22px 26px;font-size:20px}
+.c1{left:1000px;top:740px;width:330px;transform:rotate(-2deg)}
+.c1 small{display:block;color:var(--g);font-size:15px;font-weight:600;margin-bottom:6px}
+.c2{left:1600px;top:330px;width:220px}
+.c2 .k{font-size:15px;color:var(--g);font-weight:600}
+.c2 .v{font-size:54px;font-weight:800;letter-spacing:-.03em}
+.c2 .v small{font-size:20px;color:var(--g);font-weight:500}
+.dot{display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--t);margin-right:8px}
+</style></head><body><div class="stage">
+<svg class="wave" viewBox="0 0 1920 1080"><g transform="translate(0,110)">
+ <defs><linearGradient id="g" x1="0" x2="1"><stop offset="0" stop-color="#00D1C1" stop-opacity="0"/><stop offset=".35" stop-color="#00D1C1"/><stop offset="1" stop-color="#0d3640"/></linearGradient>
+ <linearGradient id="g2" x1="0" x2="1"><stop offset="0" stop-color="#00D1C1" stop-opacity="0"/><stop offset="1" stop-color="#00D1C1" stop-opacity=".35"/></linearGradient></defs>
+ <path d="M-100 980 C 400 1000, 700 640, 1100 700 S 1650 980, 2050 380" stroke="url(#g)" stroke-width="120" fill="none" stroke-linecap="round" opacity=".95"/>
+ <path d="M-100 1060 C 420 1060, 760 760, 1150 820 S 1700 1040, 2050 520" stroke="url(#g2)" stroke-width="44" fill="none" stroke-linecap="round"/>
+</g></svg>
+<img class="logo" src="logo.png" alt="Flowyne">
+<div class="h">Votre site,<br>votre agenda,<br><span class="t">vos clients.</span><br><span class="p">Au même endroit.</span></div>
+<div class="sub">Pensé pour les <b>prestataires de services</b> — coiffure, esthétique, coaching, bien-être.</div>
+<div class="phone"><div class="scr"><div class="isl"></div><div class="st">9:41</div>
+ <div class="ttl">Mon planning</div><div class="day">Mardi 14 janvier · 6 rendez-vous</div>
+ <div class="days"><div>L<b>13</b></div><div class="on">M<b>14</b></div><div>M<b>15</b></div><div>J<b>16</b></div><div>V<b>17</b></div></div>
+ <div class="slot"><div class="hr">09:00</div><div class="ap"><b>Coupe Homme</b><span>Karim · 30 min · 25 €</span></div></div>
+ <div class="slot"><div class="hr">10:00</div><div class="ap"><b>Barbe</b><span>Lucas · 20 min · 15 €</span></div></div>
+ <div class="slot"><div class="hr">11:00</div><div class="ap free">Créneau libre</div></div>
+ <div class="slot"><div class="hr">14:00</div><div class="ap"><b>Coupe + Barbe</b><span>Jean · acompte payé</span></div></div>
+ <div class="slot"><div class="hr">15:30</div><div class="ap"><b>Coloration</b><span>Sarah · 1 h 30</span></div></div>
+ <div class="slot"><div class="hr">17:00</div><div class="ap"><b>Brushing</b><span>Nadia · 45 min</span></div></div>
+ <div class="slot"><div class="hr">18:00</div><div class="ap"><b>Coupe Femme</b><span>Léa · réservé à 23:14</span></div></div>
+</div></div>
+<div class="chip c1"><small><span class="dot"></span>Rappel envoyé automatiquement</small>Bonjour Jean, rappel de votre RDV demain à 14h.</div>
+<div class="chip c2"><div class="k">Temps gagné</div><div class="v">10h<small> /sem</small></div></div>
+</div></body></html>
