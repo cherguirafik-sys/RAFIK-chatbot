@@ -1,0 +1,20 @@
+{
+  "name": "video-psad-remotion",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Vidéo motion design « Prestataires de santé à domicile » (style huashu), en Remotion",
+  "scripts": {
+    "studio": "remotion studio",
+    "render": "remotion render PsadHuashu out/psad_bastide_huashu.mp4"
+  },
+  "dependencies": {
+    "@remotion/cli": "4.0.539",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "remotion": "4.0.539"
+  },
+  "devDependencies": {
+    "@types/react": "18.3.12",
+    "typescript": "5.6.3"
+  }
+}
