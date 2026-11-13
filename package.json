@@ -1,0 +1,24 @@
+{
+  "name": "rafik-chatbot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"no tests\"",
+    "freellm": "freellm"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cherguirafik-sys/RAFIK-chatbot.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cherguirafik-sys/RAFIK-chatbot/issues"
+  },
+  "homepage": "https://github.com/cherguirafik-sys/RAFIK-chatbot#readme",
+  "dependencies": {
+    "freellm": "^1.0.15"
+  }
+}
