@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <!-- ============================================================
+       VITAMIAM — Boutique de gummies vitaminés (marque fictive)
+       Un seul fichier : HTML (structure) + CSS (style) + JS (actions)
+       ============================================================ -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vitamiam — Gummies vitaminés</title>
+
+  <!-- Polices Google : "Fredoka" (titres arrondis, fun) + "Inter" (texte lisible) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ---------- 1. LES COULEURS DE LA MARQUE ----------
+       On les range dans des "variables" : si tu veux changer une couleur,
+       tu la changes ici une seule fois et tout le site suit. */
+    :root {
+      --violet: #3b1e54;      /* couleur principale (texte, fonds foncés) */
+      --corail: #ff6b6b;      /* couleur d'action (boutons) */
+      --mangue: #ffc857;      /* couleur joyeuse (accents) */
+      --menthe: #7ed6b4;      /* couleur fraîche */
+      --creme:  #fff8f0;      /* fond de page */
+      --blanc:  #ffffff;
+      --gris:   #6b5a78;      /* texte secondaire */
+      --rayon:  22px;         /* arrondi des cartes */
+    }
+
+    /* ---------- 2. RÉGLAGES DE BASE ---------- */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Inter", sans-serif;
+      background: var(--creme);
+      color: var(--violet);
+      line-height: 1.6;
+    }
+    h1, h2, h3, .logo { font-family: "Fredoka", sans-serif; }
+    a { color: inherit; text-decoration: none; }
+    img, svg { display: block; max-width: 100%; }
+    .conteneur { width: min(1150px, 100% - 32px); margin-inline: auto; }
+
+    /* Bouton réutilisable */
+    .bouton {
+      display: inline-block;
+      background: var(--corail);
+      color: var(--blanc);
+      font-weight: 600;
+      padding: 14px 30px;
+      border: none;
+      border-radius: 999px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: transform .2s, box-shadow .2s;
+    }
+    .bouton:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(255,107,107,.4); }
+    .bouton.secondaire { background: transparent; color: var(--violet); border: 2px solid var(--violet); }
+
+    /* ---------- 3. BANDEAU PROMO (tout en haut) ---------- */
+    .promo {
+      background: var(--violet);
+      color: var(--mangue);
+      text-align: center;
+      font-size: .9rem;
+      font-weight: 600;
+      padding: 9px 16px;
+    }
+
+    /* ---------- 4. MENU ---------- */
+    header {
+      position: sticky; top: 0; z-index: 10;          /* reste collé en haut quand on descend */
+      background: rgba(255,248,240,.92);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid #f0e3d6;
+    }
+    .menu { display: flex; align-items: center; justify-content: space-between; height: 72px; }
+    .logo { font-size: 1.8rem; font-weight: 700; color: var(--violet); }
+    .logo span { color: var(--corail); }
+    .liens { display: flex; gap: 28px; font-weight: 500; }
+    .liens a:hover { color: var(--corail); }
+    .panier {
+      position: relative; background: var(--violet); color: var(--blanc);
+      border: none; border-radius: 999px; padding: 10px 18px; font-weight: 600; cursor: pointer;
+    }
+    .panier .compteur {
+      position: absolute; top: -6px; right: -6px;
+      background: var(--mangue); color: var(--violet);
+      width: 22px; height: 22px; border-radius: 50%; font-size: .75rem;
+      display: grid; place-items: center;
+    }
+
+    /* ---------- 5. SECTION D'ACCUEIL (HERO) ---------- */
+    .hero { padding: 70px 0 90px; overflow: hidden; }
+    .hero .conteneur { display: grid; grid-template-columns: 1.1fr 1fr; gap: 40px; align-items: center; }
+    .etiquette {
+      display: inline-block; background: var(--menthe); color: var(--violet);
+      padding: 6px 14px; border-radius: 999px; font-weight: 600; font-size: .85rem; margin-bottom: 18px;
+    }
+    .hero h1 { font-size: clamp(2.4rem, 5vw, 4rem); line-height: 1.05; margin-bottom: 20px; }
+    .hero h1 em { font-style: normal; color: var(--corail); }
+    .hero p { font-size: 1.15rem; color: var(--gris); max-width: 480px; margin-bottom: 30px; }
+    .hero .actions { display: flex; gap: 14px; flex-wrap: wrap; }
+    .note-hero { margin-top: 26px; font-size: .95rem; color: var(--gris); }
+    .note-hero b { color: var(--violet); }
+
+    /* Le "pot" de gummies dessiné en CSS (pas besoin de photo !) */
+    .visuel { position: relative; height: 440px; display: grid; place-items: center; }
+    .rond-fond { position: absolute; width: 400px; height: 400px; border-radius: 50%; background: var(--mangue); }
+    .pot {
+      position: relative; width: 210px; height: 280px;
+      background: var(--corail); border-radius: 30px 30px 40px 40px;
+      box-shadow: 0 30px 50px rgba(59,30,84,.25);
+      display: grid; place-items: center; text-align: center; color: var(--blanc);
+      animation: flotte 4s ease-in-out infinite;
+    }
+    .pot::before {  /* le couvercle */
+      content: ""; position: absolute; top: -34px; width: 170px; height: 44px;
+      background: var(--violet); border-radius: 14px;
+    }
+    .pot .nom { font-family: "Fredoka"; font-size: 2rem; font-weight: 700; }
+    .pot .sous { font-size: .85rem; opacity: .9; }
+    .gummy {  /* les petits bonbons qui flottent autour */
+      position: absolute; width: 46px; height: 46px; border-radius: 45% 55% 50% 50%;
+      animation: flotte 3s ease-in-out infinite;
+    }
+    @keyframes flotte { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-14px); } }
+
+    /* ---------- 6. BANDEAU DE CONFIANCE ---------- */
+    .confiance { background: var(--violet); color: var(--blanc); padding: 22px 0; }
+    .confiance .conteneur { display: flex; justify-content: space-around; flex-wrap: wrap; gap: 16px; font-weight: 600; }
+
+    /* ---------- 7. SECTIONS GÉNÉRIQUES ---------- */
+    section.bloc { padding: 90px 0; }
+    .titre-section { text-align: center; margin-bottom: 50px; }
+    .titre-section h2 { font-size: clamp(2rem, 4vw, 2.8rem); }
+    .titre-section p { color: var(--gris); margin-top: 8px; }
+
+    /* ---------- 8. GRILLE DE PRODUITS ---------- */
+    .produits { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 26px; }
+    .carte {
+      background: var(--blanc); border-radius: var(--rayon); padding: 22px;
+      box-shadow: 0 6px 24px rgba(59,30,84,.07);
+      display: flex; flex-direction: column; transition: transform .2s;
+    }
+    .carte:hover { transform: translateY(-6px); }
+    .carte .image {
+      height: 190px; border-radius: 16px; display: grid; place-items: center; margin-bottom: 18px;
+      font-size: 4.5rem;  /* les emojis servent d'images en attendant tes vraies photos */
+    }
+    .carte h3 { font-size: 1.3rem; }
+    .carte .desc { color: var(--gris); font-size: .92rem; margin: 6px 0 12px; flex: 1; }
+    .etoiles { color: #f5a623; font-size: .9rem; margin-bottom: 12px; }
+    .etoiles span { color: var(--gris); }
+    .bas-carte { display: flex; align-items: center; justify-content: space-between; }
+    .prix { font-family: "Fredoka"; font-size: 1.5rem; font-weight: 600; }
+    .prix s { font-size: .95rem; color: var(--gris); margin-left: 6px; }
+    .ajouter { padding: 10px 18px; font-size: .9rem; }
+
+    /* ---------- 9. BÉNÉFICES ---------- */
+    .benefices { background: var(--blanc); }
+    .grille-benef { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 30px; text-align: center; }
+    .icone { width: 80px; height: 80px; border-radius: 50%; display: grid; place-items: center; font-size: 2.2rem; margin: 0 auto 16px; }
+    .grille-benef h3 { margin-bottom: 6px; }
+    .grille-benef p { color: var(--gris); font-size: .95rem; }
+
+    /* ---------- 10. AVIS CLIENTS ---------- */
+    .avis { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 24px; }
+    .avis blockquote { background: var(--blanc); border-radius: var(--rayon); padding: 28px; box-shadow: 0 6px 24px rgba(59,30,84,.07); }
+    .avis p { margin: 10px 0 16px; }
+    .avis cite { font-style: normal; font-weight: 600; color: var(--gris); }
+
+    /* ---------- 11. FAQ ---------- */
+    .faq { max-width: 760px; margin: 0 auto; }
+    details { background: var(--blanc); border-radius: 16px; margin-bottom: 12px; padding: 20px 24px; }
+    summary { cursor: pointer; font-weight: 600; font-size: 1.05rem; list-style: none; display: flex; justify-content: space-between; }
+    summary::after { content: "+"; font-size: 1.4rem; color: var(--corail); }
+    details[open] summary::after { content: "–"; }
+    details p { color: var(--gris); margin-top: 12px; }
+
+    /* ---------- 12. NEWSLETTER + PIED DE PAGE ---------- */
+    .newsletter { background: var(--corail); color: var(--blanc); text-align: center; padding: 70px 0; }
+    .newsletter h2 { font-size: 2.3rem; margin-bottom: 8px; }
+    .newsletter form { display: flex; gap: 10px; justify-content: center; margin-top: 24px; flex-wrap: wrap; }
+    .newsletter input { padding: 14px 20px; border-radius: 999px; border: none; width: min(340px, 100%); font-size: 1rem; }
+    .newsletter .bouton { background: var(--violet); }
+    footer { background: var(--violet); color: #d9cbe6; padding: 50px 0 30px; font-size: .92rem; }
+    footer .colonnes { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 30px; margin-bottom: 30px; }
+    footer h4 { color: var(--blanc); margin-bottom: 10px; }
+    footer li { list-style: none; margin-bottom: 6px; }
+    footer .logo { color: var(--blanc); }
+    footer .mention { border-top: 1px solid #5a3d73; padding-top: 20px; text-align: center; font-size: .8rem; }
+
+    /* Petite notification "Ajouté au panier" */
+    .toast {
+      position: fixed; bottom: 24px; left: 50%; transform: translate(-50%, 100px);
+      background: var(--violet); color: var(--blanc); padding: 14px 24px; border-radius: 999px;
+      font-weight: 600; transition: transform .3s; z-index: 20;
+    }
+    .toast.visible { transform: translate(-50%, 0); }
+
+    /* ---------- 13. VERSION MOBILE ----------
+       Quand l'écran fait moins de 800px, on réorganise la page. */
+    @media (max-width: 800px) {
+      .liens { display: none; }
+      .hero .conteneur { grid-template-columns: 1fr; text-align: center; }
+      .hero p { margin-inline: auto; }
+      .hero .actions { justify-content: center; }
+      .visuel { height: 340px; }
+      .rond-fond { width: 290px; height: 290px; }
+      .pot { width: 170px; height: 230px; }
+      .pot::before { width: 140px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== BANDEAU PROMO ===== -->
+  <div class="promo">🎉 -20 % sur ta première commande avec le code <u>MIAM20</u> · Livraison offerte dès 35 €</div>
+
+  <!-- ===== MENU ===== -->
+  <header>
+    <nav class="conteneur menu">
+      <a href="#" class="logo">Vita<span>miam</span></a>
+      <div class="liens">
+        <a href="#produits">Nos gummies</a>
+        <a href="#benefices">Bienfaits</a>
+        <a href="#avis">Avis</a>
+        <a href="#faq">FAQ</a>
+      </div>
+      <button class="panier">🛒 Panier <span class="compteur" id="compteur">0</span></button>
+    </nav>
+  </header>
+
+  <!-- ===== SECTION D'ACCUEIL ===== -->
+  <section class="hero">
+    <div class="conteneur">
+      <div>
+        <span class="etiquette">🌱 100 % végan · Sans gélatine</span>
+        <h1>Tes vitamines,<br/>mais <em>en mode bonbon</em>.</h1>
+        <p>Des gummies délicieux aux fruits, pensés pour ton énergie, ton sommeil et ta beauté. Deux par jour, et c'est tout.</p>
+        <div class="actions">
+          <a href="#produits" class="bouton">Découvrir les gummies</a>
+          <a href="#benefices" class="bouton secondaire">En savoir plus</a>
+        </div>
+        <p class="note-hero">⭐⭐⭐⭐⭐ <b>4,8/5</b> · plus de 12 000 clients heureux</p>
+      </div>
+
+      <!-- Visuel dessiné en CSS -->
+      <div class="visuel">
+        <div class="rond-fond"></div>
+        <div class="pot">
+          <div>
+            <div class="nom">Vitamiam</div>
+            <div class="sous">Multivitamines · 60 gummies</div>
+          </div>
+        </div>
+        <!-- Les gummies flottants : on règle leur position et couleur directement -->
+        <div class="gummy" style="background:var(--menthe); top:40px; left:12%; animation-delay:.2s"></div>
+        <div class="gummy" style="background:var(--violet); top:90px; right:10%; animation-delay:.8s"></div>
+        <div class="gummy" style="background:var(--corail); bottom:50px; left:18%; animation-delay:1.2s"></div>
+        <div class="gummy" style="background:var(--menthe); bottom:80px; right:14%; animation-delay:.5s"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== BANDEAU DE CONFIANCE ===== -->
+  <div class="confiance">
+    <div class="conteneur">
+      <span>🚚 Livraison 48h</span>
+      <span>🇫🇷 Fabriqué en France</span>
+      <span>🍓 Arômes naturels</span>
+      <span>↩️ Satisfait ou remboursé 30 jours</span>
+    </div>
+  </div>
+
+  <!-- ===== PRODUITS =====
+       Les cartes sont créées automatiquement par le JavaScript plus bas,
+       à partir de la liste "produits". Plus simple à modifier ! -->
+  <section class="bloc" id="produits">
+    <div class="conteneur">
+      <div class="titre-section">
+        <h2>Choisis tes gummies 🍬</h2>
+        <p>Une formule pour chaque besoin, un goût pour chaque envie.</p>
+      </div>
+      <div class="produits" id="liste-produits"></div>
+    </div>
+  </section>
+
+  <!-- ===== BÉNÉFICES ===== -->
+  <section class="bloc benefices" id="benefices">
+    <div class="conteneur">
+      <div class="titre-section">
+        <h2>Pourquoi Vitamiam ?</h2>
+        <p>Parce que prendre soin de soi devrait être un plaisir.</p>
+      </div>
+      <div class="grille-benef">
+        <div><div class="icone" style="background:#ffe9b8">😋</div><h3>Super bon</h3><p>Un vrai goût de fruit, sans arrière-goût de cachet.</p></div>
+        <div><div class="icone" style="background:#d4f5e7">🌿</div><h3>Ingrédients clean</h3><p>Végan, sans gluten, sans colorants artificiels.</p></div>
+        <div><div class="icone" style="background:#ffd9d9">⚡</div><h3>Efficace</h3><p>Des doses étudiées pour couvrir tes besoins quotidiens.</p></div>
+        <div><div class="icone" style="background:#e6dcf0">🧪</div><h3>Testé en labo</h3><p>Chaque lot est contrôlé par un laboratoire indépendant.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== AVIS CLIENTS ===== -->
+  <section class="bloc" id="avis">
+    <div class="conteneur">
+      <div class="titre-section">
+        <h2>Ils ont craqué 💜</h2>
+        <p>Exemples d'avis (fictifs) à remplacer par les vrais avis de tes clients.</p>
+      </div>
+      <div class="avis">
+        <blockquote><div class="etoiles">★★★★★</div><p>« Enfin des vitamines que je n'oublie jamais de prendre. Le goût mangue est incroyable ! »</p><cite>— Sarah, Lyon</cite></blockquote>
+        <blockquote><div class="etoiles">★★★★★</div><p>« Les gummies Dodo m'aident vraiment à me détendre le soir. Je recommande. »</p><cite>— Karim, Marseille</cite></blockquote>
+        <blockquote><div class="etoiles">★★★★☆</div><p>« Mes enfants me les réclament (j'ai dû les cacher 😅). Livraison rapide. »</p><cite>— Julie, Lille</cite></blockquote>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FAQ =====
+       La balise <details> s'ouvre et se ferme toute seule au clic, sans JavaScript. -->
+  <section class="bloc" id="faq" style="padding-top:0">
+    <div class="conteneur">
+      <div class="titre-section"><h2>Questions fréquentes</h2></div>
+      <div class="faq">
+        <details><summary>Combien de gummies par jour ?</summary><p>Deux gummies par jour, de préférence pendant un repas.</p></details>
+        <details><summary>Les gummies contiennent-ils du sucre ?</summary><p>Très peu : moins de 2 g par portion, grâce à des fibres de fruits.</p></details>
+        <details><summary>Est-ce adapté aux enfants ?</summary><p>Nos gummies sont formulés pour les adultes. Demande l'avis d'un professionnel de santé pour les enfants.</p></details>
+        <details><summary>Combien de temps dure la livraison ?</summary><p>48 h en France métropolitaine, et elle est offerte dès 35 € d'achat.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== NEWSLETTER ===== -->
+  <section class="newsletter">
+    <div class="conteneur">
+      <h2>Rejoins le club Vitamiam</h2>
+      <p>Des offres exclusives et des conseils bien-être, une fois par mois.</p>
+      <form id="form-newsletter">
+        <input type="email" placeholder="Ton adresse e-mail" required />
+        <button class="bouton" type="submit">Je m'inscris</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- ===== PIED DE PAGE ===== -->
+  <footer>
+    <div class="conteneur">
+      <div class="colonnes">
+        <div><div class="logo">Vitamiam</div><p style="margin-top:8px">Les vitamines qui ont le goût du plaisir.</p></div>
+        <div><h4>Boutique</h4><ul><li>Multi</li><li>Dodo</li><li>Beauté</li><li>Énergie</li></ul></div>
+        <div><h4>Aide</h4><ul><li>Livraison</li><li>Retours</li><li>Contact</li></ul></div>
+        <div><h4>Suis-nous</h4><ul><li>Instagram</li><li>TikTok</li></ul></div>
+      </div>
+      <p class="mention">© 2026 Vitamiam — marque fictive créée pour l'apprentissage. Les compléments alimentaires ne remplacent pas une alimentation variée.</p>
+    </div>
+  </footer>
+
+  <!-- Notification -->
+  <div class="toast" id="toast">✅ Ajouté au panier !</div>
+
+  <script>
+    // ============================================================
+    //  JAVASCRIPT : ce qui rend la page "vivante"
+    // ============================================================
+
+    // 1) La liste des produits. Pour ajouter un produit, copie une ligne et modifie-la.
+    const produits = [
+      { nom: "Multi Vitamiam", desc: "Vitamines A, C, D, E et zinc. Goût mangue-passion.", prix: 19.90, ancien: 24.90, emoji: "🥭", couleur: "#ffe9b8", note: 4.9, avis: 3210 },
+      { nom: "Dodo Douceur",   desc: "Mélatonine et camomille pour mieux dormir. Goût fruits rouges.", prix: 21.90, ancien: null, emoji: "🌙", couleur: "#e6dcf0", note: 4.8, avis: 1874 },
+      { nom: "Glow Beauté",    desc: "Biotine et vitamine E pour cheveux et peau. Goût fraise.", prix: 22.90, ancien: 27.90, emoji: "🍓", couleur: "#ffd9d9", note: 4.7, avis: 2045 },
+      { nom: "Boost Énergie",  desc: "Vitamines B et magnésium contre la fatigue. Goût citron vert.", prix: 19.90, ancien: null, emoji: "🍋", couleur: "#d4f5e7", note: 4.8, avis: 1560 }
+    ];
+
+    // 2) On fabrique une carte HTML pour chaque produit et on l'insère dans la page.
+    const liste = document.getElementById("liste-produits");
+    produits.forEach(function (p) {
+      const prixBarre = p.ancien ? `<s>${p.ancien.toFixed(2).replace(".", ",")} €</s>` : "";
+      liste.innerHTML += `
+        <article class="carte">
+          <div class="image" style="background:${p.couleur}">${p.emoji}</div>
+          <h3>${p.nom}</h3>
+          <div class="etoiles">★★★★★ <span>${p.note} (${p.avis} avis)</span></div>
+          <p class="desc">${p.desc}</p>
+          <div class="bas-carte">
+            <div class="prix">${p.prix.toFixed(2).replace(".", ",")} €${prixBarre}</div>
+            <button class="bouton ajouter">Ajouter</button>
+          </div>
+        </article>`;
+    });
+
+    // 3) Le panier : à chaque clic sur "Ajouter", le compteur augmente de 1.
+    let nombreArticles = 0;
+    const compteur = document.getElementById("compteur");
+    const toast = document.getElementById("toast");
+
+    function afficherMessage(texte) {
+      toast.textContent = texte;
+      toast.classList.add("visible");
+      setTimeout(function () { toast.classList.remove("visible"); }, 1800);
+    }
+
+    document.querySelectorAll(".ajouter").forEach(function (bouton) {
+      bouton.addEventListener("click", function () {
+        nombreArticles++;
+        compteur.textContent = nombreArticles;
+        afficherMessage("✅ Ajouté au panier !");
+      });
+    });
+
+    // 4) Newsletter : on empêche la page de se recharger et on affiche un merci.
+    document.getElementById("form-newsletter").addEventListener("submit", function (e) {
+      e.preventDefault();
+      e.target.reset();
+      afficherMessage("💌 Merci, tu es inscrit·e !");
+    });
+  </script>
+</body>
+</html>
