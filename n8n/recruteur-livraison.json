@@ -1,0 +1,438 @@
+{
+  "name": "Nora - Recruteur Livraison + Synthèse quotidienne",
+  "nodes": [
+    {
+      "parameters": {
+        "content": "## 1) Agent recruteur (chat)\nLa page recruteur.html envoie chaque message ici. L'IA répond et, quand la candidature est complète, l'enregistre dans Google Sheets.",
+        "height": 160,
+        "width": 420
+      },
+      "name": "Note chat",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -40,
+        -160
+      ],
+      "id": "node-00"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "recruteur-livraison",
+        "responseMode": "responseNode",
+        "options": {
+          "allowedOrigins": "*"
+        }
+      },
+      "name": "Webhook Recruteur",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        0,
+        60
+      ],
+      "webhookId": "recruteur-livraison",
+      "id": "node-01"
+    },
+    {
+      "parameters": {
+        "jsCode": "const body = $json.body || $json;\nconst SYSTEM = \"Tu es Nora, recruteuse IA pour une application de livraison de repas (restaurants -> clients).\\nTu recrutes 3 profils :\\n1) LIVREUR : demande prénom+nom, téléphone, email, ville, véhicule (vélo, scooter, voiture), permis si besoin, disponibilités (jours/horaires), expérience en livraison.\\n2) RESTAURANT partenaire : nom du restaurant, nom du gérant, téléphone, email, adresse/ville, type de cuisine, nombre de commandes/jour estimé, déjà sur une autre plateforme ?\\n3) DEVELOPPEUR : prénom+nom, téléphone, email, ville ou télétravail, technologies (ex: React Native, Flutter, Node.js, Firebase), années d'expérience, lien GitHub/portfolio, disponibilité, prétentions.\\nRègles :\\n- Sois chaleureuse, courte (2 à 3 phrases max), pose UNE ou DEUX questions à la fois.\\n- Réponds dans la langue de l'utilisateur (français, arabe ou anglais).\\n- Ne promets jamais d'embauche : dis que l'équipe recontactera la personne.\\n- Quand tu as au minimum : type, nom, téléphone OU email, ville et 2 infos métier, mets \\\"complet\\\": true et remercie la personne.\\n- Donne un score de 1 à 10 sur l'adéquation du profil.\\nRéponds UNIQUEMENT en JSON valide avec ce format :\\n{\\\"reply\\\": \\\"ta réponse à l'utilisateur\\\", \\\"complet\\\": false, \\\"candidat\\\": {\\\"type\\\": \\\"Livreur|Restaurant|Développeur\\\", \\\"nom\\\": \\\"\\\", \\\"telephone\\\": \\\"\\\", \\\"email\\\": \\\"\\\", \\\"ville\\\": \\\"\\\", \\\"details\\\": \\\"infos métier résumées\\\", \\\"disponibilites\\\": \\\"\\\", \\\"score\\\": 0, \\\"resume\\\": \\\"1 phrase pour le recruteur\\\"}}\";\nconst history = Array.isArray(body.history) ? body.history.slice(-20) : [];\nconst messages = [{ role: 'system', content: SYSTEM }, ...history, { role: 'user', content: String(body.message || '') }];\nreturn [{ json: { messages, sessionId: body.sessionId || '', lang: body.lang || 'fr' } }];"
+      },
+      "name": "Préparer la conversation",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        220,
+        60
+      ],
+      "id": "node-02"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.openai.com/v1/chat/completions",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "openAiApi",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ model: 'gpt-4o-mini', temperature: 0.5, response_format: { type: 'json_object' }, messages: $json.messages }) }}",
+        "options": {}
+      },
+      "name": "IA Nora",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        440,
+        60
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "",
+          "name": "OpenAI account"
+        }
+      },
+      "id": "node-03"
+    },
+    {
+      "parameters": {
+        "jsCode": "let data;\ntry {\n  data = JSON.parse($json.choices[0].message.content);\n} catch (e) {\n  data = { reply: 'Désolée, pouvez-vous répéter ?', complet: false, candidat: {} };\n}\nconst c = data.candidat || {};\nreturn [{ json: {\n  reply: data.reply || '',\n  complet: data.complet === true,\n  date: new Date().toISOString().slice(0, 10),\n  heure: new Date().toTimeString().slice(0, 5),\n  sessionId: $('Préparer la conversation').item.json.sessionId,\n  type: c.type || '', nom: c.nom || '', telephone: c.telephone || '', email: c.email || '',\n  ville: c.ville || '', details: c.details || '', disponibilites: c.disponibilites || '',\n  score: c.score || '', resume: c.resume || ''\n} }];"
+      },
+      "name": "Lire la réponse",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        660,
+        60
+      ],
+      "id": "node-04"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose"
+          },
+          "conditions": [
+            {
+              "id": "c1",
+              "leftValue": "={{ $json.complet }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "name": "Candidature complète ?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        880,
+        60
+      ],
+      "id": "node-05"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "mode": "url",
+          "value": "COLLER_ICI_L_URL_DE_VOTRE_GOOGLE_SHEET"
+        },
+        "sheetName": {
+          "__rl": true,
+          "mode": "name",
+          "value": "Candidats"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Date": "={{ $json.date }}",
+            "Heure": "={{ $json.heure }}",
+            "Type": "={{ $json.type }}",
+            "Nom": "={{ $json.nom }}",
+            "Téléphone": "={{ $json.telephone }}",
+            "Email": "={{ $json.email }}",
+            "Ville": "={{ $json.ville }}",
+            "Détails": "={{ $json.details }}",
+            "Disponibilités": "={{ $json.disponibilites }}",
+            "Score": "={{ $json.score }}",
+            "Résumé": "={{ $json.resume }}",
+            "Session": "={{ $json.sessionId }}"
+          },
+          "matchingColumns": [],
+          "schema": []
+        },
+        "options": {}
+      },
+      "name": "Enregistrer le candidat",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        1100,
+        -40
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "",
+          "name": "Google Sheets account"
+        }
+      },
+      "id": "node-06"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify({ botText: $('Lire la réponse').item.json.reply, saved: $('Lire la réponse').item.json.complet }) }}",
+        "options": {}
+      },
+      "name": "Répondre à la page",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        1320,
+        60
+      ],
+      "id": "node-07"
+    },
+    {
+      "parameters": {
+        "content": "## 2) Synthèse quotidienne (19h)\nChaque soir : lit les candidats du jour dans Google Sheets, l'IA rédige un rapport, envoyé par Gmail.",
+        "height": 160,
+        "width": 420
+      },
+      "name": "Note synthèse",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -40,
+        260
+      ],
+      "id": "node-08"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 19 * * *"
+            }
+          ]
+        }
+      },
+      "name": "Chaque soir à 19h",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        480
+      ],
+      "id": "node-09"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "mode": "url",
+          "value": "COLLER_ICI_L_URL_DE_VOTRE_GOOGLE_SHEET"
+        },
+        "sheetName": {
+          "__rl": true,
+          "mode": "name",
+          "value": "Candidats"
+        },
+        "options": {}
+      },
+      "name": "Lire tous les candidats",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        220,
+        480
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "",
+          "name": "Google Sheets account"
+        }
+      },
+      "alwaysOutputData": true,
+      "id": "node-10"
+    },
+    {
+      "parameters": {
+        "jsCode": "const PROMPT = \"Tu es l'assistant d'un fondateur qui développe une application de livraison de repas. Écris en français la synthèse de recrutement du jour, en HTML simple (h2, h3, ul, li, b, p ; pas de balise html/body). Structure : 1) Chiffres clés (total, par type). 2) Top 3 des meilleurs profils avec pourquoi. 3) Liste par catégorie (Livreurs, Restaurants, Développeurs) avec contact. 4) Actions à faire demain (qui rappeler en priorité). 5) Conseil pour améliorer le recrutement. Sois concis.\";\nconst today = new Date().toISOString().slice(0, 10);\nconst rows = $input.all().map(i => i.json).filter(r => String(r.Date) === today);\nconst lignes = rows.map((r, i) => `${i + 1}. [${r.Type}] ${r.Nom} - ${r.Ville} - tel ${r['Téléphone']} - ${r.Email} - score ${r.Score}/10 - ${r['Détails']} - dispo: ${r['Disponibilités']} - ${r['Résumé']}`);\nconst parType = {};\nrows.forEach(r => { parType[r.Type || 'Autre'] = (parType[r.Type || 'Autre'] || 0) + 1; });\nreturn [{ json: { today, total: rows.length, parType, prompt: PROMPT, texte: lignes.join('\\n') || 'Aucun candidat aujourd\\'hui.' } }];"
+      },
+      "name": "Candidats du jour",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        440,
+        480
+      ],
+      "id": "node-11"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.openai.com/v1/chat/completions",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "openAiApi",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ model: 'gpt-4o-mini', temperature: 0.4, messages: [ { role: 'system', content: $json.prompt }, { role: 'user', content: 'Date : ' + $json.today + '\\nTotal : ' + $json.total + '\\nPar type : ' + JSON.stringify($json.parType) + '\\n\\nCandidats :\\n' + $json.texte } ] }) }}",
+        "options": {}
+      },
+      "name": "IA Synthèse",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        660,
+        480
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "",
+          "name": "OpenAI account"
+        }
+      },
+      "id": "node-12"
+    },
+    {
+      "parameters": {
+        "sendTo": "VOTRE_EMAIL@exemple.com",
+        "subject": "=🛵 Synthèse recrutement du {{ $('Candidats du jour').item.json.today }} ({{ $('Candidats du jour').item.json.total }} candidats)",
+        "message": "={{ $json.choices[0].message.content }}",
+        "options": {}
+      },
+      "name": "Envoyer la synthèse",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        880,
+        480
+      ],
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "",
+          "name": "Gmail account"
+        }
+      },
+      "id": "node-13"
+    }
+  ],
+  "connections": {
+    "Webhook Recruteur": {
+      "main": [
+        [
+          {
+            "node": "Préparer la conversation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Préparer la conversation": {
+      "main": [
+        [
+          {
+            "node": "IA Nora",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IA Nora": {
+      "main": [
+        [
+          {
+            "node": "Lire la réponse",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Lire la réponse": {
+      "main": [
+        [
+          {
+            "node": "Candidature complète ?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Candidature complète ?": {
+      "main": [
+        [
+          {
+            "node": "Enregistrer le candidat",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Répondre à la page",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Enregistrer le candidat": {
+      "main": [
+        [
+          {
+            "node": "Répondre à la page",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Chaque soir à 19h": {
+      "main": [
+        [
+          {
+            "node": "Lire tous les candidats",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Lire tous les candidats": {
+      "main": [
+        [
+          {
+            "node": "Candidats du jour",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Candidats du jour": {
+      "main": [
+        [
+          {
+            "node": "IA Synthèse",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IA Synthèse": {
+      "main": [
+        [
+          {
+            "node": "Envoyer la synthèse",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "Europe/Paris"
+  },
+  "active": false
+}

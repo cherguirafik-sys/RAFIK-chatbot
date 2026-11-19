@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Nora - Recrutement Livraison</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',sans-serif;background:linear-gradient(135deg,#1b2a1f,#2d6a4f);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:16px}
+.box{background:#fff;border-radius:24px;padding:30px;width:100%;max-width:600px;box-shadow:0 25px 80px rgba(0,0,0,.5)}
+.header{text-align:center;margin-bottom:20px}
+.avatar{width:70px;height:70px;background:linear-gradient(135deg,#f77f00,#d62828);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:2em;margin:0 auto 10px}
+h1{color:#1b2a1f;font-size:1.4em}
+.sub{color:#f77f00;font-size:.85em;font-weight:600}
+.net{color:#888;font-size:.75em;margin-top:3px}
+.chat{height:300px;overflow-y:auto;border:2px solid #f0f0f0;border-radius:16px;padding:15px;margin-bottom:15px;background:#fafafa}
+.msg{margin:8px 0;padding:10px 14px;border-radius:18px;max-width:82%;word-wrap:break-word;font-size:.9em;line-height:1.4;white-space:pre-wrap}
+.user{background:linear-gradient(135deg,#1b2a1f,#2d6a4f);color:#fff;margin-left:auto;text-align:right}
+.bot{background:#f0f0f0;color:#333}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:15px}
+.tag{background:#fff4e6;color:#f77f00;padding:6px 12px;border-radius:20px;font-size:.78em;border:1px solid #ffd8a8;cursor:pointer;transition:.2s}
+.tag:hover{background:#f77f00;color:#fff}
+.write{display:flex;gap:8px;margin-bottom:10px}
+.write input{flex:1;padding:12px 14px;border:2px solid #e0e0e0;border-radius:12px;font-size:.9em;min-width:0}
+.send{background:#2d6a4f;color:#fff;border:none;border-radius:12px;padding:0 16px;cursor:pointer;font-size:1em}
+.controls{display:flex;gap:10px;align-items:center}
+.btn{background:linear-gradient(135deg,#f77f00,#d62828);color:#fff;border:none;padding:14px 20px;border-radius:50px;cursor:pointer;font-size:.95em;font-weight:600;flex:1;transition:.2s}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(247,127,0,.5)}70%{box-shadow:0 0 0 10px rgba(247,127,0,0)}}
+.btn.rec{animation:pulse 1s infinite}
+.sel{padding:11px 10px;border:2px solid #e0e0e0;border-radius:12px;font-size:.85em;background:#fff}
+.status{text-align:center;color:#999;font-size:.82em;margin-top:12px;min-height:18px}
+</style>
+</head>
+<body>
+<div class="box">
+  <div class="header">
+    <div class="avatar">🛵</div>
+    <h1>Nora - Recrutement</h1>
+    <div class="sub">Application de livraison de repas</div>
+    <div class="net">Livreurs · Restaurants partenaires · Développeurs</div>
+  </div>
+  <div class="tags">
+    <span class="tag" data-q="Je veux devenir livreur">🛵 Devenir livreur</span>
+    <span class="tag" data-q="Je suis un restaurant et je veux devenir partenaire">🍽️ Restaurant partenaire</span>
+    <span class="tag" data-q="Je suis développeur et je veux rejoindre l'équipe">💻 Développeur</span>
+    <span class="tag" data-q="Comment fonctionne l'application ?">❓ Infos</span>
+  </div>
+  <div class="chat" id="chat">
+    <div class="msg bot">Bonjour ! Je suis Nora 👋 Vous souhaitez devenir livreur, inscrire votre restaurant ou rejoindre l'équipe tech ?</div>
+  </div>
+  <div class="write">
+    <input id="txt" type="text" placeholder="Écrivez votre message..." autocomplete="off">
+    <button class="send" id="send">➤</button>
+  </div>
+  <div class="controls">
+    <select class="sel" id="lang">
+      <option value="fr">🇫🇷 FR</option>
+      <option value="ar">🇸🇦 AR</option>
+      <option value="en">🇬🇧 EN</option>
+    </select>
+    <button class="btn" id="btn">🎤 Parler à Nora</button>
+  </div>
+  <div class="status" id="status">✅ Prête à vous écouter...</div>
+</div>
+
+<script>
+// ⚠️ MODIFIER CETTE URL avec l'adresse de votre webhook N8N
+var WEBHOOK = "https://n8n.srv1360323.hstgr.cloud/webhook/recruteur-livraison";
+
+// Mémoire de la conversation (envoyée à N8N à chaque message)
+var conversation = [];
+// Identifiant unique de ce visiteur (pour regrouper ses messages)
+var sessionId = "s-" + Date.now() + "-" + Math.floor(Math.random() * 100000);
+var LANGS = { fr: "fr-FR", ar: "ar-SA", en: "en-US" };
+
+// --- Reconnaissance vocale du navigateur (gratuite, marche sur Chrome/Edge) ---
+var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+var recog = null, isRec = false;
+
+document.getElementById("btn").onclick = function() {
+  if (!SR) { alert("La voix n'est pas disponible sur ce navigateur. Utilisez Chrome ou écrivez votre message."); return; }
+  if (isRec) { recog.stop(); return; }
+  recog = new SR();
+  recog.lang = LANGS[document.getElementById("lang").value];
+  recog.onresult = function(e) { askText(e.results[0][0].transcript); };
+  recog.onend = function() { setRec(false); };
+  recog.onerror = function() { setRec(false); setStatus("❌ Je n'ai pas compris, réessayez."); };
+  recog.start();
+  setRec(true);
+};
+
+function setRec(on) {
+  isRec = on;
+  var b = document.getElementById("btn");
+  b.className = on ? "btn rec" : "btn";
+  b.textContent = on ? "⏹️ Arrêter" : "🎤 Parler à Nora";
+  if (on) setStatus("🔴 Je vous écoute...");
+}
+
+document.getElementById("send").onclick = sendTyped;
+document.getElementById("txt").onkeydown = function(e) { if (e.key === "Enter") sendTyped(); };
+function sendTyped() {
+  var input = document.getElementById("txt");
+  var t = input.value.trim();
+  if (!t) return;
+  input.value = "";
+  askText(t);
+}
+
+document.querySelectorAll(".tag").forEach(function(tag) {
+  tag.onclick = function() { askText(this.dataset.q); };
+});
+
+function askText(text) {
+  addMsg(text, "user");
+  setStatus("⏳ Nora réfléchit...");
+  fetch(WEBHOOK, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      message: text,
+      history: conversation,
+      sessionId: sessionId,
+      lang: document.getElementById("lang").value
+    })
+  })
+    .then(function(r) { return r.json(); })
+    .then(function(d) {
+      conversation.push({ role: "user", content: text });
+      if (d.botText) {
+        addMsg(d.botText, "bot");
+        conversation.push({ role: "assistant", content: d.botText });
+        speak(d.botText);
+      }
+      conversation = conversation.slice(-20); // on garde les 20 derniers messages
+      setStatus(d.saved ? "✅ Candidature enregistrée, merci !" : "✅ Prête à vous écouter...");
+    })
+    .catch(function() { setStatus("❌ Erreur de connexion"); });
+}
+
+// --- Nora lit sa réponse à voix haute (synthèse vocale du navigateur) ---
+function speak(text) {
+  if (!window.speechSynthesis) return;
+  var u = new SpeechSynthesisUtterance(text);
+  u.lang = LANGS[document.getElementById("lang").value];
+  speechSynthesis.cancel();
+  speechSynthesis.speak(u);
+}
+
+function setStatus(t) { document.getElementById("status").textContent = t; }
+
+function addMsg(text, type) {
+  var d = document.createElement("div");
+  d.className = "msg " + type;
+  d.textContent = text;
+  var c = document.getElementById("chat");
+  c.appendChild(d);
+  c.scrollTop = c.scrollHeight;
+}
+</script>
+</body>
+</html>
