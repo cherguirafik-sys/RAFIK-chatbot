@@ -7,7 +7,7 @@ Dossier du projet de **[Nom de ta société]** : une plateforme locale de livrai
 | `01-business-plan-application.md` | Première version (application mobile classique), gardée pour comparaison |
 | `02-business-plan-whatsapp.md` | ✅ **Le business plan principal (version WhatsApp)** |
 | `03-analyse-concurrent-daba.md` | Analyse du concurrent Daba (trydaba.com) et des autres acteurs |
-| `04-projections-autofinancement.md` | Projections sans prêt (logiciel à 1 € par commande), et avis sur le développeur à 3 000 € |
+| `04-projections-autofinancement.md` | Projections sans prêt en SASU (dividendes uniquement), logiciel à 1 € par commande, avis sur le développeur |
 | `video/synthese-business-plan.mp4` | Vidéo de synthèse en motion design (1 min 40, format vertical, sans son) |
 | `video/animation-source.html` | Source de l'animation (modifiable) |
 | `video/render.js` | Script qui regénère la vidéo : `node render.js` dans le dossier `video/` (Playwright et ffmpeg nécessaires) |

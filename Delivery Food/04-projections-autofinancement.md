@@ -1,138 +1,174 @@
-# Projections en autofinancement : modèle « logiciel WhatsApp à 1 € par commande »
+# Projections en autofinancement : SASU, rémunération en dividendes uniquement
 
-> **Nouveau modèle :** tu vends ton outil de commande WhatsApp aux restaurants, avec ton accompagnement, pour **1 € HT par commande**. Tu ne gères **pas** de livreurs : le restaurant livre lui-même ou propose le retrait sur place.
-> **Sans prêt ni levée de fonds :** tout est payé avec ton argent puis avec les revenus.
-> Ce sont des hypothèses d'exemple, à mettre à jour avec tes vrais chiffres.
+> **Le modèle :** tu vends ton outil de commande WhatsApp aux restaurants, avec ton accompagnement, pour **1 € HT par commande**. Tu ne gères **pas** de livreurs : le restaurant livre lui-même ou propose le retrait sur place.
+> **La structure :** une **SASU**. Le président ne touche **aucun salaire** ; il se rémunère **uniquement en dividendes**.
+> **Le financement :** **aucun prêt**, uniquement ton apport puis les revenus.
+> Ce sont des hypothèses d'exemple. Les taux d'impôt sont à **confirmer avec ton expert-comptable**.
 
 ---
 
-## 1. L'offre du développeur à 3 000 €
+## 1. Comment l'argent arrive dans ta poche en SASU
 
-### Ce qui est intéressant ✅
-- **Le prix** : un freelance français demanderait plutôt 10 000 à 20 000 € pour le même travail. 3 000 €, c'est ce que tu peux financer seul.
-- **L'assistance « à vie »** : sur le papier, c'est un vrai plus.
+```
+Commandes (1 € HT chacune)
+   − charges de la société (serveur, comptable, banque, kits…)
+   = BÉNÉFICE
+   − Impôt sur les sociétés (IS) : 15 % jusqu'à 42 500 €, puis 25 % au-delà
+   = BÉNÉFICE NET  → l'assemblée générale décide de le distribuer en dividendes
+   − Flat tax sur les dividendes : ≈ 31,4 % (12,8 % d'impôt + 18,6 % de prélèvements sociaux)
+   = CE QUI ARRIVE SUR TON COMPTE PERSONNEL
+```
 
-### Ce qui est risqué ⚠️
-| Risque | Pourquoi |
+| Point clé | Explication simple |
 |---|---|
-| « À vie », sans contrat | Une promesse orale ne t'engage à rien. Si le développeur disparaît, tu te retrouves sans support. |
-| Propriété du code | Si le code reste sur **ses** serveurs, l'application ne t'appartient pas vraiment |
-| Qualité et sécurité | Paiements et données clients : un bug peut coûter cher (fraude, plainte, suspension par Meta) |
-| RGPD | Le Pakistan n'a pas de « décision d'adéquation » de l'Union européenne. S'il a accès aux données de tes clients, il faut des **clauses contractuelles types** (CCT). |
-| Communication | Décalage horaire, langue, délais de réponse en cas de panne un vendredi soir |
+| **Pas de salaire = pas de cotisations sociales** | La SASU ne paie aucune charge sociale pour toi. |
+| ⚠️ **Mais pas de protection sociale** | Pas de cotisation retraite et pas d'indemnités en cas de maladie via ta société. Pense à une **épargne retraite** et à une **prévoyance**. |
+| **Taux réduit d'IS à 15 %** | Valable sur les 42 500 premiers euros de bénéfice si le capital est entièrement **libéré** et détenu **par toi** (personne physique) |
+| **Flat tax ≈ 31,4 %** | 30 % jusqu'en 2025 ; la hausse de CSG votée pour 2026 la porte à environ 31,4 %. **À confirmer avec ton comptable.** Tu peux aussi choisir le barème de l'impôt sur le revenu avec un abattement de 40 % si c'est plus avantageux pour toi. |
+| **Les dividendes sont versés une fois par an** | Après la clôture des comptes et l'assemblée générale (dans les 6 mois). Le premier versement arrive donc vers le **mois 13 à 18**. Un acompte en cours d'année est possible avec un bilan intermédiaire. |
+| **France Travail** | En SASU sans salaire, les allocations (ARE) peuvent en général être maintenues. **À vérifier** avec ton conseiller. |
 
-### Les 10 conditions pour dire oui 🛡️
-1. **Un cahier des charges écrit** : la liste précise des écrans et des fonctions (voir §2).
-2. **Un paiement en 3 fois** : 30 % au démarrage, 40 % à la démo qui fonctionne, 30 % après **2 semaines de test réel** dans un restaurant.
-3. **Le code source sur TON compte GitHub** dès le premier jour.
-4. **Tous les comptes à TON nom** : Meta Business, Stripe, serveur, nom de domaine. Tu lui donnes seulement des accès, que tu peux lui retirer.
-5. **Un contrat qui définit l'assistance** : délai de réponse (par exemple 24 h pour une panne), et ce qui est inclus (corrections de bugs) ou non (nouvelles fonctions).
-6. **Une documentation** pour qu'un autre développeur puisse reprendre le projet.
-7. **Des références** : demande-lui une démo d'un bot WhatsApp Cloud API qu'il a déjà réalisé.
-8. **Une plateforme qui protège le paiement** (Upwork, Malt, Fiverr Pro), plutôt qu'un virement direct.
-9. **Les clauses RGPD** (CCT) si des données personnelles passent par lui.
-10. **Une réserve de secours** d'environ **1 000 €** si tu dois changer de développeur.
+### 💡 L'astuce : le compte courant d'associé
 
-👉 **Mon avis :** c'est **intéressant si tu signes un contrat avec ces protections**. Sans contrat, la « lifetime assistance » ne vaut rien.
+Mets **1 000 € en capital**, et prête les **3 500 € de démarrage** (développement + création) à ta société via un **compte courant d'associé**.
+
+👉 Quand la société commence à gagner de l'argent, elle te **rembourse ces 3 500 € sans aucun impôt**, car c'est ton propre argent qui revient. C'est ton premier « revenu », bien avant les dividendes.
 
 ---
 
-## 2. Ce que doit contenir l'application (cahier des charges minimum)
-
-| Partie | Fonctions |
-|---|---|
-| **Robot WhatsApp** (API Cloud de Meta) | Accueil, menu (catalogue), options (sauces, tailles), panier, retrait ou livraison, adresse, récapitulatif, lien de paiement, confirmation, avis |
-| **Paiement** | Stripe Connect : le client paie le restaurant, et **ton 1 € est prélevé automatiquement** (« application fee ») |
-| **Espace restaurant** (web, sur tablette) | Réception des commandes avec son, accepter/refuser, temps de préparation, modifier le menu et les prix, marquer un plat en rupture, ouvrir ou fermer, statistiques |
-| **Ton espace administrateur** | Liste des restaurants, commandes par restaurant, **facturation automatique du 1 € par commande** |
-| **Légal** | Allergènes par plat, lien vers les CGV, consentement marketing |
-
----
-
-## 3. Les hypothèses de calcul
+## 2. Les hypothèses de calcul
 
 | Élément | Valeur |
 |---|---|
-| Ton prix | **1 € HT par commande** |
+| Ton prix | **1 € HT par commande** (Stripe Connect le prélève automatiquement) |
 | Jours d'ouverture d'un restaurant | 28 par mois |
 | Montée en charge d'un nouveau restaurant | 40 % le 1er mois, 70 % le 2e, 100 % à partir du 3e |
-| Nouveaux restaurants | 1 au mois 1, 2 au mois 2, 2 au mois 3 (**5 restaurants à 3 mois**), puis +2 par mois en année 1, +3 en année 2, +4 en année 3 |
-| Développement | 3 000 € payés au départ |
-| Charges fixes | 150 €/mois (serveur, nom de domaine, assurance, téléphone, outils) + 50 €/mois de réserve technique |
-| Par restaurant | 5 €/mois (numéro, frais Stripe Connect) + 80 € de kit de lancement (QR codes, flyers) |
-| Par commande | 0,03 € (messages WhatsApp hors fenêtre de 24 h, serveur) |
-| Cotisations sociales | ≈ 22 % du chiffre d'affaires (micro-entreprise, prestations de services, taux à vérifier) |
-| Frais bancaires Stripe | **Payés par le restaurant** (c'est lui qui encaisse) |
+| Nouveaux restaurants | 1, 2, 2 (**5 restaurants à 3 mois**), puis +2 par mois en année 1, +3 en année 2, +4 en année 3 |
+| Départ | Développement 3 000 € + création de la SASU ≈ 500 € (annonce légale, greffe, statuts) |
+| Charges fixes | 340 €/mois : outils et serveur 150 €, réserve technique 50 €, **expert-comptable 120 €**, banque pro 20 € |
+| CFE | 0 € la première année (exonération), puis ≈ 300 €/an |
+| Par restaurant | 5 €/mois + 80 € de kit de lancement |
+| Par commande | 0,03 € |
+| Salaire du président | **0 €** |
 
-> ⚠️ **Le chiffre clé :** « 10 à 50 commandes par jour », c'est le total du restaurant. Mais **toutes ne passeront pas par WhatsApp** : une partie restera sur Uber Eats, au téléphone ou sur place. Prends donc le **scénario prudent (10 par jour)** pour décider.
-
----
-
-## 4. Les 12 premiers mois : scénario prudent (10 commandes WhatsApp par jour et par restaurant)
-
-| Mois | Restos | Commandes | Chiffre d'affaires | Charges* | Résultat du mois | Trésorerie cumulée |
-|---|---|---|---|---|---|---|
-| 1 | 1 | 112 | 112 € | 313 € | − 201 € | − 3 201 € |
-| 2 | 3 | 420 | 420 € | 480 € | − 60 € | − 3 261 € |
-| 3 | 5 | 896 | 896 € | 609 € | + 287 € | − 2 974 € |
-| 4 | 7 | 1 456 | 1 456 € | 759 € | + 697 € | − 2 277 € |
-| 5 | 9 | 2 016 | 2 016 € | 909 € | + 1 107 € | − 1 170 € |
-| 6 | 11 | 2 576 | 2 576 € | 1 059 € | + 1 517 € | **+ 347 €** ✅ |
-| 9 | 17 | 4 256 | 4 256 € | 1 509 € | + 2 747 € | + 7 358 € |
-| 12 | 23 | 5 936 | 5 936 € | 1 959 € | + 3 977 € | + 18 059 € |
-
-\* Charges = charges fixes + coûts par restaurant et par commande + cotisations (22 %).
-
-- **Argent maximum à avancer : ≈ 3 300 €** (les 3 000 € de développement + les deux premiers mois).
-- **Les 3 000 € sont remboursés au mois 6.**
-- Le « résultat » est **ton revenu avant impôt sur le revenu** : tu ne te verses pas de salaire à part.
+> ⚠️ « 10 à 50 commandes par jour » correspond au total du restaurant, pas uniquement à WhatsApp. **Décide avec le scénario prudent (10 par jour).**
 
 ---
 
-## 5. Les 3 scénarios sur 3 ans
+## 3. Les 12 premiers mois : scénario prudent (10 commandes WhatsApp par jour et par restaurant)
 
-| | **Prudent : 10 / jour** | **Moyen : 25 / jour** | **Fort : 50 / jour** |
+| Mois | Restos | Commandes | Résultat du mois | Trésorerie de la société |
+|---|---|---|---|---|
+| 0 | 0 | 0 | — | − 3 500 € (ton apport en compte courant) |
+| 1 | 1 | 112 | − 316 € | − 3 816 € |
+| 2 | 3 | 420 | − 108 € | − 3 924 € |
+| 3 | 5 | 896 | + 344 € | − 3 580 € |
+| 4 | 7 | 1 456 | + 877 € | − 2 703 € |
+| 5 | 9 | 2 016 | + 1 411 € | − 1 292 € |
+| 6 | 11 | 2 576 | + 1 944 € | **+ 652 €** ✅ |
+| 9 | 17 | 4 256 | + 3 543 € | + 9 682 € |
+| 12 | 23 | 5 936 | + 5 143 € | + 23 511 € |
+
+- **Argent total à avancer : ≈ 3 900 €** (3 500 € au départ, plus environ 400 € pour couvrir les deux premiers mois).
+- **Ton apport peut t'être remboursé, sans impôt, à partir du mois 6.**
+
+---
+
+## 4. Les 3 scénarios sur 3 ans
+
+### Scénario prudent : 10 commandes par jour et par restaurant
+
+| | Année 1 | Année 2 | Année 3 |
 |---|---|---|---|
-| Restaurants à 3 mois | 5 | 5 | 5 |
-| Chiffre d'affaires à 3 mois (mois 3) | 896 € | 2 240 € | 4 480 € |
-| Mise de départ remboursée | **mois 6** | **mois 4** | **mois 3** |
-| **Année 1** : chiffre d'affaires / résultat | 34 700 € / **21 100 €** | 86 700 € / **60 100 €** | 173 500 € / **125 100 €** |
-| **Année 2** (59 restos) : CA / résultat | 133 800 € / **92 500 €** | 334 500 € / **243 100 €** | 669 100 € / **494 000 €** |
-| **Année 3** (107 restos) : CA / résultat | 273 600 € / **193 900 €** | 684 000 € / **501 600 €** | 1 367 900 € / **1 014 600 €** |
+| Restaurants (fin d'année) | 23 | 59 | 107 |
+| Chiffre d'affaires | 34 692 € | 133 812 € | 273 588 € |
+| Charges | 11 181 € | 13 824 € | 21 528 € |
+| **Bénéfice** | 23 511 € | 119 988 € | 252 060 € |
+| Impôt sur les sociétés | − 3 527 € | − 25 747 € | − 58 765 € |
+| Bénéfice net (distribuable) | 19 985 € | 94 241 € | 193 295 € |
+| **💰 Dividendes nets dans ta poche** (après flat tax) | **≈ 13 700 €** | **≈ 64 600 €** | **≈ 132 600 €** |
 
-### Et si tu restes à 5 restaurants seulement ?
+### Scénario moyen : 25 commandes par jour
 
-| Commandes / jour / restaurant | Revenu mensuel net (5 restaurants) |
-|---|---|
-| 10 | ≈ 825 € |
-| 25 | ≈ 2 400 € |
-| 50 | ≈ 5 025 € |
+| | Année 1 | Année 2 | Année 3 |
+|---|---|---|---|
+| Chiffre d'affaires | 86 730 € | 334 530 € | 683 970 € |
+| Bénéfice | 73 988 € | 314 684 € | 650 131 € |
+| Impôt sur les sociétés | − 14 247 € | − 74 421 € | − 158 283 € |
+| **💰 Dividendes nets** | **≈ 41 000 €** | **≈ 164 800 €** | **≈ 337 400 €** |
 
-👉 Avec 5 restaurants, c'est un **complément de revenu**. Pour en vivre, il faut viser **15 à 25 restaurants**.
+### Scénario fort : 50 commandes par jour
+
+| | Année 1 | Année 2 | Année 3 |
+|---|---|---|---|
+| Chiffre d'affaires | 173 460 € | 669 060 € | 1 367 940 € |
+| Bénéfice | 158 116 € | 639 178 € | 1 313 582 € |
+| Impôt sur les sociétés | − 35 279 € | − 155 545 € | − 324 145 € |
+| **💰 Dividendes nets** | **≈ 84 300 €** | **≈ 331 800 €** | **≈ 678 800 €** |
+
+En plus des dividendes, tu récupères en année 1 tes **3 500 € d'apport** sans impôt (compte courant d'associé).
+
+### Et si tu restes à 5 restaurants ?
+
+| Commandes / jour / restaurant | Bénéfice annuel | Dividendes nets par an | Soit par mois |
+|---|---|---|---|
+| 10 | 11 916 € | ≈ 6 950 € | **≈ 580 €** |
+| 25 | 36 360 € | ≈ 21 200 € | **≈ 1 770 €** |
+| 50 | 77 100 € | ≈ 42 600 € | **≈ 3 550 €** |
 
 ---
 
-## 6. Les points d'expertise à ne pas rater
+## 5. Ce qu'il faut savoir sur la SASU en dividendes
 
-| Sujet | Ce qu'il faut savoir |
+| Sujet | À retenir |
 |---|---|
-| **Statut** | Commence en **micro-entreprise**, c'est simple et peu coûteux. ⚠️ Le plafond est d'environ 77 700 € de CA pour les prestations de services (à vérifier) : à passer en **SASU** dès que tu approches ce montant (scénario moyen : dès l'année 1). |
-| **TVA** | Franchise en dessous d'environ 37 500 € de CA (seuil à vérifier). Au-delà, tu factures **1 € HT + 0,20 € de TVA**. Le restaurant la récupère, donc ça ne lui coûte rien de plus. Écris toujours « **1 € HT** » dans tes contrats. |
-| **Facturation** | Stripe Connect prélève le 1 € automatiquement à chaque paiement : **zéro impayé**. Pour le paiement en espèces, facture le restaurant chaque mois. |
-| **Contrat restaurant** | Prix, durée (sans engagement, mais avec 1 mois de préavis), assistance, propriété des données clients, résiliation |
-| **Meta** | Un numéro WhatsApp par restaurant (sa marque) ou un numéro commun : à décider avec le développeur. Chaque restaurant doit **accepter les conditions de Meta**. |
-| **Le temps** | En autofinancement, **ton temps est le vrai coût** : prévois environ 1 jour pour installer chaque restaurant et 1 à 2 h de support par restaurant et par mois. Au-delà de 25 à 30 restaurants, il te faudra de l'aide. |
-| **Perte de clients** | Les projections supposent qu'aucun restaurant ne part. En réalité, compte environ 1 départ sur 10 par an. |
+| **Fiscalité totale** | Sur 100 € de bénéfice, tu touches environ **58 €** : 15 % d'IS, puis environ 31,4 % sur le reste. |
+| **SASU contre micro-entreprise avec 5 restaurants** | La SASU coûte plus cher au début (comptable, banque, double imposition). Avec 5 restaurants à 10 commandes par jour, tu touches environ 580 €/mois en SASU, contre environ 825 €/mois en micro. **La SASU devient intéressante quand le volume augmente.** Elle rassure aussi les restaurants et elle n'a pas de plafond de chiffre d'affaires. |
+| **Expert-comptable** | En pratique indispensable (bilan, liasse fiscale, assemblée générale) : compte 1 200 à 2 000 €/an |
+| **TVA** | Franchise possible sous environ 37 500 € de CA (seuil à vérifier). Au-delà : 1 € HT + 0,20 € de TVA, que le restaurant récupère. |
+| **Réserve légale** | 5 % du bénéfice à mettre de côté jusqu'à atteindre 10 % du capital : avec 1 000 € de capital, ça ne fait que 100 € au total. |
+| **Garder de la trésorerie** | Ne distribue pas 100 % du bénéfice. Garde au moins **3 mois de charges** dans la société en cas de panne ou de restaurant qui part. |
+| **Grossir seul ?** | Au-delà de 25 à 30 restaurants, tu auras besoin d'aide (installation des restaurants, support). Les années 2 et 3 supposent que tu embauches ou que tu sous-traites, ce qui **réduira** ces bénéfices. |
 
 ---
 
-## 7. Ton plan d'action en autofinancement
+## 6. L'offre du développeur à 3 000 €
 
-| Semaine | Action |
+👉 **C'est intéressant si tu signes un contrat avec ces protections.** Sans contrat, la « lifetime assistance » ne vaut rien.
+
+1. **Un cahier des charges écrit** (voir §7).
+2. **Un paiement en 3 fois** : 30 % au démarrage, 40 % à la démo, 30 % après 2 semaines de test dans un vrai restaurant.
+3. **Le code source sur le GitHub de ta SASU** dès le premier jour.
+4. **Tous les comptes au nom de la SASU** : Meta Business, Stripe, serveur, nom de domaine.
+5. **Un contrat qui définit l'assistance** : délais de réponse, ce qui est inclus (bugs) ou non (nouvelles fonctions).
+6. **Une documentation** pour qu'un autre développeur puisse reprendre le projet.
+7. **Des références**, avec la démo d'un bot WhatsApp Cloud API qu'il a déjà réalisé.
+8. **Une plateforme qui protège le paiement** (Upwork, Malt, Fiverr Pro).
+9. **Les clauses RGPD** : clauses contractuelles types, car le Pakistan est hors de l'Union européenne.
+10. **Une réserve de secours** d'environ 1 000 €.
+
+---
+
+## 7. Le cahier des charges minimum de l'application
+
+| Partie | Fonctions |
 |---|---|
-| 1 | Créer ta micro-entreprise et ouvrir les comptes Meta Business et Stripe **à ton nom** |
-| 1-2 | Écrire le cahier des charges (§2) et signer avec le développeur (§1) |
-| 2-6 | Développement. **En parallèle**, démarcher 10 restaurants pour en signer 3 à 5 |
-| 6-8 | Restaurant n°1 en test réel pendant 2 semaines, puis dernier paiement au développeur |
-| Mois 2-3 | Restaurants 2 à 5, avec QR codes et flyers dans les sacs |
-| Mois 3 | Bilan : **combien de commandes WhatsApp par jour, réellement ?** Puis on ajuste les projections. |
+| Robot WhatsApp (API Cloud) | Accueil, menu, options, panier, retrait ou livraison, adresse, récapitulatif, paiement, confirmation, avis |
+| Paiement | Stripe Connect avec un prélèvement automatique de **1 € par commande** |
+| Espace restaurant (tablette) | Commandes avec alerte sonore, accepter/refuser, temps de préparation, menu et prix, ruptures, ouverture et fermeture, statistiques |
+| Ton espace administrateur | Restaurants, commandes, facturation automatique |
+| Légal | Allergènes, CGV, consentement marketing |
+
+---
+
+## 8. Ton plan d'action
+
+| Quand | Action |
+|---|---|
+| Semaine 1 | Créer la **SASU** (capital de 1 000 € entièrement libéré + 3 500 € en compte courant d'associé), ouvrir un compte bancaire pro, choisir un expert-comptable |
+| Semaine 1-2 | Ouvrir les comptes Meta Business et Stripe **au nom de la SASU**, signer avec le développeur |
+| Semaines 2-6 | Développement, et en parallèle démarcher 10 restaurants pour en signer 3 à 5 |
+| Semaines 6-8 | Restaurant n°1 en test réel, puis dernier paiement au développeur |
+| Mois 2-3 | Restaurants 2 à 5 |
+| Mois 6 | Début du remboursement de ton compte courant (sans impôt) |
+| Fin d'année 1 | Clôture des comptes, puis assemblée générale et **premiers dividendes** |
