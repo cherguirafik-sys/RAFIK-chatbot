@@ -20,3 +20,10 @@ Skill : `.claude/skills/3d-stickman` (style maison RicksClips : stickmen 2D dans
 ## Prochaine action
 Recevoir la voix (ou la connexion Higgsfield) → étape 3 (resserrer les silences, -14 LUFS, timing).
 En parallèle (gratuit) : plan des plans + fiche des personnages rendue depuis les rigs SVG.
+
+## Avancement (2026-11-22)
+- Version test SANS VOIX rendue : livraison/plombier_test_sans_voix.mp4 (1080x1920, 30 fps, 14,3 s, h264).
+  Composition `PlombierTest` dans app/ (src/scenes/PlombierTest.tsx). Timing PROVISOIRE (estimation 3,7 mots/s).
+- Voix ElevenLabs (Florian, HvO2LE2Dr2f7xw0c4X9X, eleven_v4, 550 crédits approuvés) : tentative échouée (file gratuite saturée), rien facturé.
+- Rendu dans le conteneur cloud : CHROME=/opt/pw-browsers/chromium_headless_shell-1243/chrome-headless-shell-linux64/chrome-headless-shell REMOTION_GL=swangle
+- Prochaine action : retours de l'utilisateur sur l'image ; réessayer la voix ; recaler le timing sur la vraie voix.
