@@ -5,7 +5,7 @@ Skill : `.claude/skills/3d-stickman` (style maison RicksClips : stickmen 2D dans
 ## Brief
 - Idée de l'utilisateur : un homme entre dans une maison, rencontre des animaux domestiques et des enfants, et joue avec eux.
 - Format : 9:16, 1080x1920, 30 fps, ~60-65 s, sans sous-titres (valeurs par défaut).
-- Langue de narration : français (à confirmer).
+- Langue de narration : français (confirmé par l'utilisateur).
 
 ## Distribution
 - Marc (le plombier, adulte), 2 enfants, 1 gros chien, 1 chat, la maman (une réplique).
