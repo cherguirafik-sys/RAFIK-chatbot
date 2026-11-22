@@ -1,0 +1,80 @@
+{
+  "revision": 1,
+  "fps": 30,
+  "end": 8,
+  "shots": [
+    {
+      "id": "S01",
+      "start": 0,
+      "environment": "courtyard",
+      "mood": "day",
+      "camera": {
+        "position": [
+          3,
+          3,
+          8
+        ],
+        "lookAt": [
+          0,
+          1.4,
+          0
+        ],
+        "endPosition": [
+          2.5,
+          2.8,
+          7.5
+        ]
+      },
+      "actions": {
+        "hero": {
+          "kind": "idle"
+        }
+      },
+      "events": [
+        {
+          "at": 2,
+          "who": "hero",
+          "kind": "hop"
+        }
+      ],
+      "reviewAt": [
+        2.25
+      ],
+      "transition": "cut"
+    },
+    {
+      "id": "S02",
+      "start": "say:Ready for the next one",
+      "environment": "courtyard",
+      "mood": "evening",
+      "camera": {
+        "position": [
+          2.5,
+          2.8,
+          7.5
+        ],
+        "lookAt": [
+          0,
+          1.4,
+          0
+        ],
+        "endPosition": [
+          1,
+          2.4,
+          6.5
+        ]
+      },
+      "actions": {
+        "hero": {
+          "kind": "wave"
+        }
+      },
+      "reviewAt": [
+        0.5,
+        1.5
+      ],
+      "transition": "glide",
+      "transitionFrames": 18
+    }
+  ]
+}

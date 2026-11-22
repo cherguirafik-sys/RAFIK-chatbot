@@ -1,0 +1,98 @@
+{
+  "width": 1080,
+  "height": 1920,
+  "background": "#b5c9cd",
+  "narration": null,
+  "characters": [
+    {
+      "id": "hero",
+      "position": [
+        0,
+        0,
+        0
+      ],
+      "height": 2.5,
+      "color": "#327a9e"
+    }
+  ],
+  "environments": [
+    {
+      "id": "courtyard",
+      "ground": "#c4b498",
+      "props": [
+        {
+          "id": "wall",
+          "type": "box",
+          "position": [
+            0,
+            2,
+            -3
+          ],
+          "size": [
+            8,
+            4,
+            0.3
+          ],
+          "color": "#d9b383"
+        },
+        {
+          "id": "bench",
+          "type": "box",
+          "position": [
+            -2,
+            0.45,
+            -1
+          ],
+          "size": [
+            1.8,
+            0.25,
+            0.6
+          ],
+          "color": "#697b71"
+        },
+        {
+          "id": "marker",
+          "type": "cylinder",
+          "position": [
+            2,
+            0.55,
+            -1
+          ],
+          "size": [
+            0.3,
+            1.1,
+            0.3
+          ],
+          "color": "#b8614e"
+        }
+      ]
+    }
+  ],
+  "moods": {
+    "day": {
+      "ambient": 1.2,
+      "sun": 2.2,
+      "sunColor": "#ffe1b1",
+      "position": [
+        -3,
+        7,
+        5
+      ],
+      "background": "#b5c9cd"
+    },
+    "evening": {
+      "ambient": 0.9,
+      "sun": 1.3,
+      "sunColor": "#eec2a0",
+      "position": [
+        -4,
+        5,
+        3
+      ],
+      "background": "#a5b7ca"
+    }
+  },
+  "qa": {
+    "exceptions": []
+  }
+}

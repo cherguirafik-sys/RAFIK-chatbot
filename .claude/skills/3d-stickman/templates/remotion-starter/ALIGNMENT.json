@@ -1,0 +1,17 @@
+{
+  "duration": 8,
+  "method": "synthetic silent demonstration; not audio alignment",
+  "verified": false,
+  "phrases": [
+    {
+      "text": "A small step",
+      "s": 0,
+      "e": 3.5
+    },
+    {
+      "text": "Ready for the next one",
+      "s": 4,
+      "e": 7.7
+    }
+  ]
+}

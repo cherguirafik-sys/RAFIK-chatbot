@@ -1,0 +1,10 @@
+export type V=[number,number,number];
+export type Action={kind?:string;face?:string;angles?:Record<string,number>;to?:V;over?:number};
+export type CharacterSpec={id:string;position:V;height:number;color?:string;rig?:string};
+export type CameraSpec={position:V;lookAt:V;endPosition?:V;endLookAt?:V;fov?:number};
+export type Shot={id:string;a:number;b:number;environment:string;mood:string;camera:CameraSpec;actions:Record<string,Action>;events:{frame:number;who?:string;kind?:string;face?:string;angles?:Record<string,number>;ease?:number}[];reviewFrames:number[];transition?:'cut'|'glide'|'dissolve';transitionFrames?:number};
+export type Prop={id:string;type:'box'|'cylinder'|'image'|'model';position:V;size:V;color?:string;file?:string;texture?:string;rotation?:V};
+export type Environment={id:string;ground:string;groundTexture?:string;backdrop?:string;props:Prop[]};
+export type Mood={ambient:number;sun:number;sunColor:string;position:V;background:string};
+export type SceneSpec={width:number;height:number;background:string;narration:string|null;characters:CharacterSpec[];environments:Environment[];moods:Record<string,Mood>;qa?:{exceptions:{shot:string;flag:string;reason:string}[]}};
+export type Rig={size:[number,number];feetY:number;layers:{id:string;file:string;box:[number,number,number,number];pivot:[number,number];parent?:string}[];faces:Record<string,{file:string;layer:string}>};

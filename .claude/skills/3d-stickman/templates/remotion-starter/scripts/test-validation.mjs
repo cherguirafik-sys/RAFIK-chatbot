@@ -1,0 +1,17 @@
+import assert from 'node:assert/strict';
+import {createRequire} from 'node:module';
+import fs from 'node:fs';
+import * as THREE from 'three';
+import ts from 'typescript';
+import {validateScene} from './validate.mjs';
+const require=createRequire(import.meta.url);const compiled=ts.transpileModule(fs.readFileSync('src/qa.ts','utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS}}).outputText;
+const exports={};new Function('require','exports',compiled)(require,exports);const {probeScene}=exports;
+const scene=new THREE.Scene(),camera=new THREE.PerspectiveCamera(40,1080/1920,.1,100);camera.position.set(0,2,8);camera.lookAt(0,1.5,0);
+const subject=new THREE.Sprite(new THREE.SpriteMaterial());subject.position.set(0,1.5,0);subject.scale.set(1,2,1);subject.userData={qaSubject:'hero',alphaBounds:[0,0,1,1]};scene.add(subject);
+assert.deepEqual(probeScene(scene,camera),[]);
+subject.position.x=20;assert(probeScene(scene,camera).some(f=>f.flag==='SUBJECT_CLIPPED'));subject.position.x=0;
+const blocker=new THREE.Mesh(new THREE.BoxGeometry(3,4,1),new THREE.MeshBasicMaterial());blocker.position.set(0,2,3);blocker.userData.qaObstacle='wall';scene.add(blocker);assert(probeScene(scene,camera).some(f=>f.flag==='SUBJECT_OCCLUDED'));
+camera.position.copy(blocker.position);assert(probeScene(scene,camera).some(f=>f.flag==='CAMERA_INSIDE_PROP'));
+const spec=JSON.parse(fs.readFileSync('SCENE.json')),timeline=JSON.parse(fs.readFileSync('TIMELINE.json'));assert.deepEqual(validateScene(spec,timeline,process.cwd()),[]);
+const bad=structuredClone(timeline);bad.shots[0].environment='missing';bad.shots[1].a++;assert(validateScene(spec,bad,process.cwd()).length>=2);
+console.log('Scene validation and geometry checks passed: clear scene, clipping, occlusion, camera collision, missing environment, timeline gap.');

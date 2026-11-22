@@ -1,0 +1,107 @@
+{
+  "revision": 1,
+  "fps": 30,
+  "durationInFrames": 240,
+  "alignment": {
+    "method": "synthetic silent demonstration; not audio alignment",
+    "verified": false,
+    "duration": 8
+  },
+  "shots": [
+    {
+      "id": "S01",
+      "environment": "courtyard",
+      "mood": "day",
+      "camera": {
+        "position": [
+          3,
+          3,
+          8
+        ],
+        "lookAt": [
+          0,
+          1.4,
+          0
+        ],
+        "endPosition": [
+          2.5,
+          2.8,
+          7.5
+        ]
+      },
+      "actions": {
+        "hero": {
+          "kind": "idle"
+        }
+      },
+      "reviewAt": [
+        2.25
+      ],
+      "transition": "cut",
+      "a": 0,
+      "b": 120,
+      "events": [
+        {
+          "who": "hero",
+          "kind": "hop",
+          "frame": 60
+        }
+      ],
+      "reviewFrames": [
+        0,
+        59,
+        60,
+        68,
+        119
+      ]
+    },
+    {
+      "id": "S02",
+      "environment": "courtyard",
+      "mood": "evening",
+      "camera": {
+        "position": [
+          2.5,
+          2.8,
+          7.5
+        ],
+        "lookAt": [
+          0,
+          1.4,
+          0
+        ],
+        "endPosition": [
+          1,
+          2.4,
+          6.5
+        ]
+      },
+      "actions": {
+        "hero": {
+          "kind": "wave"
+        }
+      },
+      "reviewAt": [
+        0.5,
+        1.5
+      ],
+      "transition": "glide",
+      "transitionFrames": 18,
+      "a": 120,
+      "b": 240,
+      "events": [],
+      "reviewFrames": [
+        120,
+        135,
+        165,
+        179,
+        239
+      ]
+    }
+  ],
+  "events": [],
+  "xfade": [],
+  "planned": [],
+  "flash": null,
+  "sourceHash": "88617f926a82cce11cc98973d78a4faf31c525bdd320df039f24644b02436941"
+}
