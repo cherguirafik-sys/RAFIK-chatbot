@@ -11,7 +11,8 @@ Skill : `.claude/skills/3d-stickman` (style maison RicksClips : stickmen 2D dans
 - Marc (le plombier, adulte), 2 enfants, 1 gros chien, 1 chat, la maman (une réplique).
 
 ## Décisions
-- Script : v1 brouillon (SCRIPT.md), validation en attente.
+- Script : l'utilisateur veut d'abord une VERSION TEST courte (SCRIPT_TEST.md, ~14 s). Le v1 long (SCRIPT.md) est gardé pour plus tard.
+- Voix : ElevenLabs (choix final, remplace Higgsfield). Voix proposée : Lucas Doré - Casual Narrator (ULDw9NhSQODAHXxn70tR), modèle eleven_v4. Devis : 550 crédits pour 2 prises. Compte gratuit : 3 733 crédits restants.
 - Voix : **Higgsfield** choisi par l'utilisateur. Higgsfield n'est PAS connecté à la session du 2026-11-22.
   Options : connecter le connecteur Higgsfield puis nouvelle session, OU l'utilisateur génère le MP3 et l'envoie.
 - Assets : réutiliser d'abord les 16 GLB + panoramas inclus ; toute génération payante passe par un tableau de coûts approuvé.
