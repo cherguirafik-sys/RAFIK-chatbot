@@ -1,0 +1,47 @@
+{
+ "source": "voice/prise2.mp3 -> app/public/nar_plombier.wav",
+ "method": "phrase boundaries from silencedetect pauses, mapped to script phrases by order; NOT word-aligned",
+ "verified": false,
+ "phrases": [
+  {
+   "text": "Marc est venu réparer un robinet,",
+   "s": 0.0,
+   "e": 1.686
+  },
+  {
+   "text": "et il est reparti avec une couronne en carton sur la tête.",
+   "s": 1.837,
+   "e": 4.211
+  },
+  {
+   "text": "En entrant,",
+   "s": 4.362,
+   "e": 4.972
+  },
+  {
+   "text": "il s'est mis à genoux pour ouvrir sa caisse à outils.",
+   "s": 5.123,
+   "e": 7.206
+  },
+  {
+   "text": "Tu vois, pour un chien et deux enfants,",
+   "s": 7.357,
+   "e": 9.408
+  },
+  {
+   "text": "un adulte à genoux, ça veut dire :",
+   "s": 9.559,
+   "e": 11.087
+  },
+  {
+   "text": "on joue !",
+   "s": 11.238,
+   "e": 11.773
+  },
+  {
+   "text": "Le robinet, lui, fuit toujours.",
+   "s": 11.924,
+   "e": 13.66
+  }
+ ]
+}

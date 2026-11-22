@@ -9,13 +9,13 @@ import {GLB} from '../shared/GLB';
 import {Backdrop} from '../shared/Backdrop';
 import {Shell, flashAt} from '../shared/Shell';
 
-// PROVISIONAL timing (no narration yet): ~3.7 words/s estimate on SCRIPT_TEST.md.
+// Timing from voice/ALIGNMENT.json (take 2, phrase-level from pauses, not word-aligned).
 // S1 "Marc est venu réparer un robinet,"                          0-66   exterior, arrives
 // S2 "et il est reparti avec une couronne en carton sur la tête." 66-138  exterior, leaves crowned
 // S3 "En entrant, il s'est mis à genoux pour ouvrir sa caisse..." 138-234 interior wide, kneels
 // S4 "Tu vois, pour un chien et deux enfants, ... on joue !"     234-364 interior close, play
 // S5 "Le robinet, lui, fuit toujours."                            364-430 sink close-up
-export const T = {s2: 66, s3: 138, s4: 234, dog: 250, kids: 286, play: 334, s5: 364, end: 430};
+export const T = {s2: 55, s3: 131, s4: 221, dog: 252, kids: 267, play: 337, s5: 358, end: 412};
 const ci = (f: number, a: number[], b: number[]) => interpolate(f, a, b, {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});
 
 const MARC: Look = {moustache: true, skin: '#f6ece6', outfit: {style: 'overalls', main: '#3a6fc0', second: '#e05a3a', trim: '#f0c040'}, boots: '#3a2a20'};
@@ -269,14 +269,14 @@ export const PlombierTest: React.FC = () => {
 
 	if (f < T.s2) {
 		// Marc arrives at the door with his toolbox
-		const walkIn = ci(f, [0, 34], [0, 1]);
+		const walkIn = ci(f, [0, 30], [0, 1]);
 		const mp: V = [1.3 - walkIn * 0.6, 0, -0.9 - walkIn * 0.9];
 		const m = P(mp);
-		const walking = f < 34;
-		add(mp, <Person key="marc" x={m.x} y={m.y} h={m.ppm * H} look={MARC} t={f} pose={{facing: -1, walk: walking ? f * 0.5 : undefined, eyes: 'open', mouth: 'dash', lookX: 0.8, armR: 6, armL: f > 44 ? 150 : 14, lean: walking ? 3 : 0}} holdR={<g transform="translate(0,8)"><Toolbox s={0.7} /></g>} />);
-		if (f > 46) {
+		const walking = f < 30;
+		add(mp, <Person key="marc" x={m.x} y={m.y} h={m.ppm * H} look={MARC} t={f} pose={{facing: -1, walk: walking ? f * 0.5 : undefined, eyes: 'open', mouth: 'dash', lookX: 0.8, armR: 6, armL: f > 36 ? 150 : 14, lean: walking ? 3 : 0}} holdR={<g transform="translate(0,8)"><Toolbox s={0.7} /></g>} />);
+		if (f > 38) {
 			const bell = P([0.3, 1.6, -2.05]);
-			add([0, 9, 0], <Sparkle key="bell" x={bell.x} y={bell.y} s={ci(f, [46, 50, 62], [0, 1.4, 0])} o={ci(f, [46, 50, 64], [0, 1, 0])} rot={f * 6} />);
+			add([0, 9, 0], <Sparkle key="bell" x={bell.x} y={bell.y} s={ci(f, [38, 42, 54], [0, 1.4, 0])} o={ci(f, [38, 42, 55], [0, 1, 0])} rot={f * 6} />);
 		}
 	} else if (f < T.s3) {
 		// leaves crowned, kids + dog wave from the door
@@ -308,7 +308,7 @@ export const PlombierTest: React.FC = () => {
 		const mp: V = [-0.45, 0, 0.5];
 		const m = P(mp);
 		const kneelU = easeOut((f - T.s3 - 4) / 12);
-		const open = easeOut((f - 182) / 10);
+		const open = easeOut((f - 188) / 10);
 		const tp: V = [0.2, 0, 0.62];
 		const tb = P(tp);
 		add(mp, <Kneel key="marc" x={m.x} y={m.y - (1 - kneelU) * m.ppm * 0.35} h={m.ppm * H} look={MARC} t={f} pose={{facing: 1, eyes: 'open', mouth: 'dash', lookX: 1, handR: open > 0 ? [96, -170] : [70, -190], armL: 20, lean: 6}} />);
@@ -317,7 +317,7 @@ export const PlombierTest: React.FC = () => {
 		kids.forEach(([x, z, lk, fc], i) => {
 			const kp: V = [x, 0, z];
 			const k = P(kp);
-			const peek = ci(f, [150 + i * 10, 166 + i * 10], [0, 1]);
+			const peek = ci(f, [T.s3 + 12 + i * 10, T.s3 + 28 + i * 10], [0, 1]);
 			add(kp, <Person key={`k${i}`} x={k.x} y={k.y} h={k.ppm * KID} look={lk} t={f} pose={{facing: fc as 1 | -1, eyes: f > 190 ? 'wide' : 'open', mouth: f > 190 ? 'o' : 'dash', lookX: 1, armL: 10, armR: 10, lean: peek * 8}} />);
 		});
 		const dp: V = [0.85, 0, 0.1];
@@ -396,6 +396,7 @@ export const PlombierTest: React.FC = () => {
 			world={outside ? <Outside /> : <Inside f={f} />}
 			cast={[...cast.map((x) => x.n), ...snow]}
 			flash={Math.min(1, flash)}
+			audio="nar_plombier.wav"
 			tint={outside ? '1.0 0 0 0 0.0  0 1.0 0 0 0.01  0 0 1.03 0 0.02  0 0 0 1 0' : '1.04 0 0 0 0.02  0 0.98 0 0 0.01  0 0 0.9 0 0  0 0 0 1 0'}
 		/>
 	);

@@ -27,3 +27,9 @@ En parallèle (gratuit) : plan des plans + fiche des personnages rendue depuis l
 - Voix ElevenLabs (Florian, HvO2LE2Dr2f7xw0c4X9X, eleven_v4, 550 crédits approuvés) : tentative échouée (file gratuite saturée), rien facturé.
 - Rendu dans le conteneur cloud : CHROME=/opt/pw-browsers/chromium_headless_shell-1243/chrome-headless-shell-linux64/chrome-headless-shell REMOTION_GL=swangle
 - Prochaine action : retours de l'utilisateur sur l'image ; réessayer la voix ; recaler le timing sur la vraie voix.
+
+## Voix (mise à jour)
+- Prise 2 choisie par l'utilisateur. Kie.ai connecté (626,3 crédits) mais NON utilisé : l'utilisateur garde la voix ElevenLabs actuelle.
+- Traitement : pauses ramenées à 0,16 s, atempo 1,06, loudnorm -14 LUFS -> app/public/nar_plombier.wav (13,67 s, -14,5 LUFS mesuré).
+- Timing : voice/ALIGNMENT.json, au niveau des phrases (déduit des pauses, PAS aligné mot à mot, non vérifié par transcription).
+- Timeline : s2=55, s3=131, s4=221, chien=252, enfants=267, on joue=337, robinet=358, fin=412 (30 fps).
