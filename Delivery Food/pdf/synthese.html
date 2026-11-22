@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8"><title>Synthèse du projet</title>
+<style>
+@page{size:297mm 210mm;margin:0}
+:root{--ink:#0d2a20;--mut:#5b7a6e;--g:#1fb85a;--g2:#0e7c5a;--gl:#e6f8ee;--gold:#f2a516;--red:#e4504f;--line:#d7e9df;--bg:#f7fbf9}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Inter,"Noto Color Emoji",sans-serif;color:var(--ink);-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.page{width:297mm;height:210mm;padding:14mm 16mm 12mm;position:relative;overflow:hidden;page-break-after:always;background:#fff;display:flex;flex-direction:column}
+.page:last-child{page-break-after:auto}
+.hd{display:flex;justify-content:space-between;align-items:center;font-size:9pt;letter-spacing:2px;color:var(--mut);font-weight:600;margin-bottom:6mm}
+.hd b{color:var(--g2)}
+.ft{position:absolute;bottom:7mm;left:16mm;right:16mm;display:flex;justify-content:space-between;font-size:8pt;color:var(--mut)}
+.kick{font-size:10pt;letter-spacing:3px;color:var(--g);font-weight:800;text-transform:uppercase}
+h1{font-size:40pt;line-height:1.02;font-weight:800;letter-spacing:-1px}
+h2{font-size:24pt;line-height:1.1;font-weight:800;letter-spacing:-.5px;margin:1.5mm 0 5mm}
+p,li{font-size:11pt;line-height:1.45}
+.mut{color:var(--mut)}.g{color:var(--g2)}.gold{color:var(--gold)}.red{color:var(--red)}
+.grid{display:grid;gap:5mm}.g2{grid-template-columns:1fr 1fr}.g3{grid-template-columns:repeat(3,1fr)}.g4{grid-template-columns:repeat(4,1fr)}
+.card{background:var(--bg);border:1px solid var(--line);border-radius:5mm;padding:5mm 6mm}
+.card.hi{background:var(--gl);border-color:var(--g)}
+.card h3{font-size:12.5pt;margin-bottom:2mm}
+.kpi .v{font-size:26pt;font-weight:800;letter-spacing:-1px;line-height:1.05}
+.kpi .l{font-size:9.5pt;color:var(--mut);margin-top:1mm}
+table{width:100%;border-collapse:collapse;font-size:10pt}
+th{background:var(--ink);color:#fff;text-align:left;padding:2.2mm 3mm;font-weight:700}
+td{padding:2mm 3mm;border-bottom:1px solid var(--line)}
+tr:nth-child(even) td{background:var(--bg)}
+td.r,th.r{text-align:right}
+.pill{display:inline-block;padding:1mm 3mm;border-radius:10mm;font-size:8.5pt;font-weight:700;background:var(--gl);color:var(--g2)}
+.pill.w{background:#fff3db;color:#a26a00}.pill.r{background:#fde5e5;color:var(--red)}
+ul.ck{list-style:none}ul.ck li{padding-left:7mm;position:relative;margin-bottom:1.6mm;font-size:10.5pt}
+ul.ck li:before{content:"✓";position:absolute;left:0;top:0;width:5mm;height:5mm;border-radius:50%;background:var(--g);color:#fff;font-size:8pt;font-weight:800;display:flex;align-items:center;justify-content:center}
+ul.ck.warn li:before{content:"!";background:var(--gold)}
+.steps{display:flex;gap:3mm;align-items:stretch}
+.step{flex:1;background:var(--bg);border:1px solid var(--line);border-radius:4mm;padding:4mm;position:relative}
+.step .n{width:8mm;height:8mm;border-radius:50%;background:var(--g);color:#fff;font-weight:800;display:flex;align-items:center;justify-content:center;font-size:10pt;margin-bottom:2mm}
+.step .t{font-weight:800;font-size:11pt}.step .d{font-size:9pt;color:var(--mut);margin-top:1mm;line-height:1.35}
+.cover{background:linear-gradient(135deg,#07140f 0%,#0c3a2a 60%,#128c5e 100%);color:#fff;justify-content:center}
+.cover .kick{color:#5ee6a0}.cover .mut{color:#b7dccb}
+.flow{display:flex;align-items:center;gap:2mm;font-size:10pt}
+.flow .box{flex:1;text-align:center;padding:3.5mm 2mm;border-radius:4mm;background:var(--bg);border:1px solid var(--line);font-weight:700}
+.flow .box small{display:block;font-weight:500;color:var(--mut);font-size:8.5pt;margin-top:.8mm}
+.flow .ar{color:var(--g);font-weight:800;font-size:14pt}
+.note{font-size:8.5pt;color:var(--mut);margin-top:3mm;line-height:1.4}
+svg text{font-family:Inter,sans-serif}
+</style></head><body>
+
+<!-- 1 COVER -->
+<section class="page cover">
+  <div class="kick">Delivery Food · Synthèse du projet</div>
+  <h1 style="font-size:50pt;margin:5mm 0">La commande de repas<br><span style="color:#5ee6a0">directement sur WhatsApp</span></h1>
+  <p class="mut" style="font-size:15pt;max-width:200mm">Logiciel + accompagnement pour restaurants, snacks et fast-foods. SASU en autofinancement, rémunération en dividendes.</p>
+  <div class="grid g4" style="margin-top:14mm;max-width:250mm">
+    <div><div style="font-size:28pt;font-weight:800">≈ 3 500 €</div><div class="mut">mise de départ</div></div>
+    <div><div style="font-size:28pt;font-weight:800">Mois 4</div><div class="mut">trésorerie positive*</div></div>
+    <div><div style="font-size:28pt;font-weight:800">12 restos</div><div class="mut">pour 3 000 € nets / mois*</div></div>
+    <div><div style="font-size:28pt;font-weight:800">0 €</div><div class="mut">de prêt</div></div>
+  </div>
+  <p class="mut" style="position:absolute;bottom:12mm;left:16mm;font-size:9pt">[Nom de ta société] · Synthèse du 22 novembre 2026 · *avec la nouvelle offre, scénario prudent · hypothèses à valider sur le terrain</p>
+</section>
+
+<!-- 2 PROJET EN 1 PAGE -->
+<section class="page">
+  <div class="hd"><span>DELIVERY FOOD · <b>LE PROJET EN 1 PAGE</b></span><span>02</span></div>
+  <div class="kick">L'essentiel</div><h2>Un canal de commande WhatsApp, vendu aux restaurants</h2>
+  <div class="grid g3" style="flex:1">
+    <div class="card"><h3>😣 Le problème</h3><p>Uber Eats et Deliveroo prennent <b class="red">25 à 35 %</b> de commission. Sur un panier de 25 €, le restaurant perd environ <b>7,50 €</b>.<br><br>Les clients ne veulent plus télécharger une application de plus.</p></div>
+    <div class="card hi"><h3>💡 La solution</h3><p>Le client commande et paie <b>dans WhatsApp</b> : menu, panier, retrait ou livraison, paiement par lien sécurisé.<br><br>Le restaurant livre lui-même ou propose le retrait. <b>Tu ne gères pas de livreurs.</b></p></div>
+    <div class="card"><h3>💶 Le modèle</h3><p><b>1,50 € HT</b> par commande + <b>49 €/mois</b> d'abonnement + <b>199 €</b> d'installation + options marketing.<br><br>Toujours <b>5 fois moins cher</b> qu'Uber Eats pour le restaurant.</p></div>
+    <div class="card"><h3>🏢 La structure</h3><p><b>SASU</b>, aucun salaire, rémunération en <b>dividendes</b>. Capital de 1 000 € + 3 500 € en compte courant d'associé (remboursable sans impôt).</p></div>
+    <div class="card"><h3>🛠️ La technique</h3><p>API WhatsApp Business (Meta) + Stripe Connect + espace restaurant sur tablette. Développement : <b>3 000 €</b>, sous contrat.</p></div>
+    <div class="card"><h3>🎯 L'objectif</h3><p><b>5 restaurants en 3 mois</b>, puis +2 par mois.<br>Environ 12 restaurants = <b>3 000 € nets par mois</b> en dividendes (scénario prudent).</p></div>
+  </div>
+  <div class="ft"><span>[Nom de ta société]</span><span>Synthèse · hypothèses à valider</span></div>
+</section>
+
+<!-- 3 PARCOURS -->
+<section class="page">
+  <div class="hd"><span>DELIVERY FOOD · <b>COMMENT ÇA MARCHE</b></span><span>03</span></div>
+  <div class="kick">Le parcours client</div><h2>De « Bonjour » à « Commande confirmée » en moins d'une minute</h2>
+  <div class="steps">
+    <div class="step"><div class="n">1</div><div class="t">Scanne</div><div class="d">QR code en vitrine, sur les sacs, sur Instagram : la conversation WhatsApp s'ouvre</div></div>
+    <div class="step"><div class="n">2</div><div class="t">Choisit</div><div class="d">Menu en catalogue, options (sauces, tailles), panier</div></div>
+    <div class="step"><div class="n">3</div><div class="t">Retrait ou livraison</div><div class="d">Ou commande à table / au comptoir</div></div>
+    <div class="step"><div class="n">4</div><div class="t">Paie</div><div class="d">Lien Stripe : carte, Apple Pay, Google Pay</div></div>
+    <div class="step"><div class="n">5</div><div class="t">Est notifié</div><div class="d">« Commande confirmée », « Prête », « En route »</div></div>
+    <div class="step"><div class="n">6</div><div class="t">Revient</div><div class="d">Avis + bouton « Recommander »</div></div>
+  </div>
+  <div class="kick" style="margin-top:8mm">L'architecture</div>
+  <div class="flow" style="margin-top:3mm">
+    <div class="box">📱 Client<small>WhatsApp</small></div><div class="ar">→</div>
+    <div class="box">API Cloud Meta<small>WhatsApp Business</small></div><div class="ar">→</div>
+    <div class="box" style="background:var(--gl);border-color:var(--g)">🤖 Ton robot<small>commande + panier</small></div><div class="ar">→</div>
+    <div class="box">💳 Stripe Connect<small>ton 1,50 € prélevé auto</small></div><div class="ar">→</div>
+    <div class="box">🍔 Restaurant<small>tablette : accepter / préparer</small></div>
+  </div>
+  <div class="grid g3" style="margin-top:7mm">
+    <div class="card"><h3>👤 Client</h3><p>WhatsApp uniquement. Rien à télécharger.</p></div>
+    <div class="card"><h3>🍔 Restaurant</h3><p>Commandes avec alerte sonore, menu, ruptures, statistiques, campagnes.</p></div>
+    <div class="card"><h3>🧑‍💼 Toi</h3><p>Installation, accompagnement, support, facturation automatique.</p></div>
+  </div>
+  <div class="ft"><span>[Nom de ta société]</span><span>Synthèse · hypothèses à valider</span></div>
+</section>
+
+<!-- 4 CONCURRENT -->
+<section class="page">
+  <div class="hd"><span>DELIVERY FOOD · <b>CONCURRENCE</b></span><span>04</span></div>
+  <div class="kick">Analyse du concurrent</div><h2>Daba (trydaba.com), édité par RusHour SAS, Paris</h2>
+  <div class="grid g2" style="grid-template-columns:1.35fr 1fr">
+    <table>
+      <tr><th></th><th>Uber Eats</th><th>Daba</th><th>Toi</th></tr>
+      <tr><td><b>Coût restaurant</b> (panier 25 €)</td><td class="red">≈ 7,50 €</td><td>Sur devis</td><td class="g"><b>1,50 € + 49 €/mois</b></td></tr>
+      <tr><td><b>Prix affichés</b></td><td>Oui</td><td class="red">Non</td><td class="g"><b>Oui</b></td></tr>
+      <tr><td><b>Canal</b></td><td>Application</td><td>WhatsApp + IA</td><td>WhatsApp</td></tr>
+      <tr><td><b>Livraison</b></td><td>Leurs coursiers</td><td>Uber Direct</td><td>Restaurant ou retrait</td></tr>
+      <tr><td><b>Accompagnement</b></td><td>Faible</td><td>À distance</td><td class="g"><b>Local, en personne</b></td></tr>
+      <tr><td><b>Cible</b></td><td>Tout le monde</td><td>Restaurants équipés</td><td class="g"><b>Snacks de quartier</b></td></tr>
+    </table>
+    <div>
+      <div class="card" style="margin-bottom:4mm"><h3>💪 Forces de Daba</h3><ul class="ck"><li>Soutenu par RusHour (restaurants déjà clients)</li><li>Agent IA, connexion aux caisses</li><li>Kit de lancement marketing</li></ul></div>
+      <div class="card hi"><h3>🎯 Tes angles d'attaque</h3><ul class="ck"><li>Prix <b>affichés et simples</b></li><li><b>Proximité</b> : installation et support en personne</li><li>Petits snacks <b>sans caisse connectée</b></li><li>Villes où <b>Uber Direct n'existe pas</b></li></ul></div>
+    </div>
+  </div>
+  <p class="note">Autres acteurs « 0 % commission » : MonSnack, Deli-Free, Bizzlite, Châtaigne (Suisse), Chatmeal. Le « 0 % commission » n'est plus un argument unique : ta différence, c'est l'accompagnement local. Sources : trydaba.com (22/11/2026).</p>
+  <div class="ft"><span>[Nom de ta société]</span><span>Synthèse · hypothèses à valider</span></div>
+</section>
+
+<!-- 5 OFFRE -->
+<section class="page">
+  <div class="hd"><span>DELIVERY FOOD · <b>TON OFFRE</b></span><span>05</span></div>
+  <div class="kick">La grille de prix recommandée</div><h2>Plus de revenus récurrents, toujours 5 fois moins cher qu'Uber Eats</h2>
+  <div class="grid g4">
+    <div class="card kpi hi"><div class="v g">1,50 €</div><div class="l">HT par commande<br>prélevé automatiquement par Stripe</div></div>
+    <div class="card kpi"><div class="v">49 €</div><div class="l">par mois d'abonnement<br>tableau de bord + support</div></div>
+    <div class="card kpi"><div class="v">199 €</div><div class="l">d'installation (une fois)<br>menu, QR codes, flyers, formation</div></div>
+    <div class="card kpi"><div class="v">≈ 30 €</div><div class="l">par mois d'options<br>campagnes WhatsApp, fidélité, avis Google</div></div>
+  </div>
+  <div class="grid g2" style="margin-top:6mm">
+    <div class="card"><h3>Coût pour un restaurant à 300 commandes / mois</h3><div id="c-resto"></div></div>
+    <div class="card"><h3>Ce que te rapporte un restaurant chaque mois (10 cmd/jour)</h3><div id="c-arpu"></div></div>
+  </div>
+  <p class="note">💡 Pour convaincre les premiers clients : abonnement offert 3 mois aux 5 premiers restaurants. Écris toujours « HT » dans les contrats.</p>
+  <div class="ft"><span>[Nom de ta société]</span><span>Synthèse · hypothèses à valider</span></div>
+</section>
+
+<!-- 6 PROJECTIONS -->
+<section class="page">
+  <div class="hd"><span>DELIVERY FOOD · <b>PROJECTIONS</b></span><span>06</span></div>
+  <div class="kick">Dividendes nets dans ta poche (moyenne par mois)</div><h2>La nouvelle offre double presque ton revenu</h2>
+  <div class="grid g2" style="grid-template-columns:1.4fr 1fr">
+    <div class="card"><div id="c-div"></div></div>
+    <div>
+      <div class="card kpi hi" style="margin-bottom:4mm"><div class="v g">12 restos</div><div class="l">pour toucher <b>3 000 € nets par mois</b> avec la nouvelle offre<br>(contre 22 avec l'offre à 1 €)</div></div>
+      <table>
+        <tr><th>Rythme</th><th class="r">Fin an 1</th><th class="r">Fin an 2</th><th class="r">Fin an 3</th></tr>
+        <tr><td>Restaurants</td><td class="r">23</td><td class="r">59</td><td class="r">107</td></tr>
+        <tr><td>Nouveaux / mois</td><td class="r">+2</td><td class="r">+3</td><td class="r">+4</td></tr>
+      </table>
+      <p class="note">Prudent = 10 commandes WhatsApp par jour et par restaurant ; moyen = 25. Inclut l'IS (15 % puis 25 %) et une flat tax d'environ 31,4 % (à confirmer avec l'expert-comptable). Au-delà de 25 à 30 restaurants, il faudra embaucher ou sous-traiter, ce qui réduira ces montants.</p>
+    </div>
+  </div>
+  <div class="ft"><span>[Nom de ta société]</span><span>Synthèse · hypothèses à valider</span></div>
+</section>
+
+<!-- 7 TRESO -->
+<section class="page">
+  <div class="hd"><span>DELIVERY FOOD · <b>AUTOFINANCEMENT</b></span><span>07</span></div>
+  <div class="kick">Trésorerie de la SASU, 12 premiers mois (scénario prudent)</div><h2>Ta mise de départ est remboursée au mois 4</h2>
+  <div class="card"><div id="c-treso"></div></div>
+  <div class="grid g4" style="margin-top:5mm">
+    <div class="card kpi"><div class="v">3 500 €</div><div class="l">apport au départ<br>(3 000 € de dev + 500 € de création)</div></div>
+    <div class="card kpi hi"><div class="v g">Mois 4</div><div class="l">trésorerie positive<br>(mois 6 avec l'offre à 1 €)</div></div>
+    <div class="card kpi"><div class="v">≈ 56 800 €</div><div class="l">trésorerie à 12 mois<br>(≈ 23 500 € avec l'offre à 1 €)</div></div>
+    <div class="card kpi"><div class="v">Mois 13–18</div><div class="l">premiers dividendes<br>(après l'assemblée générale)</div></div>
+  </div>
+  <div class="ft"><span>[Nom de ta société]</span><span>Synthèse · hypothèses à valider</span></div>
+</section>
+
+<!-- 8 FISCALITE -->
+<section class="page">
+  <div class="hd"><span>DELIVERY FOOD · <b>SASU & DIVIDENDES</b></span><span>08</span></div>
+  <div class="kick">Ce qui arrive vraiment dans ta poche</div><h2>Sur 100 € de bénéfice, tu touches environ 58 €</h2>
+  <div class="card"><div id="c-fisc"></div></div>
+  <div class="grid g3" style="margin-top:5mm">
+    <div class="card"><h3>💡 Le compte courant d'associé</h3><p>Prête tes 3 500 € à la SASU : ils te sont <b>remboursés sans impôt</b> dès que la société est rentable.</p></div>
+    <div class="card"><h3>⚠️ Pas de protection sociale</h3><p>Sans salaire, tu ne cotises ni pour la retraite ni pour la maladie. Prévois une <b>épargne retraite</b> et une <b>prévoyance</b>.</p></div>
+    <div class="card"><h3>📅 Une fois par an</h3><p>Dividendes votés après la clôture des comptes. Garde <b>3 mois de charges</b> en trésorerie. Expert-comptable indispensable (1 200 à 2 000 €/an).</p></div>
+  </div>
+  <div class="ft"><span>[Nom de ta société]</span><span>Synthèse · taux à confirmer avec l'expert-comptable</span></div>
+</section>
+
+<!-- 9 DEV -->
+<section class="page">
+  <div class="hd"><span>DELIVERY FOOD · <b>LE DÉVELOPPEMENT</b></span><span>09</span></div>
+  <div class="kick">Le développeur à 3 000 €</div><h2>Bonne affaire, à condition de signer un contrat</h2>
+  <div class="grid g2">
+    <div class="card hi"><h3>🛡️ Les 10 conditions pour dire oui</h3><ul class="ck">
+      <li>Un cahier des charges écrit</li><li>Paiement en 3 fois : 30 % / 40 % / 30 % après test</li><li>Code source sur <b>ton</b> GitHub dès le 1er jour</li>
+      <li>Comptes Meta, Stripe et serveur <b>au nom de la SASU</b></li><li>Assistance définie par contrat (délais, contenu)</li><li>Documentation technique</li>
+      <li>Références et démo d'un bot WhatsApp déjà réalisé</li><li>Paiement via une plateforme protégée (Upwork, Malt…)</li><li>Clauses RGPD (hors Union européenne)</li><li>Réserve de secours d'environ 1 000 €</li></ul></div>
+    <div class="card"><h3>📋 Le cahier des charges minimum</h3>
+      <table><tr><th>Partie</th><th>Fonctions</th></tr>
+      <tr><td><b>Robot WhatsApp</b></td><td>Menu, options, panier, retrait / livraison / sur place, paiement, notifications, avis</td></tr>
+      <tr><td><b>Paiement</b></td><td>Stripe Connect + prélèvement automatique de ta commission</td></tr>
+      <tr><td><b>Espace restaurant</b></td><td>Commandes avec son, menu, ruptures, horaires, statistiques, campagnes</td></tr>
+      <tr><td><b>Ton espace admin</b></td><td>Restaurants, commandes, abonnements, facturation</td></tr>
+      <tr><td><b>Légal</b></td><td>Allergènes, CGV, consentement marketing</td></tr></table>
+      <p class="note">⚠️ Une « assistance à vie » sans contrat ne vaut rien.</p></div>
+  </div>
+  <div class="ft"><span>[Nom de ta société]</span><span>Synthèse · hypothèses à valider</span></div>
+</section>
+
+<!-- 10 RISQUES & LEVIERS -->
+<section class="page">
+  <div class="hd"><span>DELIVERY FOOD · <b>LEVIERS & RISQUES</b></span><span>10</span></div>
+  <div class="kick">Pour gagner plus et durer</div><h2>6 leviers de croissance, 5 risques à surveiller</h2>
+  <div class="grid g2">
+    <div class="card hi"><h3>🚀 Les leviers</h3><ul class="ck">
+      <li><b>Prix</b> : 1,50 € par commande au lieu de 1 € (+50 %)</li><li><b>Abonnement</b> de 49 €/mois : revenu garanti</li><li><b>Installation</b> à 199 € : trésorerie immédiate</li>
+      <li><b>Options</b> : campagnes WhatsApp, fidélité, avis Google</li><li><b>Commandes sur place et à emporter</b> via QR code : ×2 à ×3 sur le volume</li><li><b>Apporteurs d'affaires</b> payés à la commission</li></ul></div>
+    <div class="card"><h3>⚠️ Les risques</h3><ul class="ck warn">
+      <li><b>Peu de commandes WhatsApp</b> au début : décide avec le scénario prudent</li><li><b>Dépendance à Meta</b> : respecter les règles, garder ta propre base de données</li>
+      <li><b>Développeur qui disparaît</b> : code et comptes à ton nom</li><li><b>Ton temps</b> : environ 25 à 30 restaurants maximum en solo</li><li><b>Concurrence</b> (Daba…) : aller vite, miser sur la proximité</li></ul></div>
+  </div>
+  <div class="ft"><span>[Nom de ta société]</span><span>Synthèse · hypothèses à valider</span></div>
+</section>
+
+<!-- 11 PLAN -->
+<section class="page">
+  <div class="hd"><span>DELIVERY FOOD · <b>PLAN D'ACTION</b></span><span>11</span></div>
+  <div class="kick">Les 90 premiers jours</div><h2>De la création de la SASU à tes 5 premiers restaurants</h2>
+  <div class="steps">
+    <div class="step"><div class="n">1</div><div class="t">Semaine 1</div><div class="d">Créer la SASU (1 000 € de capital + 3 500 € en compte courant), banque pro, expert-comptable</div></div>
+    <div class="step"><div class="n">2</div><div class="t">Semaines 1–2</div><div class="d">Comptes Meta Business et Stripe au nom de la SASU. Contrat avec le développeur.</div></div>
+    <div class="step"><div class="n">3</div><div class="t">Semaines 2–6</div><div class="d">Développement. En parallèle : démarcher 10 restaurants pour en signer 3 à 5.</div></div>
+    <div class="step"><div class="n">4</div><div class="t">Semaines 6–8</div><div class="d">Restaurant n°1 en test réel pendant 2 semaines, puis dernier paiement au développeur</div></div>
+    <div class="step"><div class="n">5</div><div class="t">Mois 2–3</div><div class="d">Restaurants 2 à 5, QR codes et flyers, premières campagnes</div></div>
+    <div class="step" style="background:var(--gl);border-color:var(--g)"><div class="n">6</div><div class="t">Mois 3</div><div class="d"><b>Bilan :</b> combien de commandes WhatsApp par jour, réellement ? On ajuste.</div></div>
+  </div>
+  <div class="grid g2" style="margin-top:7mm">
+    <div class="card"><h3>📊 Les indicateurs à suivre chaque semaine</h3><ul class="ck"><li>Commandes WhatsApp par jour et par restaurant</li><li>Revenu mensuel par restaurant</li><li>Taux de réachat des clients</li><li>Restaurants signés / démarchés</li><li>Note de qualité WhatsApp (Meta)</li></ul></div>
+    <div class="card hi"><h3>✅ Tes 5 actions cette semaine</h3><ul class="ck"><li>Choisir ton nom et vérifier qu'il est libre (INPI)</li><li>Prendre rendez-vous avec un expert-comptable</li><li>Lister 20 snacks de ta zone</li><li>Demander au développeur ses références + un devis écrit</li><li>Tester la démo de Daba pour connaître la concurrence</li></ul></div>
+  </div>
+  <div class="ft"><span>[Nom de ta société]</span><span>Synthèse · hypothèses à valider</span></div>
+</section>
+
+<script>
+const fmt=v=>Math.round(v).toLocaleString('fr-FR');
+function hbars(id,rows,max,unit=' €',w=480){
+  const rh=34,h=rows.length*rh+10;let s=`<svg width="100%" viewBox="0 0 ${w} ${h}">`;
+  rows.forEach((r,i)=>{const y=i*rh+5,bw=(w-230)*r.v/max;
+    s+=`<text x="0" y="${y+20}" font-size="12" fill="#0d2a20" font-weight="600">${r.l}</text>
+    <rect x="150" y="${y+4}" width="${Math.max(bw,2)}" height="22" rx="5" fill="${r.c}"/>
+    <text x="${158+bw}" y="${y+20}" font-size="13" font-weight="800" fill="${r.c}">${fmt(r.v)}${unit}</text>`});
+  document.getElementById(id).innerHTML=s+'</svg>';
+}
+hbars('c-resto',[{l:'Uber Eats (30 %)',v:2250,c:'#e4504f'},{l:'Ton offre',v:499,c:'#1fb85a'}],2250,' € / mois');
+hbars('c-arpu',[{l:'Offre à 1 €',v:280,c:'#9cb8ac'},{l:'Nouvelle offre',v:499,c:'#1fb85a'}],520,' € / mois');
+// grouped bars dividends/month
+(function(){const d=[['Prudent An 1',1142,2679],['Prudent An 2',5387,10291],['Moyen An 1',3415,5958],['Moyen An 2',13735,22941]];
+ const W=620,H=330,max=24000,base=280;let s=`<svg width="100%" viewBox="0 0 ${W} ${H}">`;
+ [0,6000,12000,18000,24000].forEach(t=>{const y=base-t/max*240;s+=`<line x1="50" x2="${W}" y1="${y}" y2="${y}" stroke="#e3efe8"/><text x="44" y="${y+4}" font-size="10" text-anchor="end" fill="#5b7a6e">${fmt(t)}</text>`});
+ d.forEach((r,i)=>{const x=70+i*140;[[r[1],'#9cb8ac'],[r[2],'#1fb85a']].forEach((b,j)=>{const h=b[0]/max*240,bx=x+j*52;
+  s+=`<rect x="${bx}" y="${base-h}" width="46" height="${h}" rx="5" fill="${b[1]}"/><text x="${bx+23}" y="${base-h-6}" font-size="10.5" font-weight="800" text-anchor="middle" fill="${j?'#0e7c5a':'#5b7a6e'}">${fmt(b[0])} €</text>`});
+  s+=`<text x="${x+49}" y="${base+18}" font-size="11.5" font-weight="700" text-anchor="middle" fill="#0d2a20">${r[0]}</text>`});
+ s+=`<rect x="70" y="${H-22}" width="12" height="12" rx="3" fill="#9cb8ac"/><text x="88" y="${H-12}" font-size="11" fill="#0d2a20">Offre actuelle (1 €)</text><rect x="230" y="${H-22}" width="12" height="12" rx="3" fill="#1fb85a"/><text x="248" y="${H-12}" font-size="11" fill="#0d2a20">Nouvelle offre</text>`;
+ document.getElementById('c-div').innerHTML=s+'</svg>';})();
+// treso line chart
+(function(){const A=[-3816,-3924,-3580,-2703,-1292,652,3129,6139,9682,13759,18368,23511],B=[-3482,-2745,-1160,1396,4924,9423,14893,21334,28746,37130,46484,56810];
+ const W=900,H=250,min=-6000,max=60000,x0=60,x1=W-20,y=v=>20+(max-v)/(max-min)*190,x=i=>x0+i*(x1-x0)/11;let s=`<svg width="100%" viewBox="0 0 ${W} ${H}">`;
+ [-5000,0,15000,30000,45000,60000].forEach(t=>s+=`<line x1="${x0}" x2="${x1}" y1="${y(t)}" y2="${y(t)}" stroke="${t?'#e3efe8':'#0d2a20'}" ${t?'':'stroke-width="1.5"'}/><text x="${x0-6}" y="${y(t)+4}" font-size="10" text-anchor="end" fill="#5b7a6e">${fmt(t)}</text>`);
+ for(let i=0;i<12;i++)s+=`<text x="${x(i)}" y="${H-8}" font-size="10" text-anchor="middle" fill="#5b7a6e">M${i+1}</text>`;
+ [[A,'#9cb8ac'],[B,'#1fb85a']].forEach(([d,c])=>{s+=`<polyline fill="none" stroke="${c}" stroke-width="3.5" points="${d.map((v,i)=>x(i)+','+y(v)).join(' ')}"/>`;d.forEach((v,i)=>s+=`<circle cx="${x(i)}" cy="${y(v)}" r="4" fill="${c}"/>`)});
+ s+=`<text x="${x(11)-4}" y="${y(56810)-10}" font-size="12" font-weight="800" text-anchor="end" fill="#0e7c5a">Nouvelle offre : ${fmt(56810)} €</text><text x="${x(11)-4}" y="${y(23511)+20}" font-size="12" font-weight="800" text-anchor="end" fill="#5b7a6e">Offre à 1 € : ${fmt(23511)} €</text>`;
+ s+=`<circle cx="${x(3)}" cy="${y(1396)}" r="9" fill="none" stroke="#f2a516" stroke-width="3"/><text x="${x(3)+12}" y="${y(1396)-10}" font-size="11" font-weight="800" fill="#a26a00">Mise remboursée (M4)</text>`;
+ document.getElementById('c-treso').innerHTML=s+'</svg>';})();
+// waterfall fiscal
+(function(){const W=900,H=150;let s=`<svg width="100%" viewBox="0 0 ${W} ${H}">`;const sc=4;
+ const seg=[[100,'Bénéfice','#0d2a20'],[-15,'IS 15 %','#e4504f'],[-26.7,'Flat tax ≈ 31,4 %','#f2a516'],[58.3,'Dans ta poche','#1fb85a']];
+ let x=20;seg.forEach(([v,l,c],i)=>{const w=Math.abs(v)*sc*(i==0||i==3?1:1);s+=`<rect x="${x}" y="40" width="${w}" height="46" rx="6" fill="${c}"/><text x="${x+w/2}" y="69" font-size="14" font-weight="800" text-anchor="middle" fill="#fff">${v>0?'':'−'}${Math.abs(v).toLocaleString('fr-FR')} €</text><text x="${x+w/2}" y="108" font-size="11.5" text-anchor="middle" fill="#0d2a20" font-weight="600">${l}</text>`;x+=w+12;});
+ document.getElementById('c-fisc').innerHTML=s+'</svg>';})();
+</script>
+</body></html>
