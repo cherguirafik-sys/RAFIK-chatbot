@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Vidéo T2 Lyon 5e</title>
+<!--
+  Composition vidéo 1080×1920 (9:16).
+  La fonction window.seek(t) place chaque élément tel qu'il doit être
+  à l'instant t (en secondes). Le script render.js appelle seek() pour
+  chaque image puis fait une capture : c'est comme ça qu'on "filme" la page.
+-->
+<style>
+  :root{
+    --rouge:#e63946; --rouge2:#c1121f;
+    --nuit:#1a1a2e;  --nuit2:#0f3460;
+    --blanc:#ffffff;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{width:1080px;height:1920px;overflow:hidden;background:var(--nuit)}
+  body{font-family:'Segoe UI','Inter',sans-serif;color:var(--blanc)}
+
+  .scene{position:absolute;inset:0;overflow:hidden;opacity:0}
+  .photo{position:absolute;top:0;left:0;height:1920px;will-change:transform}
+  /* Dégradé pour que le texte reste lisible sur la photo */
+  .voile{position:absolute;inset:0;
+    background:linear-gradient(180deg,rgba(26,26,46,.55) 0%,rgba(26,26,46,0) 22%,
+                                      rgba(26,26,46,0) 38%,rgba(26,26,46,.62) 58%,rgba(26,26,46,.92) 100%)}
+
+  /* Logo Rafik (zone sûre : sous la barre du haut des réseaux) */
+  .logo{position:absolute;top:150px;left:80px;display:flex;align-items:center;gap:22px}
+  .logo .rond{width:96px;height:96px;border-radius:50%;
+    background:linear-gradient(135deg,var(--rouge),var(--rouge2));
+    display:flex;align-items:center;justify-content:center;font-size:52px;
+    box-shadow:0 8px 30px rgba(0,0,0,.35);font-family:'Noto Color Emoji',sans-serif}
+  .logo .nom{font-size:40px;font-weight:700;line-height:1.1;text-shadow:0 2px 12px rgba(0,0,0,.5)}
+  .logo .nom small{display:block;font-size:26px;font-weight:500;opacity:.9}
+
+  /* Bloc texte bas (zone sûre : au-dessus des boutons/légende des réseaux) */
+  .bas{position:absolute;left:80px;right:150px;bottom:430px}
+  .badge{display:inline-block;background:var(--rouge);color:#fff;font-weight:800;
+    font-size:44px;letter-spacing:6px;padding:14px 30px;border-radius:14px}
+  .titre{font-size:104px;font-weight:800;line-height:1.02;margin-top:30px;
+    text-shadow:0 4px 24px rgba(0,0,0,.45)}
+  .sous{font-size:64px;font-weight:600;margin-top:18px;display:flex;align-items:center;gap:18px}
+  .sous::before{content:"";width:70px;height:8px;border-radius:4px;background:var(--rouge)}
+</style>
+</head>
+<body>
+
+<!-- ============ SCÈNE 1 : 0 → 3 s ============ -->
+<section class="scene" id="s1">
+  <img class="photo" src="photos/sejour-large.jpg" alt="">
+  <div class="voile"></div>
+  <div class="logo">
+    <div class="rond">🏠</div>
+    <div class="nom">Rafik<small>Agent Immobilier · Les Porteclés</small></div>
+  </div>
+  <div class="bas">
+    <div class="badge">À VENDRE</div>
+    <div class="titre">Appartement<br>T2</div>
+    <div class="sous">Lyon 5e</div>
+  </div>
+</section>
+
+<script>
+  // Outils d'animation
+  const clamp = (x,a=0,b=1)=>Math.min(b,Math.max(a,x));
+  const ease  = x=>1-Math.pow(1-clamp(x),3);              // départ rapide, arrivée douce
+  const prog  = (t,debut,duree)=>ease((t-debut)/duree);    // 0 → 1 entre debut et debut+duree
+  const apparait = (el,t,debut,duree=.5,dy=40)=>{
+    const p=prog(t,debut,duree);
+    el.style.opacity=p; el.style.transform=`translateY(${(1-p)*dy}px)`;
+  };
+
+  // Durée totale (mise à jour au fur et à mesure des scènes)
+  window.DUREE = 3;
+
+  const s1 = document.getElementById('s1');
+  const S1 = {
+    photo:s1.querySelector('.photo'), logo:s1.querySelector('.logo'),
+    badge:s1.querySelector('.badge'), titre:s1.querySelector('.titre'), sous:s1.querySelector('.sous')
+  };
+
+  window.seek = function(t){
+    // --- Scène 1 (0 → 3 s) ---
+    s1.style.opacity = (t>=0 && t<3) ? 1 : 0;
+    // Photo paysage 4:3 → hauteur 1920 = largeur 2560 : on glisse lentement vers la cheminée
+    const k = clamp(t/3);
+    const zoom = 1.04 + 0.06*k;
+    const x = -420 - 360*k;
+    S1.photo.style.transform = `translateX(${x}px) scale(${zoom})`;
+    S1.photo.style.transformOrigin = 'center center';
+    apparait(S1.logo , t, 0.15, .5, -30);
+    apparait(S1.badge, t, 0.35);
+    apparait(S1.titre, t, 0.55);
+    apparait(S1.sous , t, 0.80);
+  };
+
+  window.seek(0);
+</script>
+</body>
+</html>
