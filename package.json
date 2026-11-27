@@ -1,9 +1,11 @@
 {
   "name": "rafik-chatbot",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Assistant WhatsApp immobilier de Rafik, propulsé par Claude",
+  "main": "server.js",
   "scripts": {
+    "start": "node --env-file=.env server.js",
+    "chat": "node --env-file=.env test-chat.js",
     "test": "echo \"no tests\"",
     "freellm": "freellm"
   },
@@ -19,6 +21,12 @@
   },
   "homepage": "https://github.com/cherguirafik-sys/RAFIK-chatbot#readme",
   "dependencies": {
+    "@anthropic-ai/sdk": "latest",
+    "express": "^5.1.0",
     "freellm": "^1.0.15"
+  },
+  "type": "module",
+  "engines": {
+    "node": ">=20.6"
   }
 }
